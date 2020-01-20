@@ -1,0 +1,1 @@
+{"forge_marker": 1,"defaults": {"model": "cosmeticwood:crafting_table", "textures": { "particle": "#all", "down": "#all"} },"variants": {"normal": [{}]}}

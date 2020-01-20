@@ -1,0 +1,13 @@
+{
+    "parent": "block/block",
+    "textures": {
+		"all": "blocks/planks_oak",
+        "particle": "#all",
+        "down": "#all",
+        "up": "cosmeticwood:blocks/crafting_table_top",
+        "north": "cosmeticwood:blocks/crafting_table_front",
+        "east": "cosmeticwood:blocks/crafting_table_side",
+        "south": "cosmeticwood:blocks/crafting_table_side",
+        "west": "cosmeticwood:blocks/crafting_table_front"
+    }
+}
