@@ -1,0 +1,73 @@
+{
+	"__comment": "Designed by Smileycorp with Cubik Studio - https://cubik.studio",
+	"textures": {
+		"particle": "blocks/e_particle",
+		"base": "blocks/e_texture",
+		"up": "blocks/e_texture",
+		"down": "blocks/e_texture",
+		"north": "blocks/e_texture",
+		"south": "blocks/e_texture",
+		"west": "blocks/e_texture",
+		"east": "blocks/e_texture"
+	},
+	"elements": [ 	 
+		{
+			"__comment": "Box1",
+			"from": [ 0, 0, 0 ],
+			"to": [ 16, 16, 16 ],
+			"faces": {
+				"down": { "uv": [ 0, 0, 16, 16 ], "texture": "#base" },
+				"up": { "uv": [ 0, 0, 16, 16 ], "texture": "#base" },
+				"north": { "uv": [ 0, 0, 16, 16 ], "texture": "#base" },
+				"south": { "uv": [ 0, 0, 16, 16 ], "texture": "#base" },
+				"west": { "uv": [ 0, 0, 16, 16 ], "texture": "#base" },
+				"east": { "uv": [ 0, 0, 16, 16 ], "texture": "#base" }
+			}
+		},
+		{
+			"__comment": "PlaneY2",
+			"from": [ 0, 16, 0 ],
+			"to": [ 16, 16.001, 16 ],
+			"faces": {
+				"down": { "uv": [ 0, 0, 16, 16 ], "texture": "#base", "cullface": "down" },
+				"up": { "uv": [ 0, 0, 16, 16 ], "texture": "#up" }
+			}
+		},
+		{
+			"__comment": "PlaneX3",
+			"from": [ 0, 0, 0 ],
+			"to": [ 0.001, 16, 16 ],
+			"faces": {
+				"west": { "uv": [ 0, 0, 16, 16 ], "texture": "#west" },
+				"east": { "uv": [ 0, 0, 16, 16 ], "texture": "#east" }
+			}
+		},
+		{
+			"__comment": "PlaneX3",
+			"from": [ 16, 0, 0 ],
+			"to": [ 16.001, 16, 16 ],
+			"faces": {
+				"west": { "uv": [ 0, 0, 16, 16 ], "texture": "#west" },
+				"east": { "uv": [ 0, 0, 16, 16 ], "texture": "#east" }
+			}
+		},
+		{
+			"__comment": "PlaneZ8",
+			"from": [ 0, 0, 16 ],
+			"to": [ 16, 16, 16.001 ],
+			"faces": {
+				"north": { "uv": [ 0, 0, 16, 16 ], "texture": "#north" },
+				"south": { "uv": [ 0, 0, 16, 16 ], "texture": "#south" }
+			}
+		},
+		{
+			"__comment": "PlaneZ8",
+			"from": [ 0, 0, 0 ],
+			"to": [ 16, 16, 0.001 ],
+			"faces": {
+				"north": { "uv": [ 0, 0, 16, 16 ], "texture": "#north" },
+				"south": { "uv": [ 0, 0, 16, 16 ], "texture": "#south" }
+			}
+		}
+	]
+}

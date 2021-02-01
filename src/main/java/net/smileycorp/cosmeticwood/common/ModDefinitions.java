@@ -15,7 +15,7 @@ public class ModDefinitions {
 	}
 	
 	public static ResourceLocation getResource(String name) {
-		return new ResourceLocation(modid, name.toLowerCase());
+		return new ResourceLocation("minecraft", name.toLowerCase());
 	}
 
 	public static String getResourcePath(ResourceLocation registryName) {
@@ -23,6 +23,13 @@ public class ModDefinitions {
 	}
 
 	public static String format(String name) {
-		return name.substring(4).replace("planks", "").replace("plank", "").replace("_", "");
+		System.out.println(name);
+		name = name.toLowerCase();
+		System.out.println(name);
+		name = name.replace(" wood planks", "").replace(" wood", "").replace(" log", "");
+		System.out.println(name);
+		name = name.replace(" ", "_");
+		System.out.println(name);
+		return name;
 	}
 }
