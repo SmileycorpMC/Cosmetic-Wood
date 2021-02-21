@@ -1,13 +1,25 @@
-{
-    "parent": "block/block",
-    "textures": {
-		"all": "blocks/planks_oak",
-        "particle": "#all",
-        "down": "#all",
-        "up": "cosmeticwood:blocks/crafting_table_top",
-        "north": "cosmeticwood:blocks/crafting_table_front",
-        "east": "cosmeticwood:blocks/crafting_table_side",
-        "south": "cosmeticwood:blocks/crafting_table_side",
-        "west": "cosmeticwood:blocks/crafting_table_front"
-    }
+{   "parent": "block/block",
+	"elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#plank", "cullface": "down" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#log_top",    "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#plank",   "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#plank",   "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#plank",   "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#plank",   "cullface": "east" }
+            }
+        },
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top",    "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#front",   "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#side",   "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side",   "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side",   "cullface": "east" }
+            }
+        }
+    ]
 }

@@ -3,18 +3,16 @@ package net.smileycorp.cosmeticwood.common.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
+import net.smileycorp.cosmeticwood.common.block.BlockCW;
 
 public class TileEntitySimpleWood extends TileEntity {
 	
-private String type;
-	
-	public TileEntitySimpleWood() {}
+	private String type="oak";
 
 	public String getType() {
-		if (type==null) {
-			return "Null";
-		}
-		return type;
+		return type.isEmpty() ? "null":type;
 	}
 	
 	public void setType(String type) {
@@ -31,9 +29,6 @@ private String type;
 	@Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        if (type == null) {
-        	type = "null";
-        }
         compound.setString("type", type);
         return compound;
     }

@@ -6,16 +6,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.atlas.api.block.PropertyString;
+import net.smileycorp.cosmeticwood.common.block.CWBlocks;
 
 public class WoodHandler {
 	
@@ -41,7 +48,6 @@ public class WoodHandler {
 						for (ItemStack stack : subBlocks) {
 							String name = ModDefinitions.format(((ItemBlock) stack.getItem()).getItemStackDisplayName(stack));
 							if (!PLANK_MAP.containsKey(name)) {
-								System.out.println("adding variant " + name);
 								addPlankType(name, stack);
 							}
 						}
@@ -60,7 +66,6 @@ public class WoodHandler {
 						for (ItemStack stack : subBlocks) {
 							String name = ModDefinitions.format(((ItemBlock) stack.getItem()).getItemStackDisplayName(stack));
 							if (!LOG_MAP.containsKey(name)) {
-								System.out.println("adding variant " + name);
 								addLogType(name, stack);
 							}
 						}
@@ -68,6 +73,14 @@ public class WoodHandler {
 				}
 			}
 		}
+		System.out.println("[cosmeticwood] detected wood types "+PLANK_MAP.keySet());
+		for(String type : getTypes()) {
+			ItemStack plank = getPlankStack(type).copy();
+			ItemStack log = getLogStack(type).copy();
+			//addRecipe(ModDefinitions.getResource("crafting_table"), type, new ItemStack(CWBlocks.WORKBENCH, 1), plank, log, new Object[]{"PP", "PP"});
+			addRecipe(ModDefinitions.getResource("crafting_table"), type, new ItemStack(CWBlocks.WORKBENCH), new Object[]{"PP", "PP", 'P', plank});
+		}
+		
 	}
 	
 	public static void addPlankType(String name, ItemStack stack) {
@@ -79,7 +92,6 @@ public class WoodHandler {
 	}
 	
 	public static List<String> getTypes() {
-		System.out.println(PLANK_MAP.keySet());
 		return new ArrayList<String>(PLANK_MAP.keySet());
 	}
 	
@@ -99,6 +111,14 @@ public class WoodHandler {
 	
 	public static String getDefault() {
 		return "oak";
+	}
+	
+	private static void addRecipe(ResourceLocation base, String type, ItemStack output, Object... pattern) {
+		ResourceLocation registry = ModDefinitions.getResource(base.getResourcePath()+"_"+type);
+		NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setString("type", type);
+        output.setTagCompound(nbt);
+		GameRegistry.addShapedRecipe(registry, base, output, pattern);
 	}
 
 }

@@ -1,6 +1,7 @@
 package net.smileycorp.cosmeticwood.common.block;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -24,21 +25,37 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.atlas.api.block.PropertyString;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
 public class BlockCW extends Block {
 
 	private final Block block;
+	public static PropertyString VARIANT = new PropertyString("type", new Predicate<String>(){
+		@Override
+		public boolean test(String type) {
+			return WoodHandler.getTypes().contains(type);
+		}
+		
+	});
 	
 	public BlockCW(Block block) {
 		super(block.getMaterial(block.getDefaultState()));
 		this.block = block;
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
+		this.setSoundType(block.getSoundType());
 	}
+	
+	@Override
+	  protected BlockStateContainer createBlockState() {
+	    return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{VARIANT});
+	  }
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
@@ -121,7 +138,16 @@ public class BlockCW extends Block {
 				}	
 			}
 		}
-   }
+	}
+	
+	@Override
+	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+	    TileEntity te = world.getTileEntity(pos);
+	    if(te != null && te instanceof TileEntitySimpleWood) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getType());
+	    }
+	    return super.getExtendedState(state, world, pos);
+	 }
 	
 	//From BlockFlowerPot, should delay until drops are spawned, before block is broken
 	@Override

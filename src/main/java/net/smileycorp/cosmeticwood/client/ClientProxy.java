@@ -1,21 +1,23 @@
 package net.smileycorp.cosmeticwood.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.registry.IRegistry;
+import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.atlas.api.interfaces.ISidedProxy;
-import net.smileycorp.cosmeticwood.common.block.BlockCW;
+import net.smileycorp.cosmeticwood.common.ModDefinitions;
 
+@EventBusSubscriber(value=Side.CLIENT, modid=ModDefinitions.modid)
 public class ClientProxy implements ISidedProxy {
-
+	
+	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		
@@ -31,21 +33,9 @@ public class ClientProxy implements ISidedProxy {
 		
 	}
 	
-	/*@SuppressWarnings("unchecked")
 	@SubscribeEvent
-	public void tooltipEvent(ItemTooltipEvent event) {
-		ItemStack stack = event.getItemStack();
-		if(stack.getItem() instanceof ItemBlock){
-			Block block = ((ItemBlock) stack.getItem()).getBlock();
-			List<String> tooltip = new ArrayList<String>(event.getToolTip());
-			String name = event.getToolTip().get(0);
-			tooltip.remove(0);
-			event.getToolTip().clear();
-			event.getToolTip().add(name);
-			if (block instanceof BlockCW) {
-				ItemBlock
-			}
-			event.getToolTip().addAll(tooltip);
-		}
-	}*/
+	public static void onModelBake(ModelBakeEvent event) {
+		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
+		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("crafting_table"), "normal"), registry, BakedModelCW.class);
+	}
 }
