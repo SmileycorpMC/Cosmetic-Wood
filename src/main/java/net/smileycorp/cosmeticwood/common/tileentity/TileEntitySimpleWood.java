@@ -7,14 +7,16 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.block.BlockCW;
 
-public class TileEntitySimpleWood extends TileEntity {
+public class TileEntitySimpleWood extends TileEntity implements ITileCW {
 	
 	private String type="oak";
-
+	
+	@Override
 	public String getType() {
 		return type.isEmpty() ? "null":type;
 	}
 	
+	@Override
 	public void setType(String type) {
 		this.type=type;
 		this.markDirty();

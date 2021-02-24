@@ -53,9 +53,9 @@ public class BlockCW extends Block {
 	}
 	
 	@Override
-	  protected BlockStateContainer createBlockState() {
-	    return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{VARIANT});
-	  }
+	protected BlockStateContainer createBlockState() {
+		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{VARIANT});
+	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {

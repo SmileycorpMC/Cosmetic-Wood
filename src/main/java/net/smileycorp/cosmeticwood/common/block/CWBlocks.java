@@ -17,22 +17,26 @@ import net.smileycorp.cosmeticwood.common.ModDefinitions;
 @EventBusSubscriber(modid=ModDefinitions.modid)
 public class CWBlocks {
 	public static BlockCW WORKBENCH = new BlockCWWorkbench();
-	public static Block[] blocks = {WORKBENCH};
+	public static BlockCW PRESSURE_PLATE = new BlockCWPressurePlate();
+	public static BlockCW BUTTON;
+	public static Block[] blocks = {WORKBENCH, PRESSURE_PLATE};
 	
 	public static void registerContent() {
-		for (Block block:blocks) {
-			ForgeRegistries.BLOCKS.register(block);
-			ForgeRegistries.ITEMS.register(new ItemBlockCW(block));
+		for (Block block : blocks) {
+			if (block instanceof BlockCW)
+				ForgeRegistries.BLOCKS.register(block);
+				ForgeRegistries.ITEMS.register(new ItemBlockCW(block));
 		}
 	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void registerModels(ModelRegistryEvent event) {
-		for (Block block : blocks) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ModDefinitions.getResource(block.getRegistryName().getResourcePath()), "normal"));
-		}
-		ModelLoader.setCustomStateMapper(WORKBENCH, new CustomStateMapper(ModDefinitions.modid, "crafting_table", "normal"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(WORKBENCH), 0, new ModelResourceLocation(ModDefinitions.getResource("crafting_table"), "normal"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(PRESSURE_PLATE), 0, new ModelResourceLocation(ModDefinitions.getResource("wooden_pressure_plate"), "powered=false"));
+		
+		ModelLoader.setCustomStateMapper(WORKBENCH, new CustomStateMapper(ModDefinitions.modid, "crafting_table"));
+		ModelLoader.setCustomStateMapper(PRESSURE_PLATE, new CustomStateMapper(ModDefinitions.modid, "wooden_pressure_plate"));
 	}
 	
 }

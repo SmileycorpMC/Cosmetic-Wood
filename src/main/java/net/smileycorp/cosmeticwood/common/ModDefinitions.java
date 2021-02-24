@@ -18,10 +18,6 @@ public class ModDefinitions {
 		return new ResourceLocation("cosmeticwood", name.toLowerCase());
 	}
 
-	public static String getResourcePath(ResourceLocation registryName) {
-		return modid + ":blocks/ores/" + name.toLowerCase();
-	}
-
 	public static String format(String name) {
 		name = name.toLowerCase();
 		name = name.replace(" planks", "").replace(" wood", "").replace(" log", "");

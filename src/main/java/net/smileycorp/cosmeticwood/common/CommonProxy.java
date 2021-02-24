@@ -27,7 +27,6 @@ import net.smileycorp.atlas.api.interfaces.ISidedProxy;
 import net.smileycorp.cosmeticwood.common.block.BlockCW;
 import net.smileycorp.cosmeticwood.common.block.CWBlocks;
 
-@EventBusSubscriber(modid = ModDefinitions.modid)
 public class CommonProxy implements ISidedProxy {
 	
 	@Override
@@ -50,7 +49,6 @@ public class CommonProxy implements ISidedProxy {
 	public static void recipeWriter(RegistryEvent.Register<IRecipe> event){
 		IForgeRegistryModifiable recipes = (IForgeRegistryModifiable) event.getRegistry();
 		recipes.remove(new ResourceLocation("minecraft", "crafting_table"));
-		
-		
+		recipes.remove(new ResourceLocation("minecraft", "wooden_pressure_plate"));
 	}
 }
