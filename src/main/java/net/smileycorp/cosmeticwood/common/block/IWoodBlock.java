@@ -40,7 +40,7 @@ public interface IWoodBlock {
 	}
 	
 	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list, String modid) {
-		List<String> types = modid == null ? ModdedWoodHandler.getTypes(modid) : WoodHandler.getTypes();
+		List<String> types = modid == null ? WoodHandler.getTypes() : ModdedWoodHandler.getTypes(modid);
 		for(String type : types) {
 	    	ItemStack stack = new ItemStack((Block) this);
 	    	NBTTagCompound nbt = new NBTTagCompound();
