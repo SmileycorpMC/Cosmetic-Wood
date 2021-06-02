@@ -23,6 +23,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
+import com.google.common.collect.ImmutableList;
+
 public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlock {
 
 	public BlockCWPressurePlate() {
@@ -36,6 +38,11 @@ public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlo
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[]{POWERED}, new IUnlistedProperty[]{VARIANT});
+	}
+	
+	@Override
+	public ImmutableList<IBlockState> getBlockStates() {
+		return createBlockState().getValidStates();
 	}
 	
 	@Override

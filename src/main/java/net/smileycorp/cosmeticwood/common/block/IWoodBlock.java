@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,6 +21,8 @@ import net.smileycorp.cosmeticwood.common.ModdedWoodHandler;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
+import com.google.common.collect.ImmutableList;
+
 public interface IWoodBlock {
 
 	public static PropertyOpenString VARIANT = new PropertyOpenString("type", new Predicate<String>(){
@@ -32,7 +33,7 @@ public interface IWoodBlock {
 		
 	});	
 	
-	public abstract BlockStateContainer createBlockState();
+	public abstract ImmutableList<IBlockState> getBlockStates();
 	
 	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		getSubBlocks(tab, list, null);

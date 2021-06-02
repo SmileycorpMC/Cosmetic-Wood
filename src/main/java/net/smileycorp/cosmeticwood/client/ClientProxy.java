@@ -36,20 +36,21 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 @EventBusSubscriber(value=Side.CLIENT, modid = ModDefinitions.modid)
 public class ClientProxy extends CommonProxy {
 	
-	public static TextureAtlasSprite GREYSCALE_PLANKS;;
+	public static TextureAtlasSprite GREYSCALE_PLANKS;
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		
+		super.preInit(event);
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		
+		super.init(event);
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
 		FMLClientHandler.instance().refreshResources();
 	}
 	
@@ -71,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("wooden_button"), "inventory"), registry, BakedModelCW.class);
 		for (Block block : CWBlocks.blocks) {
-			for (IBlockState state : ((IWoodBlock)block).createBlockState().getValidStates()) {
+			for (IBlockState state : ((IWoodBlock)block).getBlockStates()) {
 				RenderingUtils.replaceRegisteredModel(getModelLocation(state), registry, BakedModelCW.class);
 			}
 		}	

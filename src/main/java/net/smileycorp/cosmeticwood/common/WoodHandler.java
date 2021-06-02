@@ -7,18 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-
 import net.smileycorp.atlas.api.util.RecipeUtils;
+
+import com.google.common.collect.ImmutableMap;
 
 public class WoodHandler {
 	
@@ -105,12 +101,10 @@ public class WoodHandler {
 		return "oak";
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public static ImmutableMap<String, String> getTextures(String name) {
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getTextures() : WOOD_MAP.get(getDefault()).getTextures()  ;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public static Color getColour(String name) {
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getColour() : WOOD_MAP.get("oak").getColour();
 	}

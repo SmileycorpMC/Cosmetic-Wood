@@ -24,6 +24,8 @@ import net.smileycorp.cosmeticwood.common.tileentity.TileCWTconHopper;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
 
+import com.google.common.collect.ImmutableList;
+
 public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock {
 
 	public BlockCWTconWhopper() {
@@ -35,6 +37,11 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[]{BlockHopper.FACING}, new IUnlistedProperty[]{VARIANT});
+	}
+	
+	@Override
+	public ImmutableList<IBlockState> getBlockStates() {
+		return createBlockState().getValidStates();
 	}
 	
 	@Override

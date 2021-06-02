@@ -25,6 +25,8 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 import rustic.common.blocks.BlockChair;
 
+import com.google.common.collect.ImmutableList;
+
 public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	
 	public BlockCWRusticChair() {
@@ -34,6 +36,11 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[] {FACING}, new IUnlistedProperty[]{VARIANT});
+	}
+	
+	@Override
+	public ImmutableList<IBlockState> getBlockStates() {
+		return createBlockState().getValidStates();
 	}
 	
 	@Override

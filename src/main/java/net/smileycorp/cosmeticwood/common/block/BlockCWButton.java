@@ -22,6 +22,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
+import com.google.common.collect.ImmutableList;
+
 
 public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
 
@@ -36,6 +38,11 @@ public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[]{POWERED, FACING}, new IUnlistedProperty[]{VARIANT});
+	}
+	
+	@Override
+	public ImmutableList<IBlockState> getBlockStates() {
+		return createBlockState().getValidStates();
 	}
 	
 	@Override

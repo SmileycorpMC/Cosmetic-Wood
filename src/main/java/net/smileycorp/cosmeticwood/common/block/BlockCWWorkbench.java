@@ -25,6 +25,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
+import com.google.common.collect.ImmutableList;
+
 public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
 	
 	public BlockCWWorkbench() {
@@ -38,6 +40,11 @@ public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{VARIANT});
+	}
+	
+	@Override
+	public ImmutableList<IBlockState> getBlockStates() {
+		return createBlockState().getValidStates();
 	}
 	
 	@Override

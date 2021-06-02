@@ -29,11 +29,10 @@ import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
 public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		
 	}
 
 	public void init(FMLInitializationEvent event) {
-		
+		WoodHandler.buildProperties();
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {

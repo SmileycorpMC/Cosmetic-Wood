@@ -27,11 +27,11 @@ public class CosmeticWood {
 	@EventHandler
 	public void init(FMLInitializationEvent event){
 		proxy.init(event);
-		WoodHandler.buildProperties();
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event){
 		proxy.postInit(event);
 	}
+
 }
