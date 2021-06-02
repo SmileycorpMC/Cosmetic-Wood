@@ -1,39 +1,24 @@
 package net.smileycorp.cosmeticwood.common;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.google.common.collect.ImmutableMap;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import net.smileycorp.atlas.api.block.PropertyString;
-import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
-import net.smileycorp.cosmeticwood.common.block.CWBlocks;
+
+import net.smileycorp.atlas.api.util.RecipeUtils;
 
 public class WoodHandler {
 	
@@ -86,7 +71,7 @@ public class WoodHandler {
 		}
 		for(Entry<String, ItemStack> entry : planks.entrySet()) {
 			String name = entry.getKey();
-			ItemStack log = new ItemStack(Blocks.LOG);
+			ItemStack log = null;
 			if (logs.containsKey(name)) {
 				log = logs.get(name);
 			}
@@ -94,12 +79,6 @@ public class WoodHandler {
 		}
 		
 		System.out.println("[cosmeticwood] detected wood types " + WOOD_MAP.keySet());
-		for(String type : getTypes()) {
-			ItemStack plank = getPlankStack(type).copy();
-			ItemStack log = getLogStack(type).copy();
-			addRecipe(new ResourceLocation("minecraft", "crafting_table"), type, new ItemStack(CWBlocks.WORKBENCH), new Object[]{"PP", "PP", 'P', plank});
-			addRecipe(new ResourceLocation("minecraft", "wooden_pressure_plate"), type, new ItemStack(CWBlocks.PRESSURE_PLATE), new Object[]{"PP", 'P', plank});
-		}
 		
 	}
 	
@@ -116,9 +95,10 @@ public class WoodHandler {
 	
 	public static ItemStack getLogStack(String name) {
 		if (WOOD_MAP.containsKey(name)){
-			return WOOD_MAP.get(name).getLogStack();
+			ItemStack stack = WOOD_MAP.get(name).getLogStack();
+			if (stack != null ) return stack ;
 		}
-		return new ItemStack(Blocks.LOG);
+		return new ItemStack(Blocks.LOG, 1, OreDictionary.WILDCARD_VALUE);
 	}
 	
 	public static String getDefault() {
@@ -127,21 +107,21 @@ public class WoodHandler {
 	
 	@SideOnly(Side.CLIENT)
 	public static ImmutableMap<String, String> getTextures(String name) {
-		return WOOD_MAP.get(name).getTextures();
+		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getTextures() : WOOD_MAP.get(getDefault()).getTextures()  ;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static Color getColour(String name) {
-		System.out.print(name);
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getColour() : WOOD_MAP.get("oak").getColour();
 	}
-	
-	private static void addRecipe(ResourceLocation base, String type, ItemStack output, Object... pattern) {
-		ResourceLocation registry = new ResourceLocation(base.getResourceDomain(), base.getResourcePath()+"_"+type);
-		NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setString("type", type);
-        output.setTagCompound(nbt);
-		GameRegistry.addShapedRecipe(registry, base, output, pattern);
+
+	public static String getName(ItemStack stack) {
+		for (WoodDefinition wood : WOOD_MAP.values()) {
+			if (RecipeUtils.compareItemStacks(stack, wood.getLogStack(), true)||RecipeUtils.compareItemStacks(stack, wood.getPlankStack(), true)) {
+				return wood.getName();
+			}
+		}
+		return null;
 	}
 
 }

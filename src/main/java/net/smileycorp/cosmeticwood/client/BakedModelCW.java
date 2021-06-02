@@ -4,25 +4,16 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.IModel;
@@ -31,7 +22,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.block.BlockCW;
+import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
+
+import com.google.common.collect.ImmutableList;
 
 @SideOnly(Side.CLIENT)
 public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
@@ -52,11 +45,11 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
     public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 		try {
 			String variant = "oak";
-			World world = Minecraft.getMinecraft().world;
-			EntityLivingBase entity = Minecraft.getMinecraft().player;
+			//World world = Minecraft.getMinecraft().world;
+			//EntityLivingBase entity = Minecraft.getMinecraft().player;
 			if(state instanceof IExtendedBlockState) {
-				if(((IExtendedBlockState) state).getUnlistedNames().contains(BlockCW.VARIANT)) {
-					variant = ((IExtendedBlockState)state).getValue(BlockCW.VARIANT);
+				if(((IExtendedBlockState) state).getUnlistedNames().contains(IWoodBlock.VARIANT)) {
+					variant = ((IExtendedBlockState)state).getValue(IWoodBlock.VARIANT);
 			    }
 			}
 			IModel newModel = this.base.retexture(WoodHandler.getTextures(variant));

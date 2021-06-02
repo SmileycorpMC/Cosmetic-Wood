@@ -1,0 +1,8 @@
+{
+    "parent": "block/wooden_button_pressed",
+    "textures": {
+        "plank": "blocks/planks_oak",
+        "texture": "#plank",
+		"particle": "#plank"
+    }
+}

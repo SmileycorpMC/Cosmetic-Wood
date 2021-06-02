@@ -2,7 +2,6 @@
     "parent": "block/pressure_plate_down",
     "textures": {
         "plank": "blocks/planks_oak",
-        "texture": "#plank",
-		"particle": "#plank"
+        "texture": "#plank"
     }
 }

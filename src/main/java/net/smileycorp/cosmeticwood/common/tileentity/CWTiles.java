@@ -8,6 +8,7 @@ public class CWTiles {
 
 	public static void registerContent() {
 		registerTileEntity(TileEntitySimpleWood.class, "SimpleWood");
+		registerTileEntity(TileCWTconHopper.class, "WoodenHopper");
 	}
 	
 	public static void registerTileEntity (Class <? extends TileEntity> te, String name) {

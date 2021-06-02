@@ -1,5 +1,10 @@
 package net.smileycorp.cosmeticwood.client;
 
+import java.util.Map.Entry;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -12,7 +17,6 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -23,15 +27,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
-import net.smileycorp.atlas.api.interfaces.ISidedProxy;
+import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.ModDefinitions;
-import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.block.CWBlocks;
-import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(value=Side.CLIENT, modid = ModDefinitions.modid)
-public class ClientProxy implements ISidedProxy {
+public class ClientProxy extends CommonProxy {
 	
 	public static TextureAtlasSprite GREYSCALE_PLANKS;;
 	
@@ -60,14 +63,37 @@ public class ClientProxy implements ISidedProxy {
 	@SubscribeEvent
 	public static void blockColourHandler(ColorHandlerEvent.Block event) {
 		BlockColors registry = event.getBlockColors();
-		registry.registerBlockColorHandler(new CWParticleColour(), CWBlocks.blocks);
+		registry.registerBlockColorHandler(new CWParticleColour(), CWBlocks.blocks.toArray(new Block[]{}));
 	}
 	
 	@SubscribeEvent
 	public static void onModelBake(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("crafting_table"), "normal"), registry, BakedModelCW.class);
-		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("wooden_pressure_plate"), "powered=false"), registry, BakedModelCW.class);
-		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("wooden_pressure_plate"), "powered=true"), registry, BakedModelCW.class);
+		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("wooden_button"), "inventory"), registry, BakedModelCW.class);
+		for (Block block : CWBlocks.blocks) {
+			for (IBlockState state : ((IWoodBlock)block).createBlockState().getValidStates()) {
+				RenderingUtils.replaceRegisteredModel(getModelLocation(state), registry, BakedModelCW.class);
+			}
+		}	
 	}
+	
+	public static ModelResourceLocation getModelLocation(IBlockState state) {
+        String property = "";
+
+        for (Entry<IProperty<?>, Comparable<?>> entry : state.getProperties().entrySet()){
+            if (property.length()>0) {
+                property += ",";
+            }
+            
+            property += entry.getKey().getName();
+            property += "=";
+            property += entry.getValue().toString();
+        }
+
+        if (property.isEmpty()) {
+        	property = "normal";
+        }
+
+        return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);
+    }
 }

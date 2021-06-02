@@ -3,14 +3,14 @@ package net.smileycorp.cosmeticwood.common.tileentity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import slimeknights.tconstruct.gadgets.tileentity.TileWoodenHopper;
 
-public class TileEntitySimpleWood extends TileEntity implements ITileCW {
+public class TileCWTconHopper extends TileWoodenHopper implements ITileCW {
 	
 	private String type="oak";
-	
+
 	@Override
 	public String getType() {
 		return type.isEmpty() ? "null":type;
@@ -57,4 +57,5 @@ public class TileEntitySimpleWood extends TileEntity implements ITileCW {
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
 	}
+
 }

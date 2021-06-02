@@ -2,9 +2,8 @@ package net.smileycorp.cosmeticwood.common.block;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockPressurePlate;
+import net.minecraft.block.BlockButtonWood;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -23,24 +22,25 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
-public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlock {
 
-	public BlockCWPressurePlate() {
-		super(Material.WOOD, Sensitivity.EVERYTHING);
+public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
+
+	public BlockCWButton() {
+		super();
 		setHardness(0.5F);
 		setSoundType(SoundType.WOOD);
-		setRegistryName("minecraft", "wooden_pressure_plate");
-		setUnlocalizedName("pressurePlateWood");
+		setRegistryName("minecraft", "wooden_button");
+		setUnlocalizedName("button");
 	}
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[]{POWERED}, new IUnlistedProperty[]{VARIANT});
+		return new ExtendedBlockState(this, new IProperty[]{POWERED, FACING}, new IUnlistedProperty[]{VARIANT});
 	}
 	
 	@Override
 	public String getItemVariant() {
-		return "powered=false";
+		return "inventory";
 	}
 	
 	@Override

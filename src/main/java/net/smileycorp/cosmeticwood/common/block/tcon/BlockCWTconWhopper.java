@@ -1,10 +1,8 @@
-package net.smileycorp.cosmeticwood.common.block;
+package net.smileycorp.cosmeticwood.common.block.tcon;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockPressurePlate;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockHopper;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,26 +19,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
+import net.smileycorp.cosmeticwood.common.tileentity.TileCWTconHopper;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
 
-public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlock {
+public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock {
 
-	public BlockCWPressurePlate() {
-		super(Material.WOOD, Sensitivity.EVERYTHING);
-		setHardness(0.5F);
-		setSoundType(SoundType.WOOD);
-		setRegistryName("minecraft", "wooden_pressure_plate");
-		setUnlocalizedName("pressurePlateWood");
+	public BlockCWTconWhopper() {
+		super();
+		setRegistryName("tconstruct", "wooden_hopper");
+		setUnlocalizedName("wooden_hopper");
 	}
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[]{POWERED}, new IUnlistedProperty[]{VARIANT});
-	}
-	
-	@Override
-	public String getItemVariant() {
-		return "powered=false";
+		return new ExtendedBlockState(this, new IProperty[]{BlockHopper.FACING}, new IUnlistedProperty[]{VARIANT});
 	}
 	
 	@Override
@@ -59,7 +53,7 @@ public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlo
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntitySimpleWood();
+		return new TileCWTconHopper();
 	}
 	
 	@Override
@@ -79,6 +73,7 @@ public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlo
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		IWoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
 	
@@ -95,5 +90,5 @@ public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlo
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
-  
+
 }
