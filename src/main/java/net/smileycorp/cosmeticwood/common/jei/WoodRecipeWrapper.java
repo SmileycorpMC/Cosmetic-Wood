@@ -17,9 +17,9 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.smileycorp.cosmeticwood.common.ModdedWoodHandler;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.recipe.IWoodRecipe;
 
@@ -37,11 +37,11 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 	@SuppressWarnings({"deprecation", "null"})
 	@Override
 	public void getIngredients(IIngredients ingredients) {
-		List<List<ItemStack>> inputs = new ArrayList<List<ItemStack>>();
+		List<List<ItemStack>> inputs = new ArrayList<>();
 		Ingredient wood = null;
 		//inputs.add(new ArrayList<ItemStack>());
 		for (Ingredient ingredient : ((IRecipe)this.recipe).getIngredients()) {
-			List<ItemStack> input = new ArrayList<ItemStack>();
+			List<ItemStack> input = new ArrayList<>();
 			//System.out.println(ingredient.toString());
 			for (ItemStack stack : ingredient.getMatchingStacks()) {
 				if (wood==null) {
@@ -54,16 +54,16 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 			inputs.add(input);
 		}
 		Block block = ((ItemBlock) ((IRecipe) recipe).getRecipeOutput().getItem()).getBlock();
-		for (String type : ModdedWoodHandler.getTypes(block.getRegistryName().getResourceDomain())) {
+		for (ResourceLocation type : WoodHandler.getTypes(block.getRegistryName().getResourceDomain())) {
 			ItemStack output = ((IRecipe)recipe).getRecipeOutput();
 			NBTTagCompound nbt = new NBTTagCompound();
-	        nbt.setString("type", type);
+	        nbt.setString("type", type.toString());
 	        output.setTagCompound(nbt);
 	        outputs.add(output);
 		}
 		
 		ingredients.setInputLists(ItemStack.class, inputs);
-		List<List<ItemStack>> outlist = new ArrayList<List<ItemStack>>();
+		List<List<ItemStack>> outlist = new ArrayList<>();
 		outlist.add(outputs);
 		ingredients.setOutputLists(ItemStack.class, outlist);
 		
@@ -91,10 +91,10 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 			ItemStack stack = (ItemStack)focus.getValue();
 			if(focusMode == IFocus.Mode.INPUT && WoodHandler.getName(stack)!=null) {
 				ItemStack output = ((IRecipe)recipe).getRecipeOutput();
-				String type = WoodHandler.getName(stack);
+				ResourceLocation type = WoodHandler.getRegistry(stack);
 				//System.out.println(type);
 				NBTTagCompound nbt = new NBTTagCompound();
-		        nbt.setString("type", type);
+		        nbt.setString("type", type.toString());
 		        output.setTagCompound(nbt);
 		        //System.out.println(nbt.toString());
 		        //System.out.println(stack.toString());
@@ -113,7 +113,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 				        //System.out.println(stack.toString());
 				        outputs.clear();
 				        outputs.add(output);
-						inputs = changeInputs(inputs, type);
+						inputs = changeInputs(inputs, WoodHandler.fixData(type));
 					}
 				}
 			}
@@ -124,10 +124,10 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		JEIIntegration.craftingHelper.setOutput(displayStacks, outputs);
 	}
 
-	private List<List<ItemStack>> changeInputs(List<List<ItemStack>> inputs, String type) {
-		List<List<ItemStack>> result = new ArrayList<List<ItemStack>>();
+	private List<List<ItemStack>> changeInputs(List<List<ItemStack>> inputs, ResourceLocation type) {
+		List<List<ItemStack>> result = new ArrayList<>();
 		for (List<ItemStack> input : inputs) {
-			List<ItemStack> stack = new ArrayList<ItemStack>();
+			List<ItemStack> stack = new ArrayList<>();
 			if (new OreIngredient("plankWood").apply(input.get(0))) {
 				stack.add(WoodHandler.getPlankStack(type));
 			} else if (new OreIngredient("logWood").apply(input.get(0))) {

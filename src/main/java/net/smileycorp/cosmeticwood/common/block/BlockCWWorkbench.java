@@ -2,6 +2,8 @@ package net.smileycorp.cosmeticwood.common.block;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.BlockWorkbench;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
@@ -24,8 +26,6 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
-
-import com.google.common.collect.ImmutableList;
 
 public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
 	
@@ -67,7 +67,7 @@ public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
 	    if(te != null && te instanceof TileEntitySimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getType());
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }

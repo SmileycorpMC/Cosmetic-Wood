@@ -2,23 +2,24 @@ package net.smileycorp.cosmeticwood.common;
 
 import java.awt.Color;
 
+import com.google.common.collect.ImmutableMap;
+
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.smileycorp.cosmeticwood.client.ClientWoodDefinition;
 
-import com.google.common.collect.ImmutableMap;
-
 public class WoodDefinition {
 	
-	private final String name;
+	private final ResourceLocation registry;
 	private final ItemStack plank;
 	private final ItemStack log;
 	
 	private ClientWoodDefinition clientside;
 	
-	public WoodDefinition(String name, ItemStack plank, ItemStack log) {
-		this.name=name;
+	public WoodDefinition(ResourceLocation registry, ItemStack plank, ItemStack log) {
+		this.registry=registry;
 		this.plank=plank;
 		this.log=log;
 		if (FMLCommonHandler.instance().getSide()==Side.CLIENT) {
@@ -26,8 +27,16 @@ public class WoodDefinition {
 		}
 	}
 	
+	public String getModid() {
+		return registry.getResourceDomain();
+	}
+	
 	public String getName() {
-		return name;
+		return registry.getResourcePath();
+	}
+	
+	public ResourceLocation getRegistry() {
+		return registry;
 	}
 	
 	public ItemStack getPlankStack() {

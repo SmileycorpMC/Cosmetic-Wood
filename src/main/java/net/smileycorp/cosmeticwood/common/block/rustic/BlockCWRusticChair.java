@@ -2,6 +2,8 @@ package net.smileycorp.cosmeticwood.common.block.rustic;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -24,8 +26,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 import rustic.common.blocks.BlockChair;
-
-import com.google.common.collect.ImmutableList;
 
 public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	
@@ -58,7 +58,7 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
 	    if(te != null && te instanceof TileEntitySimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getType());
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }

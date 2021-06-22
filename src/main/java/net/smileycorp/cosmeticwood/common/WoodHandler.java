@@ -1,32 +1,35 @@
 package net.smileycorp.cosmeticwood.common;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.atlas.api.util.RecipeUtils;
 
-import com.google.common.collect.ImmutableMap;
-
 public class WoodHandler {
 	
-	private static Map<String, WoodDefinition> WOOD_MAP = new HashMap<String, WoodDefinition>();
+	private static Map<ResourceLocation, WoodDefinition> WOOD_MAP = new HashMap<>();
 	
 	static {
 		WOOD_MAP.put(getDefault(), new WoodDefinition(getDefault(), new ItemStack(Blocks.PLANKS), new ItemStack(Blocks.LOG)));
 	}
 	
 	public static void buildProperties() {
-		Map<String, ItemStack> planks = new HashMap<String, ItemStack>();
-		Map<String, ItemStack> logs = new HashMap<String, ItemStack>();
+		Map<ResourceLocation, ItemStack> planks = new HashMap<>();
+		Map<ResourceLocation, ItemStack> logs = new HashMap<>();
 		for (String ore:OreDictionary.getOreNames()) {
 			if (ore.contains("plankWood")) {
 				for (ItemStack oreStack : OreDictionary.getOres(ore)) {
@@ -38,7 +41,7 @@ public class WoodHandler {
 							subBlocks.add(oreStack);
 						}
 						for (ItemStack stack : subBlocks) {
-							String name = ModDefinitions.format(((ItemBlock) stack.getItem()).getItemStackDisplayName(stack));
+							ResourceLocation name = ModDefinitions.format(stack);
 							if (!planks.containsKey(name)) {
 								planks.put(name, stack);
 							}
@@ -56,7 +59,7 @@ public class WoodHandler {
 							subBlocks.add(oreStack);
 						}
 						for (ItemStack stack : subBlocks) {
-							String name = ModDefinitions.format(((ItemBlock) stack.getItem()).getItemStackDisplayName(stack));
+							ResourceLocation name = ModDefinitions.format(stack);
 							if (!logs.containsKey(name)) {
 								logs.put(name, stack);
 							}
@@ -65,31 +68,42 @@ public class WoodHandler {
 				}
 			}
 		}
-		for(Entry<String, ItemStack> entry : planks.entrySet()) {
-			String name = entry.getKey();
+		for(Entry<ResourceLocation, ItemStack> entry : planks.entrySet()) {
+			ResourceLocation key = entry.getKey();
 			ItemStack log = null;
-			if (logs.containsKey(name)) {
-				log = logs.get(name);
+			if (logs.containsKey(key)) {
+				log = logs.get(key);
 			}
-			WOOD_MAP.put(entry.getKey(), new WoodDefinition(name, entry.getValue(), log));
+			WOOD_MAP.put(entry.getKey(), new WoodDefinition(key, entry.getValue(), log));
 		}
 		
 		System.out.println("[cosmeticwood] detected wood types " + WOOD_MAP.keySet());
 		
 	}
 	
-	public static List<String> getTypes() {
-		return new ArrayList<String>(WOOD_MAP.keySet());
+	public static Set<ResourceLocation> getTypes() {
+		return WOOD_MAP.keySet();
 	}
 	
-	public static ItemStack getPlankStack(String name) {
+	public static Set<ResourceLocation> getTypes(String... modids) {
+		Set<ResourceLocation> result = getTypes();
+		List<String> mods = Lists.newArrayList(modids);
+		for (ResourceLocation registry : getTypes()) {
+			if (mods.contains(registry.getResourceDomain())) {
+				result.remove(registry);
+			}
+		}
+		return result;
+	}
+	
+	public static ItemStack getPlankStack(ResourceLocation name) {
 		if (WOOD_MAP.containsKey(name)){
 			return WOOD_MAP.get(name).getPlankStack();
 		}
 		return new ItemStack(Blocks.PLANKS);
 	}
 	
-	public static ItemStack getLogStack(String name) {
+	public static ItemStack getLogStack(ResourceLocation name) {
 		if (WOOD_MAP.containsKey(name)){
 			ItemStack stack = WOOD_MAP.get(name).getLogStack();
 			if (stack != null ) return stack ;
@@ -97,16 +111,16 @@ public class WoodHandler {
 		return new ItemStack(Blocks.LOG, 1, OreDictionary.WILDCARD_VALUE);
 	}
 	
-	public static String getDefault() {
-		return "oak";
+	public static ResourceLocation getDefault() {
+		return new ResourceLocation("oak");
 	}
 	
-	public static ImmutableMap<String, String> getTextures(String name) {
+	public static ImmutableMap<String, String> getTextures(ResourceLocation name) {
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getTextures() : WOOD_MAP.get(getDefault()).getTextures()  ;
 	}
 	
-	public static Color getColour(String name) {
-		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getColour() : WOOD_MAP.get("oak").getColour();
+	public static Color getColour(ResourceLocation name) {
+		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getColour() : WOOD_MAP.get(getDefault()).getColour();
 	}
 
 	public static String getName(ItemStack stack) {
@@ -116,6 +130,38 @@ public class WoodHandler {
 			}
 		}
 		return null;
+	}
+	
+	public static ResourceLocation getRegistry(ItemStack stack) {
+		for (WoodDefinition wood : WOOD_MAP.values()) {
+			if (RecipeUtils.compareItemStacks(stack, wood.getLogStack(), true)||RecipeUtils.compareItemStacks(stack, wood.getPlankStack(), true)) {
+				return wood.getRegistry();
+			}
+		}
+		return null;
+	}
+
+	public static ResourceLocation fixData(String name) {
+		if (name.contains(":")) return new ResourceLocation(name);
+		for (ResourceLocation registry : getTypes()) {
+			if (registry.getResourceDomain().equals(name)) {
+				return registry;
+			}
+		}
+		return new ResourceLocation(name);
+	}
+
+	public static void fixData(ItemStack stack) {
+		if (ContentRegistry.ITEMS.contains(stack.getItem())) {
+			NBTTagCompound nbt = stack.getTagCompound();
+			if (nbt.hasKey("type")) {
+				String type = nbt.getString("type");
+				if (!type.contains(":")) {
+					nbt.setString("type", fixData(type).toString());
+				}
+			}
+		}
+		
 	}
 
 }

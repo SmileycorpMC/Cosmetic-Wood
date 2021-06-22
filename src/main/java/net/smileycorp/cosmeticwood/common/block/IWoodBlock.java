@@ -1,7 +1,9 @@
 package net.smileycorp.cosmeticwood.common.block;
 
-import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -12,24 +14,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.smileycorp.atlas.api.block.PropertyOpenString;
-import net.smileycorp.cosmeticwood.common.ModdedWoodHandler;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
-
-import com.google.common.collect.ImmutableList;
 
 public interface IWoodBlock {
 
 	public static PropertyOpenString VARIANT = new PropertyOpenString("type", new Predicate<String>(){
 		@Override
 		public boolean test(String type) {
-			return WoodHandler.getTypes().contains(type);
+			return WoodHandler.getTypes().contains(new ResourceLocation(type));
 		}
 		
 	});	
@@ -41,11 +41,11 @@ public interface IWoodBlock {
 	}
 	
 	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list, String modid) {
-		List<String> types = modid == null ? WoodHandler.getTypes() : ModdedWoodHandler.getTypes(modid);
-		for(String type : types) {
+		Set<ResourceLocation> types = modid == null ? WoodHandler.getTypes() : WoodHandler.getTypes(modid);
+		for(ResourceLocation type : types) {
 	    	ItemStack stack = new ItemStack((Block) this);
 	    	NBTTagCompound nbt = new NBTTagCompound();
-	        nbt.setString("type", type);
+	        nbt.setString("type", type.toString());
 	        stack.setTagCompound(nbt);
 	        list.add(stack);
 		}
@@ -55,7 +55,7 @@ public interface IWoodBlock {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getType());
+			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}
 		return stack;
@@ -64,7 +64,7 @@ public interface IWoodBlock {
 	public default ItemStack getPickBlock(ItemStack stack, IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getType());
+			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}
 		return stack;
@@ -74,20 +74,20 @@ public interface IWoodBlock {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getType());
+			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}	
 		drops.add(stack);
     }
 	
 	public default ItemStack getSilkTouchDrop(IExtendedBlockState state) {
-		String type = state.getValue(VARIANT);
+		ResourceLocation type = WoodHandler.fixData(state.getValue(VARIANT));
 		ItemStack stack = new ItemStack((Block) this);
     	NBTTagCompound nbt = new NBTTagCompound();
     	if (type!=null) {
-        	nbt.setString("type", type);
+        	nbt.setString("type", type.toString());
     	} else {
-    		nbt.setString("type", WoodHandler.getDefault());
+    		nbt.setString("type", WoodHandler.getDefault().toString());
     	}
         stack.setTagCompound(nbt);
         return stack; 
@@ -99,7 +99,7 @@ public interface IWoodBlock {
 			if (nbt.hasKey("type")) {
 				String type = nbt.getString("type");
 				if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-					((TileEntitySimpleWood) world.getTileEntity(pos)).setType(type);
+					((TileEntitySimpleWood) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
 				}	
 			}
 		}

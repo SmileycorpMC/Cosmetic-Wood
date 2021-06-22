@@ -1,10 +1,17 @@
 package net.smileycorp.cosmeticwood.common.tileentity;
 
+import net.minecraft.util.ResourceLocation;
+import net.smileycorp.cosmeticwood.common.WoodHandler;
+
 public interface ITileCW {
 	
-	public default String getType() {
-		return "oak";
+	public default ResourceLocation getType() {
+		return WoodHandler.getDefault();
 	}
 	
-	public abstract void setType(String type);
+	public default String getTypeString() {
+		return getType().toString();
+	}
+	
+	public abstract void setType(ResourceLocation type);
 }
