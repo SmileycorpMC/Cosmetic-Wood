@@ -19,6 +19,7 @@ public class ItemBlockCW extends ItemBlock {
 	public ItemBlockCW(Block block) {
 		super(block);
 		setRegistryName(block.getRegistryName());
+		hasSubtypes = true;
 	}
 	
 	@Override

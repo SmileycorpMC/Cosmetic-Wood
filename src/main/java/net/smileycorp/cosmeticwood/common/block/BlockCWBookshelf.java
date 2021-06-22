@@ -2,6 +2,8 @@ package net.smileycorp.cosmeticwood.common.block;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.block.BlockBookshelf;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
@@ -25,15 +27,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
 
-import com.google.common.collect.ImmutableList;
-
 public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
 	
 	public BlockCWBookshelf() {
+		super();
 		setHardness(1.5F);
 		setSoundType(SoundType.WOOD);
-		this.setRegistryName("minecraft", "bookshelf");
-		this.setUnlocalizedName("bookshelf");
+		setRegistryName("minecraft", "bookshelf");
+		setUnlocalizedName("bookshelf");
 	}
 	
 	@Override

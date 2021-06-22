@@ -11,9 +11,12 @@ import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ClientWoodDefinition {
 		
@@ -25,14 +28,16 @@ public class ClientWoodDefinition {
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		
+		World world = mc.world;
+		EntityPlayer player = mc.player;
 		BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
 		TextureAtlasSprite missing = mc.getTextureMapBlocks().getMissingSprite();
 		
-		IBlockState plankState = ((ItemBlock) plank.getItem()).getBlock().getDefaultState();
+		IBlockState plankState = ((ItemBlock) plank.getItem()).getBlock().getStateForPlacement(world, new BlockPos(0,0,0), EnumFacing.UP, 0, 0, 0, plank.getMetadata(), player);
 		List<BakedQuad> plank_quads = dispatcher.getModelForState(plankState).getQuads(plankState, EnumFacing.UP, 0);	
 		plank_sprite = plank_quads.isEmpty() ? missing : plank_quads.get(0).getSprite();
 		if (log!=null) {
-			IBlockState logState = ((ItemBlock) log.getItem()).getBlock().getDefaultState();
+			IBlockState logState = ((ItemBlock) log.getItem()).getBlock().getStateForPlacement(world, new BlockPos(0,0,0), EnumFacing.UP, 0, 0, 0, log.getMetadata(), player);
 			IBakedModel logModel = dispatcher.getModelForState(logState);
 			List<BakedQuad> log_top_quads = logModel.getQuads(logState, EnumFacing.UP, 0);
 			log_top_sprite = log_top_quads.isEmpty() ? plank_sprite : log_top_quads.get(0).getSprite();
