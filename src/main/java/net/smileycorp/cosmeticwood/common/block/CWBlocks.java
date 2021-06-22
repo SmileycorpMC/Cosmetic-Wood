@@ -55,7 +55,7 @@ public class CWBlocks {
 		for (Block block : blocks) {
 			if (block instanceof IWoodBlock && Loader.isModLoaded(block.getRegistryName().getResourceDomain())) {
 				ForgeRegistries.BLOCKS.register(block);
-				ForgeRegistries.ITEMS.register(new ItemBlockCW(block));
+				ForgeRegistries.ITEMS.register(((IWoodBlock)block).getItem());
 			}
 		}
 	}

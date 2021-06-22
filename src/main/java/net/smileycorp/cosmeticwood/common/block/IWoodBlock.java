@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
@@ -106,6 +107,10 @@ public interface IWoodBlock {
 
 	public default String getItemVariant() {
 		return "normal";
+	}
+	
+	public default Item getItem() {
+		return new ItemBlockCW((Block) this);
 	}
 
 }
