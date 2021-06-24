@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common.jei;
+package net.smileycorp.cosmeticwood.integration.jei;
 
 import net.smileycorp.cosmeticwood.common.recipe.IWoodRecipe;
 import mezz.jei.api.recipe.IRecipeWrapper;

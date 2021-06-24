@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
@@ -26,6 +27,7 @@ import net.smileycorp.cosmeticwood.common.block.DummyWoodBlock;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
+import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 
 
 @EventBusSubscriber(modid=ModDefinitions.modid)
@@ -33,8 +35,9 @@ public class ContentRegistry {
 	
 	public static List<Block> BLOCKS = new ArrayList<>();
 	public static List<Item> ITEMS = new ArrayList<>();
+	public static List<Class> TILE_ENTITIES = new ArrayList<>();
 	
-	public static void registerContent() {
+	public static void preInit() {
 		Field[] fields = CWContent.class.getFields();
 		for (Field field : fields) {
 			try {
@@ -53,12 +56,26 @@ public class ContentRegistry {
 		}
 		for (Block block : BLOCKS) {
 			if (block instanceof IWoodBlock && Loader.isModLoaded(block.getRegistryName().getResourceDomain())) {
-				ForgeRegistries.BLOCKS.register(block);
 				Item item = ((IWoodBlock)block).getItem();
-				ForgeRegistries.ITEMS.register(item);
 				ITEMS.add(item);
+				Class tile = ((IWoodBlock)block).getTile();
+				if (!TILE_ENTITIES.contains(tile)) {
+					try {
+						GameRegistry.registerTileEntity(tile, ((ITileCW) tile.newInstance()).getRegistryName());
+					} catch (Exception e) {}
+				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public static void registerBlocks(RegistryEvent.Register<Block> event){
+		ForgeRegistries.BLOCKS.registerAll(BLOCKS.toArray(new Block[] {}));
+	}
+	
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event){
+		ForgeRegistries.ITEMS.registerAll(ITEMS.toArray(new Item[] {}));
 	}
 	
 	@SubscribeEvent
@@ -79,7 +96,6 @@ public class ContentRegistry {
 				}
 				recipes.remove(key);
 				recipes.register(recipe);
-				//System.out.println("Replaced recipe for " + key);
 			}
 			
 		}

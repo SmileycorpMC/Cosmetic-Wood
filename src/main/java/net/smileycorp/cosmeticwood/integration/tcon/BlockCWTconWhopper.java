@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common.block.tcon;
+package net.smileycorp.cosmeticwood.integration.tcon;
 
 import javax.annotation.Nullable;
 
@@ -22,8 +22,7 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
-import net.smileycorp.cosmeticwood.common.tileentity.TileCWTconHopper;
-import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
 
 public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock {
@@ -31,7 +30,7 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	public BlockCWTconWhopper() {
 		super();
 		setRegistryName("tconstruct", "wooden_hopper");
-		setUnlocalizedName("wooden_hopper");
+		setUnlocalizedName("tconstruct.wooden_hopper");
 	}
 	
 	@Override
@@ -47,8 +46,8 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
-	    if(te != null && te instanceof TileEntitySimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getTypeString());
+	    if(te != null && te instanceof TileSimpleWood) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }
@@ -60,7 +59,7 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileCWTconHopper();
+		return new TileCWTconWhopper();
 	}
 	
 	@Override
@@ -97,5 +96,15 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
+    
+    @Override
+	public String getItemVariant() {
+		return "normal";
+	}
+
+	@Override
+	public Class getTile() {
+		return TileCWTconWhopper.class;
+	}
 
 }

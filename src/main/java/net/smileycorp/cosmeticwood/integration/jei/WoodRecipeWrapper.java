@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common.jei;
+package net.smileycorp.cosmeticwood.integration.jei;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +39,8 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 	public void getIngredients(IIngredients ingredients) {
 		List<List<ItemStack>> inputs = new ArrayList<>();
 		Ingredient wood = null;
-		//inputs.add(new ArrayList<ItemStack>());
 		for (Ingredient ingredient : ((IRecipe)this.recipe).getIngredients()) {
 			List<ItemStack> input = new ArrayList<>();
-			//System.out.println(ingredient.toString());
 			for (ItemStack stack : ingredient.getMatchingStacks()) {
 				if (wood==null) {
 					if (WoodHandler.getName(stack)!=null) {
@@ -67,9 +65,6 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		outlist.add(outputs);
 		ingredients.setOutputLists(ItemStack.class, outlist);
 		
-		//System.out.println(inputs.toString());
-		//System.out.println(outputs.toString());
-		
 		if (recipe instanceof ShapedOreRecipe) {
 			height = ((ShapedOreRecipe)recipe).getHeight();
 			width = ((ShapedOreRecipe)recipe).getWidth();
@@ -92,12 +87,9 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 			if(focusMode == IFocus.Mode.INPUT && WoodHandler.getName(stack)!=null) {
 				ItemStack output = ((IRecipe)recipe).getRecipeOutput();
 				ResourceLocation type = WoodHandler.getRegistry(stack);
-				//System.out.println(type);
 				NBTTagCompound nbt = new NBTTagCompound();
 		        nbt.setString("type", type.toString());
 		        output.setTagCompound(nbt);
-		        //System.out.println(nbt.toString());
-		        //System.out.println(stack.toString());
 				outputs.clear();
 				outputs.add(output);
 				inputs = changeInputs(inputs, type);
@@ -107,10 +99,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 					if (nbt.hasKey("type")) {
 						String type = nbt.getString("type");
 						ItemStack output = ((IRecipe)recipe).getRecipeOutput();
-						//System.out.println(type);
 				        output.setTagCompound(nbt);
-				        //System.out.println(nbt.toString());
-				        //System.out.println(stack.toString());
 				        outputs.clear();
 				        outputs.add(output);
 						inputs = changeInputs(inputs, WoodHandler.fixData(type));
@@ -120,7 +109,6 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		}
 		
 		JEIIntegration.craftingHelper.setInputs(displayStacks, inputs, this.width, this.height);
-		//System.out.println(outputs);
 		JEIIntegration.craftingHelper.setOutput(displayStacks, outputs);
 	}
 

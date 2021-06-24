@@ -9,6 +9,6 @@
         "facing=west": { "model": "tconstruct:hopper_side", "y": 270, 
 			"textures": {"top": "#plank", "side": "#plank", "inside": "#log_top"}},
         "facing=east": { "model": "tconstruct:hopper_side", "y": 90, 
-			"textures": {"top": "#plank", "side": "#plank", "inside": "#log_top"}},
+			"textures": {"top": "#plank", "side": "#plank", "inside": "#log_top"}}
     }
 }

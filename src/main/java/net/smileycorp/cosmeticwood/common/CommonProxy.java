@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 @EventBusSubscriber(modid = ModDefinitions.modid)
@@ -23,6 +24,7 @@ public class CommonProxy {
 	public void postInit(FMLPostInitializationEvent event) {}
 	
 	//fix data from old versions
+	@SubscribeEvent
 	public void playerJoin(PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
 		World world = player.world;

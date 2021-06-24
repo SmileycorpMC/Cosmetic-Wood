@@ -24,7 +24,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
-import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import rustic.common.blocks.BlockChair;
 
 public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
@@ -49,6 +49,11 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	}
 	
 	@Override
+	public String[] getModids() {
+		return new String[]{"minecraft", "rustic"};
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
@@ -57,8 +62,8 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
-	    if(te != null && te instanceof TileEntitySimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getTypeString());
+	    if(te != null && te instanceof TileSimpleWood) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }
@@ -70,12 +75,12 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntitySimpleWood();
+		return new TileSimpleWood();
 	}
 	
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		IWoodBlock.super.getSubBlocks(tab, list, "rustic");
+		IWoodBlock.super.getSubBlocks(tab, list);
 	}
 	
 	@Override

@@ -25,7 +25,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
 public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
 	
@@ -66,8 +66,8 @@ public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
-	    if(te != null && te instanceof TileEntitySimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getTypeString());
+	    if(te != null && te instanceof TileSimpleWood) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }
@@ -79,7 +79,7 @@ public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntitySimpleWood();
+		return new TileSimpleWood();
 	}
 	
 	@Override

@@ -44,9 +44,7 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 	@Override
     public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 		try {
-			String variant = "oak";
-			//World world = Minecraft.getMinecraft().world;
-			//EntityLivingBase entity = Minecraft.getMinecraft().player;
+			String variant = "minecraft:oak";
 			if(state instanceof IExtendedBlockState) {
 				if(((IExtendedBlockState) state).getUnlistedNames().contains(IWoodBlock.VARIANT)) {
 					variant = ((IExtendedBlockState)state).getValue(IWoodBlock.VARIANT);

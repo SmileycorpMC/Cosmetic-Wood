@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.util.TextUtils;
+import net.smileycorp.cosmeticwood.common.WoodHandler;
 
 public class ItemBlockCW extends ItemBlock {
 
@@ -28,7 +29,8 @@ public class ItemBlockCW extends ItemBlock {
     	NBTTagCompound nbt = stack.getTagCompound();
     	if (nbt!=null) {
     		if (nbt.hasKey("type")) {
-    			tooltip.add(TextUtils.toProperCase(nbt.getString("type")));
+    			String type = WoodHandler.fixData(nbt.getString("type")).getResourcePath();
+    			tooltip.add(TextUtils.toProperCase(type));
     		}
     	}
     }

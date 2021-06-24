@@ -2,6 +2,7 @@ package net.smileycorp.cosmeticwood.common;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -76,21 +77,26 @@ public class WoodHandler {
 			}
 			WOOD_MAP.put(entry.getKey(), new WoodDefinition(key, entry.getValue(), log));
 		}
-		
-		System.out.println("[cosmeticwood] detected wood types " + WOOD_MAP.keySet());
+		CosmeticWood.logInfo("detected wood types " + WOOD_MAP.keySet());
 		
 	}
 	
-	public static Set<ResourceLocation> getTypes() {
-		return WOOD_MAP.keySet();
+	public static boolean contains(String key) {
+		return contains(fixData(key));
+	}
+	
+	public static boolean contains(ResourceLocation key) {
+		return WOOD_MAP.containsKey(key);
 	}
 	
 	public static Set<ResourceLocation> getTypes(String... modids) {
-		Set<ResourceLocation> result = getTypes();
-		List<String> mods = Lists.newArrayList(modids);
-		for (ResourceLocation registry : getTypes()) {
-			if (mods.contains(registry.getResourceDomain())) {
-				result.remove(registry);
+		Set<ResourceLocation> result = new HashSet(WOOD_MAP.keySet());
+		if (modids.length > 0) {
+			List<String> mods = Lists.newArrayList(modids);
+			for (ResourceLocation registry : WOOD_MAP.keySet()) {
+				if (mods.contains(registry.getResourceDomain())) {
+					result.remove(registry);
+				}
 			}
 		}
 		return result;
@@ -144,7 +150,7 @@ public class WoodHandler {
 	public static ResourceLocation fixData(String name) {
 		if (name.contains(":")) return new ResourceLocation(name);
 		for (ResourceLocation registry : getTypes()) {
-			if (registry.getResourceDomain().equals(name)) {
+			if (registry.getResourcePath().equals(name)) {
 				return registry;
 			}
 		}
@@ -154,14 +160,16 @@ public class WoodHandler {
 	public static void fixData(ItemStack stack) {
 		if (ContentRegistry.ITEMS.contains(stack.getItem())) {
 			NBTTagCompound nbt = stack.getTagCompound();
-			if (nbt.hasKey("type")) {
-				String type = nbt.getString("type");
-				if (!type.contains(":")) {
-					nbt.setString("type", fixData(type).toString());
+			if (nbt != null) {
+				if (nbt.hasKey("type")) {
+					String type = nbt.getString("type");
+					if (!type.contains(":")) {
+						nbt.setString("type", fixData(type).toString());
+					}
 				}
 			}
 		}
 		
 	}
-
+	
 }

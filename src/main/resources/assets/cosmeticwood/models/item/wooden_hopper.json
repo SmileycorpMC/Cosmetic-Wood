@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "cosmeticwood:items/wooden_hopper"
+    }
+}

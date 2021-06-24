@@ -1,18 +1,21 @@
-package net.smileycorp.cosmeticwood.common.tileentity;
+package net.smileycorp.cosmeticwood.integration.tcon;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
+import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+import slimeknights.tconstruct.gadgets.tileentity.TileWoodenHopper;
 
-public class TileEntitySimpleWood extends TileEntity implements ITileCW {
+public class TileCWTconWhopper extends TileWoodenHopper implements ITileCW {
 	
-	private ResourceLocation type = WoodHandler.getDefault();
+	private ResourceLocation type = new ResourceLocation("oak");
 	
+	public TileCWTconWhopper() {}
+
 	@Override
 	public ResourceLocation getType() {
 		return type.getResourcePath().isEmpty() ? WoodHandler.getDefault() : type;
@@ -60,4 +63,9 @@ public class TileEntitySimpleWood extends TileEntity implements ITileCW {
 		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
 	}
 	
+	@Override
+	public String getRegistryName() {
+		return "TConWhopper";
+	}
+
 }

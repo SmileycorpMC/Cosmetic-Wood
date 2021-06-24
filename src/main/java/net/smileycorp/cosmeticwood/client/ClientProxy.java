@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
@@ -69,6 +70,12 @@ public class ClientProxy extends CommonProxy {
 	public static void blockColourHandler(ColorHandlerEvent.Block event) {
 		BlockColors registry = event.getBlockColors();
 		registry.registerBlockColorHandler(new CWParticleColour(), ContentRegistry.BLOCKS.toArray(new Block[]{}));
+	}
+	
+	@SubscribeEvent
+	public static void itemColourHandler(ColorHandlerEvent.Item event) {
+		ItemColors registry = event.getItemColors();
+		registry.registerItemColorHandler(new CWItemColour(), ContentRegistry.ITEMS.toArray(new Item[]{}));
 	}
 	
 	@SubscribeEvent

@@ -22,26 +22,27 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.smileycorp.atlas.api.block.PropertyOpenString;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
 public interface IWoodBlock {
 
 	public static PropertyOpenString VARIANT = new PropertyOpenString("type", new Predicate<String>(){
 		@Override
 		public boolean test(String type) {
-			return WoodHandler.getTypes().contains(new ResourceLocation(type));
+			return WoodHandler.contains(type);
 		}
 		
 	});	
 	
 	public abstract ImmutableList<IBlockState> getBlockStates();
 	
-	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		getSubBlocks(tab, list, null);
+	public default String[] getModids() {
+		return new String[]{};
 	}
 	
-	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list, String modid) {
-		Set<ResourceLocation> types = modid == null ? WoodHandler.getTypes() : WoodHandler.getTypes(modid);
+	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+		Set<ResourceLocation> types = WoodHandler.getTypes(getModids());
 		for(ResourceLocation type : types) {
 	    	ItemStack stack = new ItemStack((Block) this);
 	    	NBTTagCompound nbt = new NBTTagCompound();
@@ -54,8 +55,8 @@ public interface IWoodBlock {
 	public default ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
-		if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getTypeString());
+		if (world.getTileEntity(pos) instanceof ITileCW) {
+			tag.setString("type", ((ITileCW)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}
 		return stack;
@@ -63,8 +64,8 @@ public interface IWoodBlock {
 	
 	public default ItemStack getPickBlock(ItemStack stack, IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		NBTTagCompound tag = new NBTTagCompound();
-		if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getTypeString());
+		if (world.getTileEntity(pos) instanceof ITileCW) {
+			tag.setString("type", ((ITileCW) world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}
 		return stack;
@@ -73,8 +74,8 @@ public interface IWoodBlock {
 	public default void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
-		if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-			tag.setString("type", ((TileEntitySimpleWood)world.getTileEntity(pos)).getTypeString());
+		if (world.getTileEntity(pos) instanceof ITileCW) {
+			tag.setString("type", ((ITileCW)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}	
 		drops.add(stack);
@@ -98,8 +99,8 @@ public interface IWoodBlock {
 		if (nbt!=null) {
 			if (nbt.hasKey("type")) {
 				String type = nbt.getString("type");
-				if (world.getTileEntity(pos) instanceof TileEntitySimpleWood) {
-					((TileEntitySimpleWood) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
+				if (world.getTileEntity(pos) instanceof ITileCW) {
+					((ITileCW) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
 				}	
 			}
 		}
@@ -111,6 +112,10 @@ public interface IWoodBlock {
 	
 	public default Item getItem() {
 		return new ItemBlockCW((Block) this);
+	}
+
+	public default Class getTile() {
+		return TileSimpleWood.class;
 	}
 
 }

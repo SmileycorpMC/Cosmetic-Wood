@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.smileycorp.cosmeticwood.common.tileentity.TileEntitySimpleWood;
+import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
 public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlock {
 
@@ -53,8 +53,8 @@ public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlo
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
-	    if(te != null && te instanceof TileEntitySimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileEntitySimpleWood) te).getTypeString());
+	    if(te != null && te instanceof TileSimpleWood) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }
@@ -66,7 +66,7 @@ public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlo
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntitySimpleWood();
+		return new TileSimpleWood();
 	}
 	
 	@Override

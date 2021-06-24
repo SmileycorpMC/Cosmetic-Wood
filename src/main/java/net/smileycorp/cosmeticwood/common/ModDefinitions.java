@@ -9,7 +9,7 @@ public class ModDefinitions {
 	public static final String modid = "cosmeticwood";
 	public static final String name = "Cosmetic Wood";
 	public static final String version = "1.1.1";
-	public static final String dependencies = "required-after:atlaslib";
+	public static final String dependencies = "required-after:atlaslib;after:tconstruct;after:rustic";
 	public static final String location = "net.smileycorp.cosmeticwood.";
 	public static final String client = location + "client.ClientProxy";
 	public static final String common = location + "common.CommonProxy";

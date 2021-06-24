@@ -9,7 +9,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.tileentity.ITileCW;
+import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 
 @SideOnly(Side.CLIENT)
 public class CWParticleColour implements IBlockColor {

@@ -48,7 +48,6 @@ public class ClientWoodDefinition {
 			log_side_sprite = plank_sprite;
 		}
 		colour = new Color(plank_sprite.getFrameTextureData(0)[0][0]);
-		//System.out.println(colour + " " + name);
 	}
 	
 	public ImmutableMap<String, String> getTextures() {
