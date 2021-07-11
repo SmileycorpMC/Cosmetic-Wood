@@ -3,8 +3,6 @@ package net.smileycorp.cosmeticwood.client;
 import java.awt.Color;
 import java.util.List;
 
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -17,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import com.google.common.collect.ImmutableMap;
 
 public class ClientWoodDefinition {
 		
@@ -32,7 +32,6 @@ public class ClientWoodDefinition {
 		EntityPlayer player = mc.player;
 		BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
 		TextureAtlasSprite missing = mc.getTextureMapBlocks().getMissingSprite();
-		
 		IBlockState plankState = ((ItemBlock) plank.getItem()).getBlock().getStateForPlacement(world, new BlockPos(0,0,0), EnumFacing.UP, 0, 0, 0, plank.getMetadata(), player);
 		List<BakedQuad> plank_quads = dispatcher.getModelForState(plankState).getQuads(plankState, EnumFacing.UP, 0);	
 		plank_sprite = plank_quads.isEmpty() ? missing : plank_quads.get(0).getSprite();

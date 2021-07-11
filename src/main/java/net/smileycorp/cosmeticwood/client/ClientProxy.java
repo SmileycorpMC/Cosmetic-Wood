@@ -1,5 +1,7 @@
 package net.smileycorp.cosmeticwood.client;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
@@ -41,7 +43,7 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 @EventBusSubscriber(value=Side.CLIENT, modid = ModDefinitions.modid)
 public class ClientProxy extends CommonProxy {
 	
-	public static TextureAtlasSprite GREYSCALE_PLANKS;
+	private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = new HashMap<String, TextureAtlasSprite>();
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -61,15 +63,22 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void stitchTextureEvent(TextureStitchEvent.Pre event) {
+		registerFallbackSprite("plank", new ResourceLocation("minecraft", "blocks/planks_oak"));
+		registerFallbackSprite("log_top", new ResourceLocation("minecraft", "blocks/log_oak_top"));
+		registerFallbackSprite("log_side", new ResourceLocation("minecraft", "blocks/log_oak"));
+	}
+	
+	public void registerFallbackSprite(String key, ResourceLocation registry) {
 		TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
-		GREYSCALE_PLANKS = new TextureAtlasGreyscale(new ResourceLocation("minecraft", "blocks/planks_oak"));
-		map.setTextureEntry(GREYSCALE_PLANKS);
+		TextureAtlasSprite sprite = new TextureAtlasGreyscale(registry);
+		map.setTextureEntry(sprite);
+		GREYSCALE_SPRITES.put(key, sprite);
 	}
 	
 	@SubscribeEvent
 	public static void blockColourHandler(ColorHandlerEvent.Block event) {
 		BlockColors registry = event.getBlockColors();
-		registry.registerBlockColorHandler(new CWParticleColour(), ContentRegistry.BLOCKS.toArray(new Block[]{}));
+		registry.registerBlockColorHandler(new CWBlockColour(), ContentRegistry.BLOCKS.toArray(new Block[]{}));
 	}
 	
 	@SubscribeEvent
@@ -117,4 +126,8 @@ public class ClientProxy extends CommonProxy {
 
         return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);
     }
+	
+	public static TextureAtlasSprite getGreyscaleSprite(String key) {
+		return GREYSCALE_SPRITES.get(key);
+	}
 }

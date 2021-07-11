@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -26,6 +24,8 @@ import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 
+import com.google.common.collect.ImmutableList;
+
 @SideOnly(Side.CLIENT)
 public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 
@@ -38,7 +38,7 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 	
 	@Override
     public TextureAtlasSprite getParticleTexture() {
-        return ClientProxy.GREYSCALE_PLANKS;
+        return ClientProxy.getGreyscaleSprite("plank");
     }
 	
 	@Override

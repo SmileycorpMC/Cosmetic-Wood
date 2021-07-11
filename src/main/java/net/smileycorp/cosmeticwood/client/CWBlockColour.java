@@ -12,7 +12,7 @@ import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 
 @SideOnly(Side.CLIENT)
-public class CWParticleColour implements IBlockColor {
+public class CWBlockColour implements IBlockColor {
 
 	@Override
 	public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {

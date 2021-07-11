@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -81,17 +82,17 @@ public class ContentRegistry {
 		}
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority=EventPriority.LOWEST)
 	public static void registerBlocks(RegistryEvent.Register<Block> event){
 		ForgeRegistries.BLOCKS.registerAll(BLOCKS.toArray(new Block[] {}));
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority=EventPriority.LOWEST)
 	public static void registerItems(RegistryEvent.Register<Item> event){
 		ForgeRegistries.ITEMS.registerAll(ITEMS.toArray(new Item[] {}));
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority=EventPriority.LOWEST)
 	public static void recipeWriter(RegistryEvent.Register<IRecipe> event){
 		IForgeRegistryModifiable<IRecipe> recipes = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
 		for (Block block : ContentRegistry.BLOCKS) {

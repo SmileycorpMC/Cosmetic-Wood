@@ -2,8 +2,6 @@ package net.smileycorp.cosmeticwood.integration.tcon;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -22,8 +20,9 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
-import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
+
+import com.google.common.collect.ImmutableList;
 
 public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock {
 
@@ -46,8 +45,8 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
-	    if(te != null && te instanceof TileSimpleWood) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
+	    if(te != null && te instanceof TileCWTconWhopper) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileCWTconWhopper) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }
