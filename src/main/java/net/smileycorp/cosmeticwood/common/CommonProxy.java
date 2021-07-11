@@ -15,7 +15,9 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 @EventBusSubscriber(modid = ModDefinitions.modid)
 public class CommonProxy {
 	
-	public void preInit(FMLPreInitializationEvent event) {}
+	public void preInit(FMLPreInitializationEvent event) {
+		ContentRegistry.preInit(event.getAsmData());
+	}
 
 	public void init(FMLInitializationEvent event) {
 		WoodHandler.buildProperties();

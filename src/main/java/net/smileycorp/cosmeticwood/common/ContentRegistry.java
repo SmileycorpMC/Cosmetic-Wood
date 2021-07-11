@@ -3,6 +3,7 @@ package net.smileycorp.cosmeticwood.common;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -12,18 +13,20 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
-import net.smileycorp.cosmeticwood.common.block.DummyWoodBlock;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
@@ -33,29 +36,39 @@ import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 @EventBusSubscriber(modid=ModDefinitions.modid)
 public class ContentRegistry {
 	
-	public static List<Block> BLOCKS = new ArrayList<>();
-	public static List<Item> ITEMS = new ArrayList<>();
-	public static List<Class> TILE_ENTITIES = new ArrayList<>();
+	public static List<Class> PLUGINS = new ArrayList<Class>();
+	public static List<Block> BLOCKS = new ArrayList<Block>();
+	public static List<Item> ITEMS = new ArrayList<Item>();
+	public static List<Class<? extends TileEntity>> TILE_ENTITIES = new ArrayList<Class<? extends TileEntity>>();
 	
-	public static void preInit() {
-		Field[] fields = CWContent.class.getFields();
-		for (Field field : fields) {
-			try {
-				Object o = field.get(new Object());
-				if (o!=null && o instanceof DummyWoodBlock) {
-					if (Loader.isModLoaded(((DummyWoodBlock) o).getModid()));
-					o = ((DummyWoodBlock) o).getInstance();
-					field.set(null, o);
+	public static void preInit(ASMDataTable asmtable) {
+		String annotation = CWPlugin.class.getCanonicalName();
+		Set<ASMData> dataset = asmtable.getAll(annotation);
+		for (ASMData data : dataset) {
+			String modid = (String) data.getAnnotationInfo().get("modid");
+			if (Loader.isModLoaded(modid)) {
+				List<Block> blocks = new ArrayList<Block>();
+				try {
+					Class plugin = Class.forName(data.getClassName());
+					CosmeticWood.logInfo("Loading plugin " + modid);
+					Field[] fields = plugin.getFields();
+					for (Field field : fields) {
+						Object o = field.get(new Object());
+						if (o!=null && o instanceof Block && o instanceof IWoodBlock) {
+							blocks.add((Block) o);
+						}
+					}
+					PLUGINS.add(plugin);
+					BLOCKS.addAll(blocks);
+				} catch (Exception e) {
+					CosmeticWood.logError("Error loading plugin " + modid, e);
 				}
-				if (o!=null && o instanceof Block &!(o instanceof DummyWoodBlock)) {
-					BLOCKS.add((Block) o);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} else {
+				CosmeticWood.logInfo("Mod " + modid + " not detected. Skipping plugin.");
 			}
 		}
 		for (Block block : BLOCKS) {
-			if (block instanceof IWoodBlock && Loader.isModLoaded(block.getRegistryName().getResourceDomain())) {
+			if (block instanceof IWoodBlock) {
 				Item item = ((IWoodBlock)block).getItem();
 				ITEMS.add(item);
 				Class tile = ((IWoodBlock)block).getTile();

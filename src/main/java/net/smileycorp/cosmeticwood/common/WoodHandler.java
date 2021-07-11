@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -19,6 +16,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.atlas.api.util.RecipeUtils;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 public class WoodHandler {
 	
@@ -148,6 +148,7 @@ public class WoodHandler {
 	}
 
 	public static ResourceLocation fixData(String name) {
+		if (name == null) return getDefault();
 		if (name.contains(":")) return new ResourceLocation(name);
 		for (ResourceLocation registry : getTypes()) {
 			if (registry.getResourcePath().equals(name)) {
