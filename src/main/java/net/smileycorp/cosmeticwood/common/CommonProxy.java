@@ -19,11 +19,11 @@ public class CommonProxy {
 		ContentRegistry.preInit(event.getAsmData());
 	}
 
-	public void init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {}
+
+	public void postInit(FMLPostInitializationEvent event) {
 		WoodHandler.buildProperties();
 	}
-
-	public void postInit(FMLPostInitializationEvent event) {}
 	
 	//fix data from old versions
 	@SubscribeEvent
