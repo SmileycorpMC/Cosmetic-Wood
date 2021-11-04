@@ -23,6 +23,7 @@ public class CommonProxy {
 
 	public void postInit(FMLPostInitializationEvent event) {
 		WoodHandler.buildProperties();
+		ContentRegistry.replaceRecipes();
 	}
 	
 	//fix data from old versions

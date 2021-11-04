@@ -1,8 +1,6 @@
-package net.smileycorp.cosmeticwood.common.block;
+package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
 import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.BlockBookshelf;
 import net.minecraft.block.SoundType;
@@ -25,7 +23,10 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+
+import com.google.common.collect.ImmutableList;
 
 public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
 	
@@ -120,5 +121,6 @@ public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
+
     
 }

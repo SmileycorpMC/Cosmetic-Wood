@@ -1,11 +1,7 @@
-package net.smileycorp.cosmeticwood.common.block;
+package net.smileycorp.cosmeticwood.plugins.rustic.block;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-
-import net.minecraft.block.BlockButtonWood;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -14,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -22,22 +19,23 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+import rustic.common.blocks.BlockChair;
 
+import com.google.common.collect.ImmutableList;
 
-public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
-
-	public BlockCWButton() {
-		super();
-		setHardness(0.5F);
-		setSoundType(SoundType.WOOD);
-		setRegistryName("minecraft", "wooden_button");
-		setUnlocalizedName("button");
+public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
+	
+	public BlockCWRusticChair() {
+		super("CW");
 	}
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[]{POWERED, FACING}, new IUnlistedProperty[]{VARIANT});
+		return new ExtendedBlockState(this, new IProperty[] {FACING}, new IUnlistedProperty[]{VARIANT});
 	}
 	
 	@Override
@@ -47,8 +45,19 @@ public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
 	
 	@Override
 	public String getItemVariant() {
-		return "inventory";
+		return "facing=north";
 	}
+	
+	@Override
+	public String[] getModids() {
+		return new String[]{"minecraft", "rustic"};
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT_MIPPED;
+    }
 	
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
@@ -102,5 +111,4 @@ public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
-  
 }

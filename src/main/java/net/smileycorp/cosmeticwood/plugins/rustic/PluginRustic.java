@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common.block.rustic;
+package net.smileycorp.cosmeticwood.plugins.rustic;
 
 import net.smileycorp.cosmeticwood.common.CWPlugin;
 

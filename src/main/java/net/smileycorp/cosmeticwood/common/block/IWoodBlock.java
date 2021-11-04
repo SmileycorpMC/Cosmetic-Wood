@@ -3,8 +3,6 @@ package net.smileycorp.cosmeticwood.common.block;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import com.google.common.collect.ImmutableList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -20,10 +19,14 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.block.PropertyOpenString;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+
+import com.google.common.collect.ImmutableList;
 
 public interface IWoodBlock {
 
@@ -114,8 +117,11 @@ public interface IWoodBlock {
 		return new ItemBlockCW((Block) this);
 	}
 
-	public default Class getTile() {
+	public default Class<? extends TileEntity> getTile() {
 		return TileSimpleWood.class;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	public default void initClient() {}
 
 }

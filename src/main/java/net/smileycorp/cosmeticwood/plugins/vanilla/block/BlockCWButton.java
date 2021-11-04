@@ -1,10 +1,8 @@
-package net.smileycorp.cosmeticwood.common.block;
+package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-
-import net.minecraft.block.BlockWorkbench;
+import net.minecraft.block.BlockButtonWood;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -23,23 +20,25 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
-public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
-	
-	public BlockCWWorkbench() {
+import com.google.common.collect.ImmutableList;
+
+
+public class BlockCWButton extends BlockButtonWood implements IWoodBlock {
+
+	public BlockCWButton() {
 		super();
-		setHardness(1.5F);
+		setHardness(0.5F);
 		setSoundType(SoundType.WOOD);
-		setRegistryName("minecraft", "crafting_table");
-		setUnlocalizedName("workbench");
+		setRegistryName("minecraft", "wooden_button");
+		setUnlocalizedName("button");
 	}
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{VARIANT});
+		return new ExtendedBlockState(this, new IProperty[]{POWERED, FACING}, new IUnlistedProperty[]{VARIANT});
 	}
 	
 	@Override
@@ -48,20 +47,9 @@ public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
 	}
 	
 	@Override
-	public int getMetaFromState(IBlockState state) {
-        return 0;
-    }
-	
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState();
-    }
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
+	public String getItemVariant() {
+		return "inventory";
+	}
 	
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
@@ -115,4 +103,5 @@ public class BlockCWWorkbench extends BlockWorkbench implements IWoodBlock {
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
+  
 }

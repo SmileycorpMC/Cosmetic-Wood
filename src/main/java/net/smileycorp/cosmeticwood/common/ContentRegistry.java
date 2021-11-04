@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import net.minecraftforge.registries.IForgeRegistryModifiable;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
@@ -76,7 +76,9 @@ public class ContentRegistry {
 				if (!TILE_ENTITIES.contains(tile)) {
 					try {
 						GameRegistry.registerTileEntity(tile, ((ITileCW) tile.newInstance()).getRegistryName());
-					} catch (Exception e) {}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -92,9 +94,8 @@ public class ContentRegistry {
 		ForgeRegistries.ITEMS.registerAll(ITEMS.toArray(new Item[] {}));
 	}
 	
-	@SubscribeEvent(priority=EventPriority.LOWEST)
-	public static void recipeWriter(RegistryEvent.Register<IRecipe> event){
-		IForgeRegistryModifiable<IRecipe> recipes = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
+	public static void replaceRecipes(){
+		IForgeRegistry<IRecipe> recipes = ForgeRegistries.RECIPES;
 		for (Block block : ContentRegistry.BLOCKS) {
 			ResourceLocation key = block.getRegistryName();
 			if (recipes.containsKey(key)) {
@@ -108,7 +109,6 @@ public class ContentRegistry {
 				} else if (recipe instanceof ShapelessOreRecipe || recipe instanceof ShapelessRecipes) {
 					recipe = new ShapelessWoodRecipe(ModDefinitions.getRegistry(recipe.getGroup()),  key, new ItemStack(block), recipe.getIngredients().toArray());
 				}
-				recipes.remove(key);
 				recipes.register(recipe);
 			}
 			
