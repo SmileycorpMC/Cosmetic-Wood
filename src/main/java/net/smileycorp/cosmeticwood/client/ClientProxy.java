@@ -53,6 +53,9 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		for (Block block : ContentRegistry.BLOCKS) {
+			((IWoodBlock) block).initClient();
+		}	
 	}
 
 	@Override
@@ -121,7 +124,7 @@ public class ClientProxy extends CommonProxy {
         }
 
         if (property.isEmpty()) {
-        	property = "normal";
+        	property = ((IWoodBlock) state.getBlock()).getItemVariant();
         }
 
         return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);

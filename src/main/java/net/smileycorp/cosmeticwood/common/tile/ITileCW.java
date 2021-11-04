@@ -16,4 +16,5 @@ public interface ITileCW {
 	public abstract void setType(ResourceLocation type);
 	
 	public abstract String getRegistryName();
+	
 }

@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.integration.tcon;
+package net.smileycorp.cosmeticwood.plugins.tcon.tileentity;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;

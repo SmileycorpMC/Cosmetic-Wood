@@ -16,9 +16,7 @@ public class CWItemColour implements IItemColor {
 		if (tintIndex == 0) {
 			ResourceLocation variant = WoodHandler.getDefault();
 			NBTTagCompound nbt = stack.getTagCompound();
-			if(nbt.hasKey("type")) {
-				variant = WoodHandler.fixData(nbt.getString("type"));
-			}
+			if (nbt!=null && nbt.hasKey("type")) variant = WoodHandler.fixData(nbt.getString("type"));
 			return WoodHandler.getColour(variant).getRGB();
 		}
 		return 0xFFFFFF;

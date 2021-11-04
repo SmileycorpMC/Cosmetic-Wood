@@ -1,9 +1,9 @@
-package net.smileycorp.cosmeticwood.common.block.rustic;
+package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
-
+import net.minecraft.block.BlockChest;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -21,43 +20,39 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
-import rustic.common.blocks.BlockChair;
+import net.smileycorp.cosmeticwood.plugins.vanilla.client.TESRCWChest;
+import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
 
-public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
+import com.google.common.collect.ImmutableList;
+
+public class BlockCWChest extends BlockChest implements IWoodBlock {
 	
-	public BlockCWRusticChair() {
-		super("CW");
+	private final Type type;
+	
+	public BlockCWChest(Type type) {
+		super(type);
+		String name = type == Type.TRAP ? "trapped_chest" : "chest";
+		setHardness(2.5F);
+		setSoundType(SoundType.WOOD);
+		setRegistryName("minecraft", name);
+		setUnlocalizedName(name);
+		this.type=type;
 	}
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[] {FACING}, new IUnlistedProperty[]{VARIANT});
+		return new ExtendedBlockState(this, new IProperty[]{FACING}, new IUnlistedProperty[]{VARIANT});
 	}
 	
 	@Override
 	public ImmutableList<IBlockState> getBlockStates() {
 		return createBlockState().getValidStates();
 	}
-	
-	@Override
-	public String getItemVariant() {
-		return "facing=north";
-	}
-	
-	@Override
-	public String[] getModids() {
-		return new String[]{"minecraft", "rustic"};
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
-    }
 	
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
@@ -75,7 +70,7 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileSimpleWood();
+		return new TileCWChest(type);
 	}
 	
 	@Override
@@ -90,12 +85,29 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 	
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		IWoodBlock.super.getDrops(drops, world, pos, state, fortune);
+		super.getDrops(drops, world, pos, state, fortune);
     }
 	
 	@Override
+	public ItemStack getSilkTouchDrop(IBlockState state) {
+		return IWoodBlock.super.getSilkTouchDrop((IExtendedBlockState)state);
+	}
+	
+	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		IWoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
+	}
+	
+	@Override
+	public Class getTile() {
+		return TileCWChest.class;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void initClient() {
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCWChest.class, new TESRCWChest());
 	}
 	
 	//From BlockFlowerPot, should delay until drops are spawned, before block is broken
@@ -111,4 +123,5 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
+
 }

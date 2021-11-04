@@ -1,8 +1,10 @@
-package net.smileycorp.cosmeticwood.integration.tcon;
+package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockHopper;
+import net.minecraft.block.BlockPressurePlate;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -20,21 +22,23 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
-import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
+import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
 import com.google.common.collect.ImmutableList;
 
-public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock {
+public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlock {
 
-	public BlockCWTconWhopper() {
-		super();
-		setRegistryName("tconstruct", "wooden_hopper");
-		setUnlocalizedName("tconstruct.wooden_hopper");
+	public BlockCWPressurePlate() {
+		super(Material.WOOD, Sensitivity.EVERYTHING);
+		setHardness(0.5F);
+		setSoundType(SoundType.WOOD);
+		setRegistryName("minecraft", "wooden_pressure_plate");
+		setUnlocalizedName("pressurePlateWood");
 	}
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[]{BlockHopper.FACING}, new IUnlistedProperty[]{VARIANT});
+		return new ExtendedBlockState(this, new IProperty[]{POWERED}, new IUnlistedProperty[]{VARIANT});
 	}
 	
 	@Override
@@ -43,10 +47,15 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	}
 	
 	@Override
+	public String getItemVariant() {
+		return "powered=false";
+	}
+	
+	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 	    TileEntity te = world.getTileEntity(pos);
-	    if(te != null && te instanceof TileCWTconWhopper) {
-	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileCWTconWhopper) te).getTypeString());
+	    if(te != null && te instanceof TileSimpleWood) {
+	    	return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
 	    }
 	    return super.getExtendedState(state, world, pos);
 	 }
@@ -58,7 +67,7 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileCWTconWhopper();
+		return new TileSimpleWood();
 	}
 	
 	@Override
@@ -78,7 +87,6 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		IWoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
 	
@@ -95,15 +103,5 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
         super.harvestBlock(world, player, pos, state, te, tool);
         world.setBlockToAir(pos);
     }
-    
-    @Override
-	public String getItemVariant() {
-		return "normal";
-	}
-
-	@Override
-	public Class getTile() {
-		return TileCWTconWhopper.class;
-	}
-
+  
 }
