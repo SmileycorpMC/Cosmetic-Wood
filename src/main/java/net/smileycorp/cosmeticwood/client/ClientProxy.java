@@ -42,9 +42,9 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(value=Side.CLIENT, modid = ModDefinitions.modid)
 public class ClientProxy extends CommonProxy {
-	
+
 	private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = new HashMap<String, TextureAtlasSprite>();
-	
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
@@ -55,7 +55,7 @@ public class ClientProxy extends CommonProxy {
 		super.init(event);
 		for (Block block : ContentRegistry.BLOCKS) {
 			((IWoodBlock) block).initClient();
-		}	
+		}
 	}
 
 	@Override
@@ -63,33 +63,33 @@ public class ClientProxy extends CommonProxy {
 		super.postInit(event);
 		FMLClientHandler.instance().refreshResources();
 	}
-	
+
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void stitchTextureEvent(TextureStitchEvent.Pre event) {
 		registerFallbackSprite("plank", new ResourceLocation("minecraft", "blocks/planks_oak"));
 		registerFallbackSprite("log_top", new ResourceLocation("minecraft", "blocks/log_oak_top"));
 		registerFallbackSprite("log_side", new ResourceLocation("minecraft", "blocks/log_oak"));
 	}
-	
+
 	public void registerFallbackSprite(String key, ResourceLocation registry) {
 		TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
 		TextureAtlasSprite sprite = new TextureAtlasGreyscale(registry);
 		map.setTextureEntry(sprite);
 		GREYSCALE_SPRITES.put(key, sprite);
 	}
-	
+
 	@SubscribeEvent
 	public static void blockColourHandler(ColorHandlerEvent.Block event) {
 		BlockColors registry = event.getBlockColors();
 		registry.registerBlockColorHandler(new CWBlockColour(), ContentRegistry.BLOCKS.toArray(new Block[]{}));
 	}
-	
+
 	@SubscribeEvent
 	public static void itemColourHandler(ColorHandlerEvent.Item event) {
 		ItemColors registry = event.getItemColors();
 		registry.registerItemColorHandler(new CWItemColour(), ContentRegistry.ITEMS.toArray(new Item[]{}));
 	}
-	
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void registerModels(ModelRegistryEvent event) {
@@ -98,38 +98,38 @@ public class ClientProxy extends CommonProxy {
 			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(ModDefinitions.modid, block.getRegistryName().getResourcePath()));
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void onModelBake(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("wooden_button"), "inventory"), registry, BakedModelCW.class);
 		for (Block block : ContentRegistry.BLOCKS) {
-			for (IBlockState state : ((IWoodBlock)block).getBlockStates()) {
+			for (IBlockState state : block.getBlockState().getValidStates()) {
 				RenderingUtils.replaceRegisteredModel(getModelLocation(state), registry, BakedModelCW.class);
 			}
-		}	
+		}
 	}
-	
+
 	public static ModelResourceLocation getModelLocation(IBlockState state) {
-        String property = "";
+		String property = "";
 
-        for (Entry<IProperty<?>, Comparable<?>> entry : state.getProperties().entrySet()){
-            if (property.length()>0) {
-                property += ",";
-            }
-            
-            property += entry.getKey().getName();
-            property += "=";
-            property += entry.getValue().toString();
-        }
+		for (Entry<IProperty<?>, Comparable<?>> entry : state.getProperties().entrySet()){
+			if (property.length()>0) {
+				property += ",";
+			}
 
-        if (property.isEmpty()) {
-        	property = ((IWoodBlock) state.getBlock()).getItemVariant();
-        }
+			property += entry.getKey().getName();
+			property += "=";
+			property += entry.getValue().toString();
+		}
 
-        return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);
-    }
-	
+		if (property.isEmpty()) {
+			property = ((IWoodBlock) state.getBlock()).getItemVariant();
+		}
+
+		return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);
+	}
+
 	public static TextureAtlasSprite getGreyscaleSprite(String key) {
 		return GREYSCALE_SPRITES.get(key);
 	}

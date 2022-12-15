@@ -26,8 +26,6 @@ import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
-import com.google.common.collect.ImmutableList;
-
 public interface IWoodBlock {
 
 	public static PropertyOpenString VARIANT = new PropertyOpenString("type", new Predicate<String>(){
@@ -35,26 +33,24 @@ public interface IWoodBlock {
 		public boolean test(String type) {
 			return WoodHandler.contains(type);
 		}
-		
-	});	
-	
-	public abstract ImmutableList<IBlockState> getBlockStates();
-	
+
+	});
+
 	public default String[] getModids() {
 		return new String[]{};
 	}
-	
+
 	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		Set<ResourceLocation> types = WoodHandler.getTypes(getModids());
 		for(ResourceLocation type : types) {
-	    	ItemStack stack = new ItemStack((Block) this);
-	    	NBTTagCompound nbt = new NBTTagCompound();
-	        nbt.setString("type", type.toString());
-	        stack.setTagCompound(nbt);
-	        list.add(stack);
+			ItemStack stack = new ItemStack((Block) this);
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", type.toString());
+			stack.setTagCompound(nbt);
+			list.add(stack);
 		}
 	}
-	
+
 	public default ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
@@ -63,8 +59,8 @@ public interface IWoodBlock {
 			stack.setTagCompound(tag);
 		}
 		return stack;
-    }
-	
+	}
+
 	public default ItemStack getPickBlock(ItemStack stack, IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof ITileCW) {
@@ -72,31 +68,31 @@ public interface IWoodBlock {
 			stack.setTagCompound(tag);
 		}
 		return stack;
-    }
-	
+	}
+
 	public default void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof ITileCW) {
 			tag.setString("type", ((ITileCW)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
-		}	
+		}
 		drops.add(stack);
-    }
-	
+	}
+
 	public default ItemStack getSilkTouchDrop(IExtendedBlockState state) {
 		ResourceLocation type = WoodHandler.fixData(state.getValue(VARIANT));
 		ItemStack stack = new ItemStack((Block) this);
-    	NBTTagCompound nbt = new NBTTagCompound();
-    	if (type!=null) {
-        	nbt.setString("type", type.toString());
-    	} else {
-    		nbt.setString("type", WoodHandler.getDefault().toString());
-    	}
-        stack.setTagCompound(nbt);
-        return stack; 
+		NBTTagCompound nbt = new NBTTagCompound();
+		if (type!=null) {
+			nbt.setString("type", type.toString());
+		} else {
+			nbt.setString("type", WoodHandler.getDefault().toString());
+		}
+		stack.setTagCompound(nbt);
+		return stack;
 	}
-	
+
 	public default void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		NBTTagCompound nbt = stack.getTagCompound();
 		if (nbt!=null) {
@@ -104,7 +100,7 @@ public interface IWoodBlock {
 				String type = nbt.getString("type");
 				if (world.getTileEntity(pos) instanceof ITileCW) {
 					((ITileCW) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
-				}	
+				}
 			}
 		}
 	}
@@ -112,7 +108,7 @@ public interface IWoodBlock {
 	public default String getItemVariant() {
 		return "normal";
 	}
-	
+
 	public default Item getItem() {
 		return new ItemBlockCW((Block) this);
 	}
@@ -120,7 +116,7 @@ public interface IWoodBlock {
 	public default Class<? extends TileEntity> getTile() {
 		return TileSimpleWood.class;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public default void initClient() {}
 

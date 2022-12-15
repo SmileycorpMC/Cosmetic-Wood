@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 @EventBusSubscriber(modid = ModDefinitions.modid)
 public class CommonProxy {
-	
+
 	public void preInit(FMLPreInitializationEvent event) {
 		ContentRegistry.preInit(event.getAsmData());
 	}
@@ -25,7 +25,7 @@ public class CommonProxy {
 		WoodHandler.buildProperties();
 		ContentRegistry.replaceRecipes();
 	}
-	
+
 	//fix data from old versions
 	@SubscribeEvent
 	public void playerJoin(PlayerLoggedInEvent event) {
@@ -49,8 +49,8 @@ public class CommonProxy {
 					WoodHandler.fixData(inv.getStackInSlot(i));
 				}
 			}
-			
+
 		}
 	}
-	
+
 }
