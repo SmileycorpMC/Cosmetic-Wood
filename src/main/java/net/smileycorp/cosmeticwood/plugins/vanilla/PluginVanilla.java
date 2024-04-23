@@ -12,6 +12,6 @@ public class PluginVanilla {
 	public static Block BOOKSHELF = new BlockCWBookshelf();
 	public static Block PRESSURE_PLATE = new BlockCWPressurePlate();
 	public static Block BUTTON = new BlockCWButton();
-	public static Block CHEST = new BlockCWChest(Type.BASIC);
+	//public static Block CHEST = new BlockCWChest(Type.BASIC);
 	
 }
