@@ -116,5 +116,10 @@ public class BlockCWChest extends BlockChest implements WoodBlock {
 		super.harvestBlock(world, player, pos, state, te, tool);
 		world.setBlockToAir(pos);
 	}
+	
+	@Override
+	public ItemBlockChestCW getItem() {
+		return new ItemBlockChestCW(this);
+	}
 
 }

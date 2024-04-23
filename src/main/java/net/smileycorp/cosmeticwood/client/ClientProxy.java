@@ -33,6 +33,7 @@ import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.ModDefinitions;
+import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
 import java.util.HashMap;
@@ -92,8 +93,10 @@ public class ClientProxy extends CommonProxy {
 	@SideOnly(Side.CLIENT)
 	public static void registerModels(ModelRegistryEvent event) {
 		for (Block block : ContentRegistry.BLOCKS) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ModDefinitions.getResource(block), ((WoodBlock)block).getItemVariant()));
+			Item item = Item.getItemFromBlock(block);
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModDefinitions.getResource(block), ((WoodBlock)block).getItemVariant()));
 			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(ModDefinitions.modid, block.getRegistryName().getResourcePath()));
+			if (((ItemBlockWood)item).getITESR() != null) item.setTileEntityItemStackRenderer(((ItemBlockWood)item).getITESR());
 		}
 	}
 

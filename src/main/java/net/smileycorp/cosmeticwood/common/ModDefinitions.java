@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class ModDefinitions {
 	public static final String modid = "cosmeticwood";
 	public static final String name = "Cosmetic Wood";
-	public static final String version = "1.1.1a";
+	public static final String version = "1.1.2";
 	public static final String dependencies = "required-after:atlaslib";
 	public static final String location = "net.smileycorp.cosmeticwood.";
 	public static final String client = location + "client.ClientProxy";

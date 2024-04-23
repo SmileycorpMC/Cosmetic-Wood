@@ -90,8 +90,8 @@ public interface WoodBlock {
 		return "normal";
 	}
 
-	default Item getItem() {
-		return new ItemBlockWood((Block) this);
+	default <T extends Item & ItemBlockWood>  T getItem() {
+		return (T) new ItemBlockSimpleWood((Block) this);
 	}
 
 	default <T extends TileEntity & TileWood> Class<T> getTile() {

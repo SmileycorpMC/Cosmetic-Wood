@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
-import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.block.ItemBlockSimpleWood;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
 import java.awt.*;
@@ -105,7 +105,7 @@ public class WoodHandler {
 	}
 	
 	public static ResourceLocation getRegistry(ItemStack stack) {
-		if (stack.getItem() instanceof ItemBlockWood) {
+		if (stack.getItem() instanceof ItemBlockSimpleWood) {
 			NBTTagCompound nbt = stack.getTagCompound();
 			return (nbt != null && nbt.hasKey("type")) ? WoodHandler.fixData(nbt.getString("type")) : WoodHandler.getDefault();
 		}

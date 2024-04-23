@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.block.ItemBlockSimpleWood;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
@@ -87,7 +87,7 @@ public class ContentRegistry {
 		IForgeRegistry<IRecipe> recipes = ForgeRegistries.RECIPES;
 		CosmeticWood.logInfo("Replacing recipes");
 		recipes.forEach(recipe -> {
-			if (!(recipe.getRecipeOutput().getItem() instanceof ItemBlockWood)) return;
+			if (!(recipe.getRecipeOutput().getItem() instanceof ItemBlockSimpleWood)) return;
 			CosmeticWood.logInfo("Replacing recipe " + recipe.getRegistryName());
 			recipes.register(recipe instanceof IShapedRecipe ? new ShapedWoodRecipe((IShapedRecipe) recipe) : new ShapelessWoodRecipe(recipe));
 		});
