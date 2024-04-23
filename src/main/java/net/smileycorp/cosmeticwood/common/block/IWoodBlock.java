@@ -1,8 +1,5 @@
 package net.smileycorp.cosmeticwood.common.block;
 
-import java.util.Set;
-import java.util.function.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,21 +23,17 @@ import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 
+import java.util.Set;
+
 public interface IWoodBlock {
 
-	public static PropertyOpenString VARIANT = new PropertyOpenString("type", new Predicate<String>(){
-		@Override
-		public boolean test(String type) {
-			return WoodHandler.contains(type);
-		}
+	PropertyOpenString VARIANT = new PropertyOpenString("type", WoodHandler::contains);
 
-	});
-
-	public default String[] getModids() {
+	default String[] getModids() {
 		return new String[]{};
 	}
 
-	public default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+	default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		Set<ResourceLocation> types = WoodHandler.getTypes(getModids());
 		for(ResourceLocation type : types) {
 			ItemStack stack = new ItemStack((Block) this);
@@ -51,7 +44,7 @@ public interface IWoodBlock {
 		}
 	}
 
-	public default ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	default ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof ITileCW) {
@@ -61,16 +54,7 @@ public interface IWoodBlock {
 		return stack;
 	}
 
-	public default ItemStack getPickBlock(ItemStack stack, IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		NBTTagCompound tag = new NBTTagCompound();
-		if (world.getTileEntity(pos) instanceof ITileCW) {
-			tag.setString("type", ((ITileCW) world.getTileEntity(pos)).getTypeString());
-			stack.setTagCompound(tag);
-		}
-		return stack;
-	}
-
-	public default void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+	default void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
 		if (world.getTileEntity(pos) instanceof ITileCW) {
@@ -80,20 +64,17 @@ public interface IWoodBlock {
 		drops.add(stack);
 	}
 
-	public default ItemStack getSilkTouchDrop(IExtendedBlockState state) {
+	default ItemStack getSilkTouchDrop(IExtendedBlockState state) {
 		ResourceLocation type = WoodHandler.fixData(state.getValue(VARIANT));
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound nbt = new NBTTagCompound();
-		if (type!=null) {
-			nbt.setString("type", type.toString());
-		} else {
-			nbt.setString("type", WoodHandler.getDefault().toString());
-		}
+		if (type != null) nbt.setString("type", type.toString());
+		else nbt.setString("type", WoodHandler.getDefault().toString());
 		stack.setTagCompound(nbt);
 		return stack;
 	}
 
-	public default void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	 default void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		NBTTagCompound nbt = stack.getTagCompound();
 		if (nbt!=null) {
 			if (nbt.hasKey("type")) {
@@ -105,19 +86,19 @@ public interface IWoodBlock {
 		}
 	}
 
-	public default String getItemVariant() {
+	default String getItemVariant() {
 		return "normal";
 	}
 
-	public default Item getItem() {
+	default Item getItem() {
 		return new ItemBlockCW((Block) this);
 	}
 
-	public default Class<? extends TileEntity> getTile() {
-		return TileSimpleWood.class;
+	default <T extends TileEntity & ITileCW> Class<T> getTile() {
+		return (Class<T>) TileSimpleWood.class;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public default void initClient() {}
+	default void initClient() {}
 
 }

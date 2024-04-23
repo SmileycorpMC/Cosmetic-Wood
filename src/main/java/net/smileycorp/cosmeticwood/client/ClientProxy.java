@@ -1,9 +1,5 @@
 package net.smileycorp.cosmeticwood.client;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -39,6 +35,10 @@ import net.smileycorp.cosmeticwood.common.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.ModDefinitions;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(value=Side.CLIENT, modid = ModDefinitions.modid)
 public class ClientProxy extends CommonProxy {
@@ -53,9 +53,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		for (Block block : ContentRegistry.BLOCKS) {
-			((IWoodBlock) block).initClient();
-		}
+		for (Block block : ContentRegistry.BLOCKS) ((IWoodBlock) block).initClient();
 	}
 
 	@Override
@@ -112,21 +110,13 @@ public class ClientProxy extends CommonProxy {
 
 	public static ModelResourceLocation getModelLocation(IBlockState state) {
 		String property = "";
-
 		for (Entry<IProperty<?>, Comparable<?>> entry : state.getProperties().entrySet()){
-			if (property.length()>0) {
-				property += ",";
-			}
-
+			if (property.length() > 0) property += ",";
 			property += entry.getKey().getName();
 			property += "=";
 			property += entry.getValue().toString();
 		}
-
-		if (property.isEmpty()) {
-			property = ((IWoodBlock) state.getBlock()).getItemVariant();
-		}
-
+		if (property.isEmpty()) property = ((IWoodBlock) state.getBlock()).getItemVariant();
 		return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);
 	}
 

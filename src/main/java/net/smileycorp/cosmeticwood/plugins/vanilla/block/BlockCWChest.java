@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
@@ -27,6 +25,8 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import net.smileycorp.cosmeticwood.plugins.vanilla.client.TESRCWChest;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
+
+import javax.annotation.Nullable;
 
 public class BlockCWChest extends BlockChest implements IWoodBlock {
 

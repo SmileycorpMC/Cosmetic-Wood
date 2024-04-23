@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface CWPlugin {
 	
-	public String modid() default "minecraft";
+	String modid() default "minecraft";
 	
 }

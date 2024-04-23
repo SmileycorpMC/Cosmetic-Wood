@@ -1,8 +1,5 @@
 package net.smileycorp.cosmeticwood.integration.jei;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
@@ -23,6 +20,9 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.recipe.IWoodRecipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeWrapper {
 	
 	private final IWoodRecipe recipe;
@@ -42,11 +42,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		for (Ingredient ingredient : ((IRecipe)this.recipe).getIngredients()) {
 			List<ItemStack> input = new ArrayList<>();
 			for (ItemStack stack : ingredient.getMatchingStacks()) {
-				if (wood==null) {
-					if (WoodHandler.getName(stack)!=null) {
-						wood = ingredient;
-					}
-				}
+				if (wood == null && WoodHandler.getName(stack) != null) wood = ingredient;
 				input.add(stack);
 			}
 			inputs.add(input);
@@ -64,7 +60,6 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		List<List<ItemStack>> outlist = new ArrayList<>();
 		outlist.add(outputs);
 		ingredients.setOutputLists(ItemStack.class, outlist);
-		
 		if (recipe instanceof ShapedOreRecipe) {
 			height = ((ShapedOreRecipe)recipe).getHeight();
 			width = ((ShapedOreRecipe)recipe).getWidth();

@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockPressurePlate;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -23,6 +21,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+
+import javax.annotation.Nullable;
 
 public class BlockCWPressurePlate extends BlockPressurePlate implements IWoodBlock {
 

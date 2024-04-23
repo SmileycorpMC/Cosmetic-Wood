@@ -1,9 +1,9 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.client;
 
-import java.awt.Color;
-
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
+
+import java.awt.*;
 
 public class ModelChestCW extends ModelChest implements IColouredChest {
 	

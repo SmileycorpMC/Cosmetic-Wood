@@ -1,8 +1,6 @@
 package net.smileycorp.cosmeticwood.client;
 
-import java.awt.Color;
-import java.util.List;
-
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -16,7 +14,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import com.google.common.collect.ImmutableMap;
+import java.awt.*;
+import java.util.List;
 
 public class ClientWoodDefinition {
 		
@@ -25,9 +24,7 @@ public class ClientWoodDefinition {
 	private Color colour;
 	
 	public ClientWoodDefinition(ItemStack plank, ItemStack log) {
-		
 		Minecraft mc = Minecraft.getMinecraft();
-		
 		World world = mc.world;
 		EntityPlayer player = mc.player;
 		BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
@@ -35,7 +32,7 @@ public class ClientWoodDefinition {
 		IBlockState plankState = ((ItemBlock) plank.getItem()).getBlock().getStateForPlacement(world, new BlockPos(0,0,0), EnumFacing.UP, 0, 0, 0, plank.getMetadata(), player);
 		List<BakedQuad> plank_quads = dispatcher.getModelForState(plankState).getQuads(plankState, EnumFacing.UP, 0);	
 		plank_sprite = plank_quads.isEmpty() ? missing : plank_quads.get(0).getSprite();
-		if (log!=null) {
+		if (log != null) {
 			IBlockState logState = ((ItemBlock) log.getItem()).getBlock().getStateForPlacement(world, new BlockPos(0,0,0), EnumFacing.UP, 0, 0, 0, log.getMetadata(), player);
 			IBakedModel logModel = dispatcher.getModelForState(logState);
 			List<BakedQuad> log_top_quads = logModel.getQuads(logState, EnumFacing.UP, 0);

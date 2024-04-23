@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.tileentity;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
@@ -16,6 +14,8 @@ import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 import net.smileycorp.cosmeticwood.plugins.vanilla.block.BlockCWChest;
+
+import javax.annotation.Nullable;
 
 public class TileCWChest extends TileEntityChest implements ITileCW {
 

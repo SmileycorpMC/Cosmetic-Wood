@@ -1,10 +1,5 @@
 package net.smileycorp.cosmeticwood.common;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -32,6 +27,11 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
 import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 @EventBusSubscriber(modid=ModDefinitions.modid)
@@ -64,21 +64,17 @@ public class ContentRegistry {
 				} catch (Exception e) {
 					CosmeticWood.logError("Error loading plugin " + modid, e);
 				}
-			} else {
-				CosmeticWood.logInfo("Mod " + modid + " not detected. Skipping plugin.");
-			}
+			} else CosmeticWood.logInfo("Mod " + modid + " not detected. Skipping plugin.");
 		}
-		for (Block block : BLOCKS) {
-			if (block instanceof IWoodBlock) {
-				Item item = ((IWoodBlock)block).getItem();
-				ITEMS.add(item);
-				Class tile = ((IWoodBlock)block).getTile();
-				if (!TILE_ENTITIES.contains(tile)) {
-					try {
-						GameRegistry.registerTileEntity(tile, ((ITileCW) tile.newInstance()).getRegistryName());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		for (Block block : BLOCKS) if (block instanceof IWoodBlock) {
+			Item item = ((IWoodBlock)block).getItem();
+			ITEMS.add(item);
+			Class tile = ((IWoodBlock)block).getTile();
+			if (!TILE_ENTITIES.contains(tile)) {
+				try {
+					GameRegistry.registerTileEntity(tile, ((ITileCW) tile.newInstance()).getRegistryName());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -106,9 +102,8 @@ public class ContentRegistry {
 				} else if (recipe instanceof ShapedRecipes) {
 					Object[] ingredients = buildRecipe(recipe.getIngredients(), ((ShapedRecipes)recipe).getWidth());
 					recipe = new ShapedWoodRecipe(ModDefinitions.getRegistry(recipe.getGroup()),  key, new ItemStack(block), ingredients);
-				} else if (recipe instanceof ShapelessOreRecipe || recipe instanceof ShapelessRecipes) {
+				} else if (recipe instanceof ShapelessOreRecipe || recipe instanceof ShapelessRecipes)
 					recipe = new ShapelessWoodRecipe(ModDefinitions.getRegistry(recipe.getGroup()),  key, new ItemStack(block), recipe.getIngredients().toArray());
-				}
 				recipes.register(recipe);
 			}
 			
@@ -121,27 +116,25 @@ public class ContentRegistry {
 		int pos = 0;
 		int i = 0;
 		for (Ingredient ingredient : ingredients) {
-			if (ingredient.apply(new ItemStack(Blocks.AIR))) {
+			if (ingredient.apply(new ItemStack(Blocks.AIR)))
 				pos = addToPattern(pattern, ' ', width , pos);
-			} else if (newIngredients.isEmpty()) {
+			else if (newIngredients.isEmpty()) {
 				pos = addToPattern(pattern, (char)(i+65), width , pos);
 				newIngredients.add((char)(i+65));
 				newIngredients.add(ingredient);
 				i++;
 			} else {
-				for (Object newIngredient : newIngredients) {
-					if (newIngredient instanceof Ingredient) {
-						if (ingredient.equals(newIngredient)) {
-							pos = addToPattern(pattern, (char)(newIngredients.lastIndexOf(ingredient)+65), width, pos);
-							i++;
-							break;
-						}
-						pos = addToPattern(pattern, (char)(i+65), width , pos);
-						newIngredients.add((char)(i+65));
-						newIngredients.add(ingredient);
+				for (Object newIngredient : newIngredients) if (newIngredient instanceof Ingredient) {
+					if (ingredient.equals(newIngredient)) {
+						pos = addToPattern(pattern, (char)(newIngredients.lastIndexOf(ingredient)+65), width, pos);
 						i++;
 						break;
 					}
+					pos = addToPattern(pattern, (char)(i+65), width , pos);
+					newIngredients.add((char)(i+65));
+					newIngredients.add(ingredient);
+					i++;
+					break;
 				}
 			}
 		}

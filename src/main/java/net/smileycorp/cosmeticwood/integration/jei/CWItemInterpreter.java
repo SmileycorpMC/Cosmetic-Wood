@@ -14,7 +14,7 @@ public class CWItemInterpreter implements ISubtypeInterpreter {
 	@Override
 	public String apply(ItemStack stack) {
 		NBTTagCompound tag = stack.getTagCompound();
-		if (tag!=null) {
+		if (tag != null) {
 			if (tag.hasKey("type")) {
 				ResourceLocation loc = WoodHandler.fixData(tag.getString("type"));
 				return Loader.instance().getCustomModProperties(loc.getResourceDomain()).get("name");

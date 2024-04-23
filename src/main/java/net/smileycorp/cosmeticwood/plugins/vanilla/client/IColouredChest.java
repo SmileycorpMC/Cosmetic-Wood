@@ -1,6 +1,6 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.client;
 
-import java.awt.Color;
+import java.awt.*;
 
 public interface IColouredChest {
 	

@@ -1,6 +1,4 @@
-package net.smileycorp.cosmeticwood.plugin.tcon.block;
-
-import javax.annotation.Nullable;
+package net.smileycorp.cosmeticwood.plugins.tcon.block;
 
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.properties.IProperty;
@@ -23,6 +21,8 @@ import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.plugins.tcon.tileentity.TileCWTconWhopper;
 import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
 
+import javax.annotation.Nullable;
+
 public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock {
 
 	public BlockCWTconWhopper() {
@@ -39,15 +39,19 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
-		if(te != null && te instanceof TileCWTconWhopper) {
-			return ((IExtendedBlockState)state).withProperty(VARIANT,((TileCWTconWhopper) te).getTypeString());
-		}
-		return super.getExtendedState(state, world, pos);
+		return (te != null && te instanceof TileCWTconWhopper) ? ((IExtendedBlockState)state).withProperty(VARIANT,((TileCWTconWhopper) te).getTypeString())
+				: super.getExtendedState(state, world, pos);
 	}
 
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
+	}
+	
+	@Nullable
+	@Override
+	public TileEntity createNewTileEntity(World world, int meta) {
+		return createTileEntity(world, getStateFromMeta(meta));
 	}
 
 	@Override
@@ -78,8 +82,7 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 
 	//From BlockFlowerPot, should delay until drops are spawned, before block is broken
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-	{
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (willHarvest) return true;
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}
@@ -96,8 +99,8 @@ public class BlockCWTconWhopper extends BlockWoodenHopper implements IWoodBlock 
 	}
 
 	@Override
-	public Class getTile() {
+	public Class<TileCWTconWhopper> getTile() {
 		return TileCWTconWhopper.class;
 	}
-
+	
 }

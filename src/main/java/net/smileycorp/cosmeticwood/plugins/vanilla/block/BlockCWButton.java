@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockButtonWood;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
@@ -22,6 +20,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+
+import javax.annotation.Nullable;
 
 
 public class BlockCWButton extends BlockButtonWood implements IWoodBlock {

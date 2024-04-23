@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.rustic.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -24,6 +22,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import rustic.common.blocks.BlockChair;
+
+import javax.annotation.Nullable;
 
 public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 
@@ -93,8 +93,7 @@ public class BlockCWRusticChair extends BlockChair implements IWoodBlock {
 
 	//From BlockFlowerPot, should delay until drops are spawned, before block is broken
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-	{
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (willHarvest) return true;
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}

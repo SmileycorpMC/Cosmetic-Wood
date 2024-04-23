@@ -1,9 +1,5 @@
 package net.smileycorp.cosmeticwood.common;
 
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -12,10 +8,13 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid=ModDefinitions.modid, name=ModDefinitions.name, version=ModDefinitions.version, dependencies = ModDefinitions.dependencies)
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+@Mod(modid = ModDefinitions.modid, name = ModDefinitions.name, version = ModDefinitions.version, dependencies = ModDefinitions.dependencies)
 public class CosmeticWood {
 
-	private static Logger logger = LogManager.getLogManager().getLogger(ModDefinitions.name);
+	private static final Logger logger = Logger.getLogger(ModDefinitions.name);
 
 	@SidedProxy(clientSide = ModDefinitions.client, serverSide = ModDefinitions.common)
 	public static CommonProxy proxy;

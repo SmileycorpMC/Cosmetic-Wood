@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.client;
 
-import java.util.Calendar;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;
@@ -11,6 +9,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
+
+import java.util.Calendar;
 
 public class TESRCWChest extends TileEntitySpecialRenderer<TileCWChest> {
 	

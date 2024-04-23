@@ -5,16 +5,16 @@ import net.smileycorp.cosmeticwood.common.WoodHandler;
 
 public interface ITileCW {
 	
-	public default ResourceLocation getType() {
+	default ResourceLocation getType() {
 		return WoodHandler.getDefault();
 	}
 	
-	public default String getTypeString() {
+	default String getTypeString() {
 		return getType().toString();
 	}
 	
-	public abstract void setType(ResourceLocation type);
+	void setType(ResourceLocation type);
 	
-	public abstract String getRegistryName();
+	String getRegistryName();
 	
 }

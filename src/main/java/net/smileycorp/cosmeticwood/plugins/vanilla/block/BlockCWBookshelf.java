@@ -1,7 +1,5 @@
 package net.smileycorp.cosmeticwood.plugins.vanilla.block;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockBookshelf;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
@@ -25,6 +23,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+
+import javax.annotation.Nullable;
 
 public class BlockCWBookshelf extends BlockBookshelf implements IWoodBlock {
 
