@@ -12,12 +12,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+import net.smileycorp.cosmeticwood.common.tile.TileWood;
 import net.smileycorp.cosmeticwood.plugins.vanilla.block.BlockCWChest;
 
 import javax.annotation.Nullable;
 
-public class TileCWChest extends TileEntityChest implements ITileCW {
+public class TileCWChest extends TileEntityChest implements TileWood {
 
 private ResourceLocation type = new ResourceLocation("oak");
 
@@ -70,7 +70,7 @@ private ResourceLocation type = new ResourceLocation("oak");
         	IBlockState state = this.world.getBlockState(posIn);
             Block block = state.getBlock();
             if (block instanceof BlockCWChest && ((BlockChest)block).chestType == this.getChestType())
-            	return ((ITileCW) this.world.getTileEntity(posIn)).getType().equals(this.getType());
+            	return ((TileWood) this.world.getTileEntity(posIn)).getType().equals(this.getType());
             else return false;
         }
     }

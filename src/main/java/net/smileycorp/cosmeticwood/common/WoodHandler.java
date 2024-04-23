@@ -6,11 +6,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
-import net.smileycorp.atlas.api.util.RecipeUtils;
 import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
 import java.awt.*;
 import java.util.List;
@@ -29,12 +30,12 @@ public class WoodHandler {
 	public static void buildProperties() {
 		Map<ResourceLocation, ItemStack> planks = new HashMap<>();
 		Map<ResourceLocation, ItemStack> logs = new HashMap<>();
-		for (String ore:OreDictionary.getOreNames()) {
+		for (String ore : OreDictionary.getOreNames()) {
 			if (ore.contains("plankWood")) for (ItemStack oreStack : OreDictionary.getOres(ore)) {
 				if (oreStack.getItem() instanceof ItemBlock) {
 				NonNullList<ItemStack> subBlocks = NonNullList.create();
 					if(oreStack.getMetadata() == OreDictionary.WILDCARD_VALUE)
-						((ItemBlock) oreStack.getItem()).getBlock().getSubBlocks(null, subBlocks);
+						oreStack.getItem().getSubItems(oreStack.getItem().getCreativeTab(), subBlocks);
 					else subBlocks.add(oreStack);
 					for (ItemStack stack : subBlocks) {
 						ResourceLocation name = ModDefinitions.format(stack);
@@ -46,7 +47,7 @@ public class WoodHandler {
 				if (oreStack.getItem() instanceof ItemBlock) {
 				NonNullList<ItemStack> subBlocks = NonNullList.create();
 					if(oreStack.getMetadata() == OreDictionary.WILDCARD_VALUE) {
-						((ItemBlock) oreStack.getItem()).getBlock().getSubBlocks(null, subBlocks);
+						oreStack.getItem().getSubItems(oreStack.getItem().getCreativeTab(), subBlocks);
 					} else subBlocks.add(oreStack);
 					for (ItemStack stack : subBlocks) {
 						ResourceLocation name = ModDefinitions.format(stack);
@@ -61,8 +62,7 @@ public class WoodHandler {
 			if (logs.containsKey(key)) log = logs.get(key);
 			WOOD_MAP.put(entry.getKey(), new WoodDefinition(key, entry.getValue(), log));
 		}
-		CosmeticWood.logInfo("detected wood types " + WOOD_MAP.keySet());
-		
+		CosmeticWood.logInfo("Detected wood types " + WOOD_MAP.keySet());
 	}
 	
 	public static boolean contains(String key) {
@@ -100,12 +100,8 @@ public class WoodHandler {
 		return new ResourceLocation("oak");
 	}
 	
-	public static String getName(ItemStack stack) {
-		for (WoodDefinition wood : WOOD_MAP.values())
-			if (RecipeUtils.compareItemStacks(stack, wood.getLogStack(), true)
-					|| RecipeUtils.compareItemStacks(stack, wood.getPlankStack(), true))
-				return wood.getName();
-		return null;
+	public static ResourceLocation getDefault(ItemStack result) {
+		return ((WoodBlock)((ItemBlock)result.getItem()).getBlock()).getDefaultType();
 	}
 	
 	public static ResourceLocation getRegistry(ItemStack stack) {
@@ -113,12 +109,19 @@ public class WoodHandler {
 			NBTTagCompound nbt = stack.getTagCompound();
 			return (nbt != null && nbt.hasKey("type")) ? WoodHandler.fixData(nbt.getString("type")) : WoodHandler.getDefault();
 		}
-		for (WoodDefinition wood : WOOD_MAP.values()) if (RecipeUtils.compareItemStacks(stack, wood.getLogStack(), true)
-				|| RecipeUtils.compareItemStacks(stack, wood.getPlankStack(), true))
-				return wood.getRegistry();
+		for (WoodDefinition wood : WOOD_MAP.values()) if (isStack(stack, wood.getLogStack()) || isStack(stack, wood.getPlankStack())) return wood.getRegistry();
 		return null;
 	}
-
+	
+	private static boolean isStack(ItemStack stack1, ItemStack stack2) {
+		if (stack1 == null || stack2 == null) return false;
+		if (stack1.isEmpty() || stack2.isEmpty()) return false;
+		if (stack1.getItem() != stack2.getItem()) return false;
+		if (stack1.getMetadata() != stack2.getMetadata() && stack2.getMetadata() != OreDictionary.WILDCARD_VALUE) return false;
+		if (stack1.hasTagCompound() ^ stack2.hasTagCompound()) return false;
+		return (NBTUtil.areNBTEquals(stack1.getTagCompound(), stack2.getTagCompound(), true));
+	}
+	
 	public static ResourceLocation fixData(String name) {
 		if (name == null) return getDefault();
 		if (name.contains(":")) return new ResourceLocation(name);

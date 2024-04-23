@@ -15,11 +15,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
 import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
-import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+import net.smileycorp.cosmeticwood.common.tile.TileWood;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class ContentRegistry {
 					Field[] fields = plugin.getFields();
 					for (Field field : fields) {
 						Object o = field.get(new Object());
-						if (o!=null && o instanceof Block && o instanceof IWoodBlock) {
+						if (o!=null && o instanceof Block && o instanceof WoodBlock) {
 							blocks.add((Block) o);
 						}
 					}
@@ -59,13 +59,13 @@ public class ContentRegistry {
 				}
 			} else CosmeticWood.logInfo("Mod " + modid + " not detected. Skipping plugin.");
 		}
-		for (Block block : BLOCKS) if (block instanceof IWoodBlock) {
-			Item item = ((IWoodBlock)block).getItem();
+		for (Block block : BLOCKS) if (block instanceof WoodBlock) {
+			Item item = ((WoodBlock)block).getItem();
 			ITEMS.add(item);
-			Class tile = ((IWoodBlock)block).getTile();
+			Class tile = ((WoodBlock)block).getTile();
 			if (!TILE_ENTITIES.contains(tile)) {
 				try {
-					GameRegistry.registerTileEntity(tile, ((ITileCW) tile.newInstance()).getRegistryName());
+					GameRegistry.registerTileEntity(tile, ((TileWood) tile.newInstance()).getRegistryName());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

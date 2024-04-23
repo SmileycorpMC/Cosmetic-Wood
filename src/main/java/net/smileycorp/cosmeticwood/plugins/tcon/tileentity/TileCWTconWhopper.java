@@ -7,10 +7,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+import net.smileycorp.cosmeticwood.common.tile.TileWood;
 import slimeknights.tconstruct.gadgets.tileentity.TileWoodenHopper;
 
-public class TileCWTconWhopper extends TileWoodenHopper implements ITileCW {
+public class TileCWTconWhopper extends TileWoodenHopper implements TileWood {
 	
 	private ResourceLocation type = new ResourceLocation("oak");
 	

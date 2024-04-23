@@ -9,7 +9,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.tile.ITileCW;
+import net.smileycorp.cosmeticwood.common.tile.TileWood;
 
 @SideOnly(Side.CLIENT)
 public class CWBlockColour implements IBlockColor {
@@ -19,8 +19,8 @@ public class CWBlockColour implements IBlockColor {
 		ResourceLocation variant = WoodHandler.getDefault();
 		if (world!=null) {
 			TileEntity te = world.getTileEntity(pos);
-			if(te instanceof ITileCW) {
-				variant = ((ITileCW) te).getType();
+			if(te instanceof TileWood) {
+				variant = ((TileWood) te).getType();
 			}
 		}
 		return WoodHandler.getColour(variant).getRGB();

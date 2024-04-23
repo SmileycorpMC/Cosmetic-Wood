@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
+import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,8 +44,8 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 		try {
 			String variant = "minecraft:oak";
 			if(state instanceof IExtendedBlockState) {
-				if(((IExtendedBlockState) state).getUnlistedNames().contains(IWoodBlock.VARIANT)) {
-					variant = ((IExtendedBlockState)state).getValue(IWoodBlock.VARIANT);
+				if(((IExtendedBlockState) state).getUnlistedNames().contains(WoodBlock.VARIANT)) {
+					variant = ((IExtendedBlockState)state).getValue(WoodBlock.VARIANT);
 			    }
 			}
 			IModel newModel = this.base.retexture(WoodHandler.getTextures(WoodHandler.fixData(variant)));

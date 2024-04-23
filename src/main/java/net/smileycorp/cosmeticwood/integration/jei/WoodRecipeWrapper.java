@@ -18,19 +18,19 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.recipe.IWoodRecipe;
+import net.smileycorp.cosmeticwood.common.recipe.WoodRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeWrapper {
 	
-	private final IWoodRecipe recipe;
+	private final WoodRecipe recipe;
 	private NonNullList<ItemStack> outputs = NonNullList.<ItemStack>create();
 	int height;
 	int width;
 	
-	public WoodRecipeWrapper(IWoodRecipe recipe) {
+	public WoodRecipeWrapper(WoodRecipe recipe) {
 		this.recipe=recipe;
 	}
 	
@@ -42,7 +42,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		for (Ingredient ingredient : ((IRecipe)this.recipe).getIngredients()) {
 			List<ItemStack> input = new ArrayList<>();
 			for (ItemStack stack : ingredient.getMatchingStacks()) {
-				if (wood == null && WoodHandler.getName(stack) != null) wood = ingredient;
+				if (wood == null && WoodHandler.getRegistry(stack) != null) wood = ingredient;
 				input.add(stack);
 			}
 			inputs.add(input);
@@ -79,7 +79,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		if (focus.getValue() instanceof ItemStack) {
 			Mode focusMode = focus.getMode();
 			ItemStack stack = (ItemStack)focus.getValue();
-			if(focusMode == IFocus.Mode.INPUT && WoodHandler.getName(stack)!=null) {
+			if(focusMode == IFocus.Mode.INPUT && WoodHandler.getRegistry(stack) != null) {
 				ItemStack output = ((IRecipe)recipe).getRecipeOutput();
 				ResourceLocation type = WoodHandler.getRegistry(stack);
 				NBTTagCompound nbt = new NBTTagCompound();
@@ -88,7 +88,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 				outputs.clear();
 				outputs.add(output);
 				inputs = changeInputs(inputs, type);
-			}else if(focusMode == IFocus.Mode.OUTPUT) {
+			} else if(focusMode == IFocus.Mode.OUTPUT) {
 				NBTTagCompound nbt = stack.getTagCompound();
 				if (nbt!=null) {
 					if (nbt.hasKey("type")) {
@@ -102,7 +102,6 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 				}
 			}
 		}
-		
 		JEIIntegration.craftingHelper.setInputs(displayStacks, inputs, this.width, this.height);
 		JEIIntegration.craftingHelper.setOutput(displayStacks, outputs);
 	}

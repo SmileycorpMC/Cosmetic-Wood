@@ -21,14 +21,14 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.smileycorp.cosmeticwood.common.block.IWoodBlock;
+import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import net.smileycorp.cosmeticwood.plugins.vanilla.client.TESRCWChest;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
 
 import javax.annotation.Nullable;
 
-public class BlockCWChest extends BlockChest implements IWoodBlock {
+public class BlockCWChest extends BlockChest implements WoodBlock {
 
 	private final Type type;
 
@@ -68,12 +68,12 @@ public class BlockCWChest extends BlockChest implements IWoodBlock {
 
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		IWoodBlock.super.getSubBlocks(tab, list);
+		WoodBlock.super.getSubBlocks(tab, list);
 	}
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		return IWoodBlock.super.getPickBlock(state, target, world, pos, player);
+		return WoodBlock.super.getPickBlock(state, target, world, pos, player);
 	}
 
 	@Override
@@ -83,13 +83,13 @@ public class BlockCWChest extends BlockChest implements IWoodBlock {
 
 	@Override
 	public ItemStack getSilkTouchDrop(IBlockState state) {
-		return IWoodBlock.super.getSilkTouchDrop((IExtendedBlockState)state);
+		return WoodBlock.super.getSilkTouchDrop((IExtendedBlockState)state);
 	}
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
-		IWoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
+		WoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
 
 	@Override

@@ -1,18 +1,17 @@
 package net.smileycorp.cosmeticwood.common.recipe;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import javax.annotation.Nonnull;
-
-public class ShapedWoodRecipe extends ShapedOreRecipe implements IWoodRecipe {
+public class ShapedWoodRecipe extends ShapedOreRecipe implements WoodRecipe {
 	
 	private final IShapedRecipe original;
 	
@@ -24,17 +23,12 @@ public class ShapedWoodRecipe extends ShapedOreRecipe implements IWoodRecipe {
 	
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting matrix) {
-		return IWoodRecipe.super.getCraftingResult(matrix, original.getCraftingResult(matrix));
+		return WoodRecipe.super.getCraftingResult(matrix, original.getCraftingResult(matrix));
 	}
 	
 	@Override
 	public ItemStack getRecipeOutput(){
 		return original.getRecipeOutput();
-	}
-	
-	@Override
-	public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World world) {
-		return original.matches(inv, world);
 	}
 	
 	@Override
@@ -59,7 +53,13 @@ public class ShapedWoodRecipe extends ShapedOreRecipe implements IWoodRecipe {
 	
 	private static CraftingHelper.ShapedPrimer buildRecipe(IShapedRecipe recipe) {
 		CraftingHelper.ShapedPrimer primer = new CraftingHelper.ShapedPrimer();
-		primer.input = recipe.getIngredients();
+		NonNullList<Ingredient> ingredients = NonNullList.withSize(recipe.getIngredients().size(), Ingredient.EMPTY);
+		for (int i = 0; i < ingredients.size(); i++) {
+			Ingredient ingredient = recipe.getIngredients().get(i);
+			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new OreIngredient("plankWood") : ingredient);
+			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.LOG)) ? new OreIngredient("logWood") : ingredient);
+		}
+		primer.input = ingredients;
 		primer.height = recipe.getRecipeHeight();
 		primer.width = recipe.getRecipeWidth();
 		return primer;

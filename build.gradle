@@ -73,6 +73,7 @@ dependencies {
 	implementation "curse.maven:rustic-256141:3107974"
 	implementation "curse.maven:futuremc-310059:5160066"
 	implementation "curse.maven:quark-243121:2924091"
+    implementation "curse.maven:autoreglib-250363:2746011"
 	implementation "curse.maven:cfm-55438:3865259"
 	implementation "curse.maven:cookingforblockheads-231484:2464472"
 	implementation "curse.maven:twilightforest-227639:3051450"

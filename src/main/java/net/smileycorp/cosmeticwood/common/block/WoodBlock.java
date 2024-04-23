@@ -20,12 +20,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.block.PropertyOpenString;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.tile.ITileCW;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
+import net.smileycorp.cosmeticwood.common.tile.TileWood;
 
 import java.util.Set;
 
-public interface IWoodBlock {
+public interface WoodBlock {
 
 	PropertyOpenString VARIANT = new PropertyOpenString("type", WoodHandler::contains);
 
@@ -47,8 +47,8 @@ public interface IWoodBlock {
 	default ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
-		if (world.getTileEntity(pos) instanceof ITileCW) {
-			tag.setString("type", ((ITileCW)world.getTileEntity(pos)).getTypeString());
+		if (world.getTileEntity(pos) instanceof TileWood) {
+			tag.setString("type", ((TileWood)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}
 		return stack;
@@ -57,8 +57,8 @@ public interface IWoodBlock {
 	default void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		ItemStack stack = new ItemStack((Block) this);
 		NBTTagCompound tag = new NBTTagCompound();
-		if (world.getTileEntity(pos) instanceof ITileCW) {
-			tag.setString("type", ((ITileCW)world.getTileEntity(pos)).getTypeString());
+		if (world.getTileEntity(pos) instanceof TileWood) {
+			tag.setString("type", ((TileWood)world.getTileEntity(pos)).getTypeString());
 			stack.setTagCompound(tag);
 		}
 		drops.add(stack);
@@ -79,8 +79,8 @@ public interface IWoodBlock {
 		if (nbt!=null) {
 			if (nbt.hasKey("type")) {
 				String type = nbt.getString("type");
-				if (world.getTileEntity(pos) instanceof ITileCW) {
-					((ITileCW) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
+				if (world.getTileEntity(pos) instanceof TileWood) {
+					((TileWood) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
 				}
 			}
 		}
@@ -94,11 +94,15 @@ public interface IWoodBlock {
 		return new ItemBlockWood((Block) this);
 	}
 
-	default <T extends TileEntity & ITileCW> Class<T> getTile() {
+	default <T extends TileEntity & TileWood> Class<T> getTile() {
 		return (Class<T>) TileSimpleWood.class;
 	}
 
 	@SideOnly(Side.CLIENT)
 	default void initClient() {}
-
+    
+    default ResourceLocation getDefaultType() {
+		return WoodHandler.getDefault();
+	}
+	
 }

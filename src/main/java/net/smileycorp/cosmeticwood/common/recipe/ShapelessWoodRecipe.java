@@ -11,7 +11,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import javax.annotation.Nonnull;
 
-public class ShapelessWoodRecipe extends ShapelessOreRecipe implements IWoodRecipe {
+public class ShapelessWoodRecipe extends ShapelessOreRecipe implements WoodRecipe {
 	
 	private final IRecipe original;
 	
@@ -23,7 +23,7 @@ public class ShapelessWoodRecipe extends ShapelessOreRecipe implements IWoodReci
 	
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting matrix) {
-		return IWoodRecipe.super.getCraftingResult(matrix, original.getCraftingResult(matrix));
+		return WoodRecipe.super.getCraftingResult(matrix, original.getCraftingResult(matrix));
 	}
 	
 	@Override

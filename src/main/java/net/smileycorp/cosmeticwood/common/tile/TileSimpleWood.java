@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 
-public class TileSimpleWood extends TileEntity implements ITileCW {
+public class TileSimpleWood extends TileEntity implements TileWood {
 	
 	private ResourceLocation type = new ResourceLocation("oak");
 	
