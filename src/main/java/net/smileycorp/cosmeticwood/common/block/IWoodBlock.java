@@ -91,7 +91,7 @@ public interface IWoodBlock {
 	}
 
 	default Item getItem() {
-		return new ItemBlockCW((Block) this);
+		return new ItemBlockWood((Block) this);
 	}
 
 	default <T extends TileEntity & ITileCW> Class<T> getTile() {

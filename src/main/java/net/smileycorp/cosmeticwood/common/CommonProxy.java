@@ -35,21 +35,12 @@ public class CommonProxy {
 			if (!world.isRemote) {
 				InventoryPlayer inventory = player.inventory;
 				if (inventory != null) {
-					for (ItemStack stack : inventory.mainInventory) {
-						WoodHandler.fixData(stack);
-					}
-					for (ItemStack stack : inventory.offHandInventory) {
-						WoodHandler.fixData(stack);
-					}
+					for (ItemStack stack : inventory.mainInventory) WoodHandler.fixData(stack);
+					for (ItemStack stack : inventory.offHandInventory) WoodHandler.fixData(stack);
 				}
 			}
 			InventoryEnderChest inv = player.getInventoryEnderChest();
-			if (inv!=null) {
-				for (int i = 0; i < inv.getSizeInventory(); i++) {
-					WoodHandler.fixData(inv.getStackInSlot(i));
-				}
-			}
-
+			if (inv != null) for (int i = 0; i < inv.getSizeInventory(); i++) WoodHandler.fixData(inv.getStackInSlot(i));
 		}
 	}
 

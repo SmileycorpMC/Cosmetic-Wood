@@ -10,6 +10,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.atlas.api.util.RecipeUtils;
+import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
 
 import java.awt.*;
 import java.util.List;
@@ -108,9 +109,12 @@ public class WoodHandler {
 	}
 	
 	public static ResourceLocation getRegistry(ItemStack stack) {
-		for (WoodDefinition wood : WOOD_MAP.values())
-			if (RecipeUtils.compareItemStacks(stack, wood.getLogStack(), true)
-					|| RecipeUtils.compareItemStacks(stack, wood.getPlankStack(), true))
+		if (stack.getItem() instanceof ItemBlockWood) {
+			NBTTagCompound nbt = stack.getTagCompound();
+			return (nbt != null && nbt.hasKey("type")) ? WoodHandler.fixData(nbt.getString("type")) : WoodHandler.getDefault();
+		}
+		for (WoodDefinition wood : WOOD_MAP.values()) if (RecipeUtils.compareItemStacks(stack, wood.getLogStack(), true)
+				|| RecipeUtils.compareItemStacks(stack, wood.getPlankStack(), true))
 				return wood.getRegistry();
 		return null;
 	}

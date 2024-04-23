@@ -14,9 +14,9 @@ import net.smileycorp.cosmeticwood.common.WoodHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemBlockCW extends ItemBlock {
+public class ItemBlockWood extends ItemBlock {
 
-	public ItemBlockCW(Block block) {
+	public ItemBlockWood(Block block) {
 		super(block);
 		setRegistryName(block.getRegistryName());
 		hasSubtypes = true;

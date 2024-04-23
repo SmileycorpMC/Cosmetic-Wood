@@ -7,20 +7,19 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ModDefinitions.modid, name = ModDefinitions.name, version = ModDefinitions.version, dependencies = ModDefinitions.dependencies)
 public class CosmeticWood {
 
-	private static final Logger logger = Logger.getLogger(ModDefinitions.name);
+	private static Logger logger;
 
 	@SidedProxy(clientSide = ModDefinitions.client, serverSide = ModDefinitions.common)
 	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event){
+		logger = event.getModLog();
 		proxy.preInit(event);
 		MinecraftForge.EVENT_BUS.register(proxy);
 	}
@@ -36,11 +35,11 @@ public class CosmeticWood {
 	}
 
 	public static void logInfo(Object message) {
-		logger.info(String.valueOf(message));
+		logger.info(message);
 	}
 
 	public static void logError(Object message, Exception e) {
-		logger.log(Level.SEVERE, String.valueOf(message));
+		logger.error(String.valueOf(message));
 		e.printStackTrace();
 	}
 
