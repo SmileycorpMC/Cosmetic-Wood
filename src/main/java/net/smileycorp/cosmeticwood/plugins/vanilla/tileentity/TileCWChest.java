@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 
 public class TileCWChest extends TileEntityChest implements TileWood {
 
-private ResourceLocation type = new ResourceLocation("oak");
+    private ResourceLocation type = null;
 
 	public TileCWChest() {}
 	
@@ -28,88 +28,78 @@ private ResourceLocation type = new ResourceLocation("oak");
 	
 	@Override
 	public ResourceLocation getType() {
+        if (type == null) return null;
 		return type.getResourcePath().isEmpty() ? WoodHandler.getDefault() : type;
 	}
 	
 	@Override
 	public void setType(ResourceLocation type) {
 		this.type = type;
-		this.markDirty();
+        adjacentChestChecked = false;
+        if (adjacentChestZNeg != null) adjacentChestZNeg.adjacentChestChecked = false;
+        if (adjacentChestZPos != null) adjacentChestZPos.adjacentChestChecked = false;
+        if (adjacentChestXNeg != null) adjacentChestXNeg.adjacentChestChecked = false;
+        if (adjacentChestXPos != null) adjacentChestXPos.adjacentChestChecked = false;
+        adjacentChestZNeg = null;
+        adjacentChestXPos = null;
+        adjacentChestXNeg = null;
+        adjacentChestZPos = null;
+		markDirty();
+        checkForAdjacentChests();
 	}
+    
+    @Override
+    public void checkForAdjacentChests() {
+        if (type != null) super.checkForAdjacentChests();
+    }
 	
 	@Override
 	@Nullable
     protected TileEntityChest getAdjacentChest(EnumFacing side) {
-        BlockPos blockpos = this.pos.offset(side);
-
-        if (this.isChestAt(blockpos))
-        {
-            TileEntity tileentity = this.world.getTileEntity(blockpos);
-
-            if (tileentity instanceof TileCWChest)
-            {
+        if (type == null) return null;
+        BlockPos blockpos = pos.offset(side);
+        if (isChestAt(blockpos)) {
+            TileEntity tileentity = world.getTileEntity(blockpos);
+            if (tileentity instanceof TileCWChest) {
             	TileCWChest tileentitychest = (TileCWChest)tileentity;
                 tileentitychest.setNeighbor(this, side.getOpposite());
                 return tileentitychest;
             }
         }
-
         return null;
     }
 	
-	private boolean isChestAt(BlockPos posIn) {
-        if (this.world == null) {
-            return false;
-        } else {
-        	IBlockState state = this.world.getBlockState(posIn);
-            Block block = state.getBlock();
-            if (block instanceof BlockCWChest && ((BlockChest)block).chestType == this.getChestType())
-            	return ((TileWood) this.world.getTileEntity(posIn)).getType().equals(this.getType());
-            else return false;
-        }
+	private boolean isChestAt(BlockPos pos) {
+        if (this.world == null) return false;
+        IBlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+        if (!(block instanceof BlockCWChest && ((BlockChest) block).chestType == getChestType())) return false;
+        return type.equals(((TileCWChest) world.getTileEntity(pos)).getType());
     }
-	
+    
 	@SuppressWarnings("incomplete-switch")
-    private void setNeighbor(TileEntityChest chestTe, EnumFacing side)
-    {
-        if (chestTe.isInvalid())
-        {
-            this.adjacentChestChecked = false;
+    private void setNeighbor(TileEntityChest te, EnumFacing side) {
+        if (!(te instanceof TileCWChest)) {
+            adjacentChestChecked = false;
+            return;
         }
-        else if (this.adjacentChestChecked)
-        {
-            switch (side)
-            {
+        if (te.isInvalid() || ((TileCWChest) te).getType() != type) {
+            adjacentChestChecked = false;
+            return;
+        }
+        if (adjacentChestChecked) {
+            switch (side) {
                 case NORTH:
-
-                    if (this.adjacentChestZNeg != chestTe)
-                    {
-                        this.adjacentChestChecked = false;
-                    }
-
+                    if (adjacentChestZNeg != te) adjacentChestChecked = false;
                     break;
                 case SOUTH:
-
-                    if (this.adjacentChestZPos != chestTe)
-                    {
-                        this.adjacentChestChecked = false;
-                    }
-
+                    if (adjacentChestZPos != te) adjacentChestChecked = false;
                     break;
                 case EAST:
-
-                    if (this.adjacentChestXPos != chestTe)
-                    {
-                        this.adjacentChestChecked = false;
-                    }
-
+                    if (adjacentChestXPos != te) adjacentChestChecked = false;
                     break;
                 case WEST:
-
-                    if (this.adjacentChestXNeg != chestTe)
-                    {
-                        this.adjacentChestChecked = false;
-                    }
+                    if (adjacentChestXNeg != te) adjacentChestChecked = false;
             }
         }
     }
@@ -117,32 +107,32 @@ private ResourceLocation type = new ResourceLocation("oak");
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
        super.readFromNBT(compound);
-       this.type = WoodHandler.fixData(compound.getString("type"));
+       if (compound.hasKey("type")) type = WoodHandler.fixData(compound.getString("type"));
     }
 
 	@Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setString("type", type.toString());
+        if (type != null) compound.setString("type", type.toString());
         return compound;
     }
 	
     @Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = super.getUpdateTag();
-		tag.setString("type", type.toString());
+        if (type != null) tag.setString("type", type.toString());
 		return tag;
 	}
 	
 	@Override
 	public void handleUpdateTag(NBTTagCompound compound) {
 		super.handleUpdateTag(compound);
-		type = WoodHandler.fixData(compound.getString("type"));
+		if (compound.hasKey("type")) type = WoodHandler.fixData(compound.getString("type"));
 	}
 	
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
+		return world == null ? null : new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
 	}
 
 	@Override

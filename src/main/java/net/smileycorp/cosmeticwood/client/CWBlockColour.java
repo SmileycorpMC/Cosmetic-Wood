@@ -17,11 +17,9 @@ public class CWBlockColour implements IBlockColor {
 	@Override
 	public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
 		ResourceLocation variant = WoodHandler.getDefault();
-		if (world!=null) {
+		if (world != null) {
 			TileEntity te = world.getTileEntity(pos);
-			if(te instanceof TileWood) {
-				variant = ((TileWood) te).getType();
-			}
+			if(te instanceof TileWood) variant = ((TileWood) te).getType();
 		}
 		return WoodHandler.getColour(variant).getRGB();
 	}

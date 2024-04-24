@@ -8,12 +8,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -88,6 +92,44 @@ public class BlockCWChest extends BlockChest implements WoodBlock {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		WoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
 	}
+	
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		if (canConnect(source, pos, pos.north())) return NORTH_CHEST_AABB;
+		if (canConnect(source, pos, pos.south())) return SOUTH_CHEST_AABB;
+		if (canConnect(source, pos, pos.east())) return EAST_CHEST_AABB;
+		if (canConnect(source, pos, pos.west())) return WEST_CHEST_AABB;
+		return NOT_CONNECTED_AABB;
+	}
+	
+	public boolean canPlaceBlockAt(World world, BlockPos pos) {
+		return true;
+	}
+	
+	@Override
+	public ILockableContainer getContainer(World world, BlockPos pos, boolean allowBlocking) {
+		TileEntity tileentity = world.getTileEntity(pos);
+		if (!(tileentity instanceof TileCWChest)) return null;
+		ILockableContainer te = (ILockableContainer) tileentity;
+		if (!allowBlocking && this.isBlocked(world, pos)) return null;
+		for (EnumFacing facing : EnumFacing.Plane.HORIZONTAL) {
+			BlockPos blockpos = pos.offset(facing);
+			if (!canConnect(world, pos, pos.offset(facing))) continue;
+			if (!allowBlocking && isBlocked(world, blockpos)) return null;
+			TileCWChest other = (TileCWChest) world.getTileEntity(pos.offset(facing));
+			te = (facing == EnumFacing.EAST || facing == EnumFacing.SOUTH) ?
+					new InventoryLargeChest("container.chestDouble", other, te) :
+					new InventoryLargeChest("container.chestDouble", te, other);
+		}
+		return te;
+	}
+	
+	private boolean canConnect(IBlockAccess source, BlockPos pos, BlockPos other) {
+		if (source.getBlockState(other).getBlock() != this) return false;
+		if (!(source.getTileEntity(pos) instanceof TileCWChest && source.getTileEntity(other) instanceof TileCWChest)) return false;
+		if (((TileCWChest)source.getTileEntity(pos)).getType() == null) return false;
+		return ((TileCWChest)source.getTileEntity(pos)).getType().equals(((TileCWChest)source.getTileEntity(other)).getType());
+	}
 
 	@Override
 	public Class getTile() {
@@ -102,8 +144,7 @@ public class BlockCWChest extends BlockChest implements WoodBlock {
 
 	//From BlockFlowerPot, should delay until drops are spawned, before block is broken
 	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-	{
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		if (willHarvest) return true;
 		return super.removedByPlayer(state, world, pos, player, willHarvest);
 	}

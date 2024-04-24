@@ -76,13 +76,9 @@ public interface WoodBlock {
 
 	 default void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt!=null) {
-			if (nbt.hasKey("type")) {
-				String type = nbt.getString("type");
-				if (world.getTileEntity(pos) instanceof TileWood) {
-					((TileWood) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
-				}
-			}
+		if (nbt != null && nbt.hasKey("type")) {
+			String type = nbt.getString("type");
+			if (world.getTileEntity(pos) instanceof TileWood) ((TileWood) world.getTileEntity(pos)).setType(WoodHandler.fixData(type));
 		}
 	}
 
@@ -90,7 +86,7 @@ public interface WoodBlock {
 		return "normal";
 	}
 
-	default <T extends Item & ItemBlockWood>  T getItem() {
+	default <T extends Item & ItemBlockWood> T getItem() {
 		return (T) new ItemBlockSimpleWood((Block) this);
 	}
 
