@@ -2,7 +2,6 @@ package net.smileycorp.cosmeticwood.plugins.vanilla.client;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
-import net.smileycorp.cosmeticwood.common.CosmeticWood;
 
 import java.awt.*;
 

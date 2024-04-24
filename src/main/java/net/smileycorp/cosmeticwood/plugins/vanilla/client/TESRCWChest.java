@@ -8,9 +8,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.smileycorp.cosmeticwood.common.CosmeticWood;
 import net.smileycorp.cosmeticwood.common.ModDefinitions;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
@@ -124,9 +124,11 @@ public class TESRCWChest extends TileEntitySpecialRenderer<TileCWChest> {
     
     public static class Item extends TileEntityItemStackRenderer {
     
-        private final TileCWChest tile = new TileCWChest();
+        private final TileCWChest normal_tile = new TileCWChest();
+        private final TileCWChest trapped_tile = new TileCWChest(BlockChest.Type.TRAP);
         
         public void renderByItem(ItemStack stack, float partialTicks) {
+            TileCWChest tile = ((BlockChest)((ItemBlock)stack.getItem()).getBlock()).chestType == BlockChest.Type.TRAP ? trapped_tile : this.normal_tile;
             tile.setType(WoodHandler.getRegistry(stack));
             TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0, 0, partialTicks);
         }

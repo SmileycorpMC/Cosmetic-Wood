@@ -31,7 +31,7 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 	
 	public BakedModelCW(IBakedModel baked, IModel base) {
 		super(baked);
-		this.base=base;
+		this.base = base;
 	}
 	
 	@Override

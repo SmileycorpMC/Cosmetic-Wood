@@ -34,12 +34,11 @@ public class BlockCWChest extends BlockChest implements WoodBlock {
 
 	public BlockCWChest(Type type) {
 		super(type);
-		String name = type == Type.TRAP ? "trapped_chest" : "chest";
 		setHardness(2.5F);
 		setSoundType(SoundType.WOOD);
-		setRegistryName("minecraft", name);
-		setUnlocalizedName(name);
-		this.type=type;
+		setRegistryName("minecraft", type == Type.TRAP ? "trapped_chest" : "chest");
+		setUnlocalizedName(type == Type.TRAP ? "chestTrap" : "chest");
+		this.type = type;
 	}
 
 	@Override
@@ -50,9 +49,7 @@ public class BlockCWChest extends BlockChest implements WoodBlock {
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
-		if(te != null && te instanceof TileSimpleWood) {
-			return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
-		}
+		if(te != null && te instanceof TileSimpleWood) return ((IExtendedBlockState)state).withProperty(VARIANT,((TileSimpleWood) te).getTypeString());
 		return super.getExtendedState(state, world, pos);
 	}
 

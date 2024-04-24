@@ -13,5 +13,6 @@ public class PluginVanilla {
 	public static Block PRESSURE_PLATE = new BlockCWPressurePlate();
 	public static Block BUTTON = new BlockCWButton();
 	public static Block CHEST = new BlockCWChest(BlockChest.Type.BASIC);
+	public static Block TRAPPED_CHEST = new BlockCWChest(BlockChest.Type.TRAP);
 	
 }
