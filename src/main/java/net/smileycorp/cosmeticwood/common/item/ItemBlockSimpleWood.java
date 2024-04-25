@@ -1,7 +1,8 @@
-package net.smileycorp.cosmeticwood.common.block;
+package net.smileycorp.cosmeticwood.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.util.TextUtils;
+import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 
 import javax.annotation.Nullable;
@@ -20,6 +22,16 @@ public class ItemBlockSimpleWood extends ItemBlock implements ItemBlockWood {
 		super(block);
 		setRegistryName(block.getRegistryName());
 		hasSubtypes = true;
+	}
+	
+	@Override
+	public boolean isInCreativeTab(CreativeTabs tab) {
+		return super.isInCreativeTab(tab) || isSubtypeTab(tab);
+	}
+	
+	@Override
+	public String getCreatorModId(ItemStack itemStack) {
+		return Constants.MODID;
 	}
 	
 	@Override

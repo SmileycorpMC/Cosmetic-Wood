@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.smileycorp.cosmeticwood.common.ModDefinitions;
+import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
 
@@ -19,12 +19,12 @@ import java.util.Calendar;
 
 public class TESRCWChest extends TileEntitySpecialRenderer<TileCWChest> {
 	
-    private static final ResourceLocation TEXTURE_TRAPPED_DOUBLE = ModDefinitions.getResource("textures/entity/chest/trapped_double.png");
+    private static final ResourceLocation TEXTURE_TRAPPED_DOUBLE = Constants.loc("textures/entity/chest/trapped_double.png");
     private static final ResourceLocation TEXTURE_CHRISTMAS_DOUBLE = new ResourceLocation("textures/entity/chest/christmas_double.png");
-    private static final ResourceLocation TEXTURE_NORMAL_DOUBLE = ModDefinitions.getResource("textures/entity/chest/normal_double.png");
-    private static final ResourceLocation TEXTURE_TRAPPED = ModDefinitions.getResource("textures/entity/chest/trapped.png");
+    private static final ResourceLocation TEXTURE_NORMAL_DOUBLE = Constants.loc("textures/entity/chest/normal_double.png");
+    private static final ResourceLocation TEXTURE_TRAPPED = Constants.loc("textures/entity/chest/trapped.png");
     private static final ResourceLocation TEXTURE_CHRISTMAS = new ResourceLocation("textures/entity/chest/christmas.png");
-    private static final ResourceLocation TEXTURE_NORMAL = ModDefinitions.getResource("textures/entity/chest/normal.png");
+    private static final ResourceLocation TEXTURE_NORMAL = Constants.loc("textures/entity/chest/normal.png");
     private final ModelChest simpleChest;
     private final ModelChest largeChest;
     private boolean isChristmas;

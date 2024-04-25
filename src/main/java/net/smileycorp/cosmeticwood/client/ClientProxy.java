@@ -31,17 +31,17 @@ import net.smileycorp.atlas.api.client.CustomStateMapper;
 import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
+import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.ContentRegistry;
-import net.smileycorp.cosmeticwood.common.ModDefinitions;
-import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.item.ItemBlockWood;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 @SideOnly(Side.CLIENT)
-@EventBusSubscriber(value=Side.CLIENT, modid = ModDefinitions.modid)
+@EventBusSubscriber(value=Side.CLIENT, modid = Constants.MODID)
 public class ClientProxy extends CommonProxy {
 
 	private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = new HashMap<String, TextureAtlasSprite>();
@@ -94,8 +94,8 @@ public class ClientProxy extends CommonProxy {
 	public static void registerModels(ModelRegistryEvent event) {
 		for (Block block : ContentRegistry.BLOCKS) {
 			Item item = Item.getItemFromBlock(block);
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModDefinitions.getResource(block), ((WoodBlock)block).getItemVariant()));
-			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(ModDefinitions.modid, block.getRegistryName().getResourcePath()));
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Constants.loc(block), ((WoodBlock)block).getItemVariant()));
+			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(Constants.MODID, block.getRegistryName().getResourcePath()));
 			if (((ItemBlockWood)item).getITESR() != null) item.setTileEntityItemStackRenderer(((ItemBlockWood)item).getITESR());
 		}
 	}
@@ -103,7 +103,7 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public static void onModelBake(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(ModDefinitions.getResource("wooden_button"), "inventory"), registry, BakedModelCW.class);
+		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(Constants.loc("wooden_button"), "inventory"), registry, BakedModelCW.class);
 		for (Block block : ContentRegistry.BLOCKS) {
 			for (IBlockState state : block.getBlockState().getValidStates()) {
 				RenderingUtils.replaceRegisteredModel(getModelLocation(state), registry, BakedModelCW.class);
@@ -120,7 +120,7 @@ public class ClientProxy extends CommonProxy {
 			property += entry.getValue().toString();
 		}
 		if (property.isEmpty()) property = ((WoodBlock) state.getBlock()).getItemVariant();
-		return new ModelResourceLocation(ModDefinitions.getResource(state.getBlock().getRegistryName().getResourcePath()), property);
+		return new ModelResourceLocation(Constants.loc(state.getBlock().getRegistryName().getResourcePath()), property);
 	}
 
 	public static TextureAtlasSprite getGreyscaleSprite(String key) {

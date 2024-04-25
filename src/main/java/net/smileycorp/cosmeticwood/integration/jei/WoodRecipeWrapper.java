@@ -1,5 +1,6 @@
 package net.smileycorp.cosmeticwood.integration.jei;
 
+import com.google.common.collect.Lists;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
@@ -18,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
+import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.recipe.WoodRecipe;
 
 import java.util.ArrayList;
@@ -26,12 +28,12 @@ import java.util.List;
 public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeWrapper {
 	
 	private final WoodRecipe recipe;
-	private NonNullList<ItemStack> outputs = NonNullList.<ItemStack>create();
+	private NonNullList<ItemStack> outputs = NonNullList.create();
 	int height;
 	int width;
 	
 	public WoodRecipeWrapper(WoodRecipe recipe) {
-		this.recipe=recipe;
+		this.recipe = recipe;
 	}
 	
 	@SuppressWarnings({"deprecation", "null"})
@@ -48,7 +50,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 			inputs.add(input);
 		}
 		Block block = ((ItemBlock) ((IRecipe) recipe).getRecipeOutput().getItem()).getBlock();
-		for (ResourceLocation type : WoodHandler.getTypes(block.getRegistryName().getResourceDomain())) {
+		for (ResourceLocation type : WoodHandler.getTypes(((WoodBlock)block).getModids())) {
 			ItemStack output = ((IRecipe)recipe).getRecipeOutput();
 			NBTTagCompound nbt = new NBTTagCompound();
 	        nbt.setString("type", type.toString());
@@ -79,26 +81,20 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		if (focus.getValue() instanceof ItemStack) {
 			Mode focusMode = focus.getMode();
 			ItemStack stack = (ItemStack)focus.getValue();
-			if(focusMode == IFocus.Mode.INPUT && WoodHandler.getRegistry(stack) != null) {
-				ItemStack output = ((IRecipe)recipe).getRecipeOutput();
+			if (focusMode != null && WoodHandler.getRegistry(stack) != null) {
+				ItemStack output = ((IRecipe) recipe).getRecipeOutput();
 				ResourceLocation type = WoodHandler.getRegistry(stack);
-				NBTTagCompound nbt = new NBTTagCompound();
-		        nbt.setString("type", type.toString());
-		        output.setTagCompound(nbt);
-				outputs.clear();
-				outputs.add(output);
-				inputs = changeInputs(inputs, type);
-			} else if(focusMode == IFocus.Mode.OUTPUT) {
-				NBTTagCompound nbt = stack.getTagCompound();
-				if (nbt!=null) {
-					if (nbt.hasKey("type")) {
-						String type = nbt.getString("type");
-						ItemStack output = ((IRecipe)recipe).getRecipeOutput();
-				        output.setTagCompound(nbt);
-				        outputs.clear();
-				        outputs.add(output);
-						inputs = changeInputs(inputs, WoodHandler.fixData(type));
-					}
+				if (focusMode == Mode.OUTPUT && type.equals(((WoodBlock)((ItemBlock)output.getItem()).getBlock()).getDefaultType())) {
+					NBTTagCompound nbt = output.hasTagCompound() ? output.getTagCompound() : new NBTTagCompound();
+					nbt.setString("type", type.toString());
+					output.setTagCompound(nbt);
+					outputs = Lists.newArrayList(output);
+				}else if (type != null) {
+					NBTTagCompound nbt = output.hasTagCompound() ? output.getTagCompound() : new NBTTagCompound();
+					nbt.setString("type", type.toString());
+					output.setTagCompound(nbt);
+					outputs = Lists.newArrayList(output);
+					inputs = changeInputs(inputs, type);
 				}
 			}
 		}
@@ -110,13 +106,14 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 		List<List<ItemStack>> result = new ArrayList<>();
 		for (List<ItemStack> input : inputs) {
 			List<ItemStack> stack = new ArrayList<>();
-			if (new OreIngredient("plankWood").apply(input.get(0))) {
-				stack.add(WoodHandler.getPlankStack(type));
-			} else if (new OreIngredient("logWood").apply(input.get(0))) {
-				stack.add(WoodHandler.getLogStack(type));
-			} else {
-				stack = input;
+			if (!input.isEmpty()) {
+				if (new OreIngredient("plankWood").apply(input.get(0))) {
+					stack.add(WoodHandler.getPlankStack(type));
+				} else if (new OreIngredient("logWood").apply(input.get(0))) {
+					stack.add(WoodHandler.getLogStack(type));
+				}
 			}
+			if (stack.isEmpty()) stack = input;
 			result.add(stack);
 		}
 		return result;

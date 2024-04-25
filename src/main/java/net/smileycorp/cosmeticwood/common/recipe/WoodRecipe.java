@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
+import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
 public interface WoodRecipe {
 	
@@ -15,7 +16,7 @@ public interface WoodRecipe {
 			ResourceLocation wood = WoodHandler.getRegistry(stack);
 			if (wood != null) {
 				if (name == null) name = wood;
-				else if (!(name.equals(wood))) {
+				else if (!(name.equals(wood) || stack.getItem() instanceof WoodBlock)) {
 					NBTTagCompound tag = result.hasTagCompound() ? result.getTagCompound() : new NBTTagCompound();
 					tag.setString("type", WoodHandler.getDefault(result).toString());
 					result.setTagCompound(tag);

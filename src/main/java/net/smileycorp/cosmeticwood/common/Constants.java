@@ -5,25 +5,25 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class ModDefinitions {
-	public static final String modid = "cosmeticwood";
-	public static final String name = "Cosmetic Wood";
-	public static final String version = "1.1.2";
-	public static final String dependencies = "required-after:atlaslib";
-	public static final String location = "net.smileycorp.cosmeticwood.";
-	public static final String client = location + "client.ClientProxy";
-	public static final String common = location + "common.CommonProxy";
+public class Constants {
+	public static final String MODID = "cosmeticwood";
+	public static final String NAME = "Cosmetic Wood";
+	public static final String VERSION = "1.1.2";
+	public static final String DEPENDENCIES = "required-after:atlaslib";
+	private static final String PACKAGE = "net.smileycorp.cosmeticwood";
+	public static final String CLIENT_PROXY = PACKAGE + ".client.ClientProxy";
+	public static final String COMMON_PROXY = PACKAGE + ".common.CommonProxy";
 	
-	public static String getName(String name) {
-		return modid + "." + name.replace("_", "");
+	public static String name(String name) {
+		return MODID + "." + name.replace("_", "");
 	}
 	
-	public static ResourceLocation getResource(Block block) {
-		return getResource(block.getRegistryName().getResourcePath());
+	public static ResourceLocation loc(Block block) {
+		return loc(block.getRegistryName().getResourcePath());
 	}
 	
-	public static ResourceLocation getResource(String name) {
-		return new ResourceLocation("cosmeticwood", name.toLowerCase());
+	public static ResourceLocation loc(String name) {
+		return new ResourceLocation(MODID, name.toLowerCase());
 	}
 	
 	public static ResourceLocation getRegistry(String name) {

@@ -1,5 +1,6 @@
 package net.smileycorp.cosmeticwood.common;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -9,12 +10,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ModDefinitions.modid, name = ModDefinitions.name, version = ModDefinitions.version, dependencies = ModDefinitions.dependencies)
+@Mod(modid = Constants.MODID, name = Constants.NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES)
 public class CosmeticWood {
-
+	
+	public static final CreativeTabs CREATIVE_TAB = new CWCreativeTab();
 	private static Logger logger;
 
-	@SidedProxy(clientSide = ModDefinitions.client, serverSide = ModDefinitions.common)
+	@SidedProxy(clientSide = Constants.CLIENT_PROXY, serverSide = Constants.COMMON_PROXY)
 	public static CommonProxy proxy;
 
 	@EventHandler

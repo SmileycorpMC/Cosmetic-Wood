@@ -12,10 +12,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
-@EventBusSubscriber(modid = ModDefinitions.modid)
+@EventBusSubscriber(modid = Constants.MODID)
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
+		ConfigHandler.syncConfig(event);
 		ContentRegistry.preInit(event.getAsmData());
 	}
 

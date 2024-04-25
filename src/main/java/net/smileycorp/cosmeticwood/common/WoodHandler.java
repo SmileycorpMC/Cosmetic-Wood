@@ -2,6 +2,7 @@ package net.smileycorp.cosmeticwood.common;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -10,17 +11,18 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
-import net.smileycorp.cosmeticwood.common.block.ItemBlockWood;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.item.ItemBlockWood;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class WoodHandler {
 	
-	private static Map<ResourceLocation, WoodDefinition> WOOD_MAP = new HashMap<>();
+	private static Map<ResourceLocation, WoodDefinition> WOOD_MAP = Maps.newLinkedHashMap();
 	private static boolean clientInitialized;
 	
 	static {
@@ -38,7 +40,7 @@ public class WoodHandler {
 						oreStack.getItem().getSubItems(oreStack.getItem().getCreativeTab(), subBlocks);
 					else subBlocks.add(oreStack);
 					for (ItemStack stack : subBlocks) {
-						ResourceLocation name = ModDefinitions.format(stack);
+						ResourceLocation name = Constants.format(stack);
 						if (!planks.containsKey(name)) planks.put(name, stack);
 					}
 				}
@@ -50,7 +52,7 @@ public class WoodHandler {
 						oreStack.getItem().getSubItems(oreStack.getItem().getCreativeTab(), subBlocks);
 					} else subBlocks.add(oreStack);
 					for (ItemStack stack : subBlocks) {
-						ResourceLocation name = ModDefinitions.format(stack);
+						ResourceLocation name = Constants.format(stack);
 						if (!logs.containsKey(name)) logs.put(name, stack);
 					}
 				}
@@ -73,13 +75,9 @@ public class WoodHandler {
 		return WOOD_MAP.containsKey(key);
 	}
 	
-	public static Set<ResourceLocation> getTypes(String... modids) {
-		Set<ResourceLocation> result = new HashSet(WOOD_MAP.keySet());
-		if (modids.length > 0) {
-			List<String> mods = Lists.newArrayList(modids);
-			for (ResourceLocation registry : WOOD_MAP.keySet())
-				if (mods.contains(registry.getResourceDomain())) result.remove(registry);
-		}
+	public static List<ResourceLocation> getTypes(String... modids) {
+		List<ResourceLocation> result = Lists.newArrayList();
+		WOOD_MAP.values().forEach(entry -> {if (entry != null && entry.isBaseType()) result.add(entry.getRegistry());});
 		return result;
 	}
 	

@@ -15,8 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.smileycorp.cosmeticwood.common.block.ItemBlockSimpleWood;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.item.ItemBlockSimpleWood;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
 import net.smileycorp.cosmeticwood.common.tile.TileWood;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 
-@EventBusSubscriber(modid=ModDefinitions.modid)
+@EventBusSubscriber(modid= Constants.MODID)
 public class ContentRegistry {
 	
 	public static List<Class> PLUGINS = new ArrayList<Class>();

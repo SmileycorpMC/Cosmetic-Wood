@@ -1,9 +1,10 @@
-package net.smileycorp.cosmeticwood.plugins.vanilla.block;
+package net.smileycorp.cosmeticwood.plugins.vanilla.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -12,8 +13,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.block.ItemBlockSimpleWood;
+import net.smileycorp.cosmeticwood.common.item.ItemBlockSimpleWood;
 import net.smileycorp.cosmeticwood.plugins.vanilla.client.TESRCWChest;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
 
@@ -21,6 +23,16 @@ public class ItemBlockChestCW extends ItemBlockSimpleWood {
     
     public ItemBlockChestCW(Block block) {
         super(block);
+    }
+    
+    @Override
+    public boolean isInCreativeTab(CreativeTabs tab) {
+        return super.isInCreativeTab(tab) || isSubtypeTab(tab);
+    }
+    
+    @Override
+    public String getCreatorModId(ItemStack itemStack) {
+        return Constants.MODID;
     }
     
     @Override

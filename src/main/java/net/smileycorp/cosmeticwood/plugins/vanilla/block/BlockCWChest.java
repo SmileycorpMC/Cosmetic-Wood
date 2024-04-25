@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import net.smileycorp.cosmeticwood.plugins.vanilla.client.TESRCWChest;
+import net.smileycorp.cosmeticwood.plugins.vanilla.item.ItemBlockChestCW;
 import net.smileycorp.cosmeticwood.plugins.vanilla.tileentity.TileCWChest;
 
 import javax.annotation.Nullable;

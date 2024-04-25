@@ -19,11 +19,12 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.block.PropertyOpenString;
+import net.smileycorp.cosmeticwood.common.CosmeticWood;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
+import net.smileycorp.cosmeticwood.common.item.ItemBlockSimpleWood;
+import net.smileycorp.cosmeticwood.common.item.ItemBlockWood;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import net.smileycorp.cosmeticwood.common.tile.TileWood;
-
-import java.util.Set;
 
 public interface WoodBlock {
 
@@ -34,14 +35,22 @@ public interface WoodBlock {
 	}
 
 	default void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		Set<ResourceLocation> types = WoodHandler.getTypes(getModids());
-		for(ResourceLocation type : types) {
+		if (tab != CosmeticWood.CREATIVE_TAB && tab != CreativeTabs.SEARCH) {
+			ItemStack stack = new ItemStack((Block) this);
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", getDefaultType().toString());
+			stack.setTagCompound(nbt);
+			list.add(stack);
+			return;
+		}
+		for (ResourceLocation type : WoodHandler.getTypes(getModids())) {
 			ItemStack stack = new ItemStack((Block) this);
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("type", type.toString());
 			stack.setTagCompound(nbt);
 			list.add(stack);
 		}
+
 	}
 
 	default ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {

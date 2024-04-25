@@ -12,13 +12,15 @@ public class WoodDefinition {
 	private final ResourceLocation registry;
 	private final ItemStack plank;
 	private final ItemStack log;
+	private final boolean baseType;
 	
 	private ClientWoodDefinition clientside;
 	
 	public WoodDefinition(ResourceLocation registry, ItemStack plank, ItemStack log) {
-		this.registry = registry;
+		this.registry = ConfigHandler.getOtherName(registry);
 		this.plank = plank;
 		this.log = log;
+		baseType = this.registry.equals(registry);
 	}
 	
 	public void initClient() {
@@ -52,5 +54,9 @@ public class WoodDefinition {
 	public Color getColour() {
 		return clientside == null ? null : clientside.getColour();
 	}
-
+	
+	public boolean isBaseType() {
+		return baseType;
+	}
+	
 }
