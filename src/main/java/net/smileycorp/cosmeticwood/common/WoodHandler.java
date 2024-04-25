@@ -104,6 +104,11 @@ public class WoodHandler {
 		return ((WoodBlock)((ItemBlock)result.getItem()).getBlock()).getDefaultType();
 	}
 	
+	public static boolean isValidType(ResourceLocation type) {
+		if (type == null) return false;
+		return WOOD_MAP.containsKey(type);
+	}
+	
 	public static ResourceLocation getRegistry(ItemStack stack) {
 		if (stack.getItem() instanceof ItemBlockWood) {
 			NBTTagCompound nbt = stack.getTagCompound();

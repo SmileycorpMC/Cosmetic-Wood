@@ -11,7 +11,7 @@ public interface TileWood {
 	
 	default String getTypeString() {
 		ResourceLocation type = getType();
-		return (type == null ? WoodHandler.getDefault() : type).toString();
+		return (WoodHandler.isValidType(type) ? type : WoodHandler.getDefault()).toString();
 	}
 	
 	void setType(ResourceLocation type);
