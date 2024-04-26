@@ -12,12 +12,11 @@ import javax.annotation.Nonnull;
 @JEIPlugin
 public class JEIIntegration implements IModPlugin {
 	
-	static IJeiHelpers helpers;
 	static ICraftingGridHelper craftingHelper;
 	
 	@Override
 	public void register(@Nonnull IModRegistry registry) {
-		helpers = registry.getJeiHelpers();
+		IJeiHelpers helpers = registry.getJeiHelpers();
 		craftingHelper = helpers.getGuiHelper().createCraftingGridHelper(1, 0);
 		registry.handleRecipes(ShapedWoodRecipe.class, WoodRecipeWrapper::new, VanillaRecipeCategoryUid.CRAFTING);
 		registry.handleRecipes(ShapelessWoodRecipe.class, WoodRecipeWrapper::new, VanillaRecipeCategoryUid.CRAFTING);

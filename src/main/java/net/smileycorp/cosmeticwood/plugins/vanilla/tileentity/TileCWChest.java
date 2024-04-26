@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.tile.TileWood;
 import net.smileycorp.cosmeticwood.plugins.vanilla.block.BlockCWChest;
@@ -47,6 +48,11 @@ public class TileCWChest extends TileEntityChest implements TileWood {
 		markDirty();
         checkForAdjacentChests();
 	}
+    
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+        return false;
+    }
     
     @Override
     public void checkForAdjacentChests() {

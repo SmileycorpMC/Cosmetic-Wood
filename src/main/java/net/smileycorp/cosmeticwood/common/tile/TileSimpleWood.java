@@ -22,7 +22,7 @@ public class TileSimpleWood extends TileEntity implements TileWood {
 	
 	@Override
 	public void setType(ResourceLocation type) {
-		this.type=type;
+		this.type = type;
 		this.markDirty();
 	}
 	

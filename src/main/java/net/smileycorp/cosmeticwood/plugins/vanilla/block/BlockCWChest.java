@@ -11,10 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
@@ -90,8 +92,44 @@ public class BlockCWChest extends BlockChest implements WoodBlock {
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		super.onBlockPlacedBy(world, pos, state, placer, stack);
 		WoodBlock.super.onBlockPlacedBy(world, pos, state, placer, stack);
+		EnumFacing enumfacing = EnumFacing.getHorizontal(MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
+		state = state.withProperty(FACING, enumfacing);
+		BlockPos north = pos.north();
+		BlockPos south = pos.south();
+		BlockPos west = pos.west();
+		BlockPos east = pos.east();
+		boolean flag = canConnect(world, pos, north);
+		boolean flag1 = canConnect(world, pos, south);
+		boolean flag2 = canConnect(world, pos, west);
+		boolean flag3 = canConnect(world, pos, east);
+		if (!flag && !flag1 && !flag2 && !flag3) world.setBlockState(pos, state, 3);
+		else if (enumfacing.getAxis() != EnumFacing.Axis.X || !flag && !flag1) {
+			if (enumfacing.getAxis() == EnumFacing.Axis.Z && (flag2 || flag3)) {
+				if (flag2) world.setBlockState(west, state, 3);
+				else world.setBlockState(east, state, 3);
+				world.setBlockState(pos, state, 3);
+			}
+		}
+		else {
+			if (flag) world.setBlockState(north, state, 3);
+			else world.setBlockState(south, state, 3);
+			world.setBlockState(pos, state, 3);
+		}
+		if (stack.hasDisplayName()) {
+			TileEntity te = world.getTileEntity(pos);
+			if (te instanceof TileEntityChest) ((TileEntityChest)te).setCustomName(stack.getDisplayName());
+		}
+	}
+	
+	@Override
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		checkForSurroundingChests(world, pos, state);
+		for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+			BlockPos blockpos = pos.offset(enumfacing);
+			IBlockState iblockstate = world.getBlockState(blockpos);
+			if (canConnect(world, pos, blockpos)) checkForSurroundingChests(world, blockpos, iblockstate);
+		}
 	}
 	
 	@Override
