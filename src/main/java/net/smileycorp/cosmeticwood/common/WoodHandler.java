@@ -12,7 +12,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.item.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.item.WoodItem;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -77,7 +77,20 @@ public class WoodHandler {
 	
 	public static List<ResourceLocation> getTypes(String... modids) {
 		List<ResourceLocation> result = Lists.newArrayList();
-		WOOD_MAP.values().forEach(entry -> {if (entry != null && entry.isBaseType()) result.add(entry.getRegistry());});
+		WOOD_MAP.values().forEach(entry -> {
+			if (entry == null) return;
+			if (!entry.isBaseType()) return;
+			for (String modid : modids) if (modid.equals(entry.getModid())) return;
+			result.add(entry.getRegistry());});
+		return result;
+	}
+	
+	public static List<WoodDefinition> getDefinitions(String... modids) {
+		List<WoodDefinition> result = Lists.newArrayList();
+		WOOD_MAP.values().forEach(entry -> {
+			if (entry == null) return;
+			for (String modid : modids) if (modid.equals(entry.getModid())) return;
+			result.add(entry);});
 		return result;
 	}
 	
@@ -108,7 +121,7 @@ public class WoodHandler {
 	}
 	
 	public static ResourceLocation getRegistry(ItemStack stack) {
-		if (stack.getItem() instanceof ItemBlockWood) {
+		if (stack.getItem() instanceof WoodItem) {
 			NBTTagCompound nbt = stack.getTagCompound();
 			return (nbt != null && nbt.hasKey("type")) ? WoodHandler.fixData(nbt.getString("type")) : WoodHandler.getDefault();
 		}

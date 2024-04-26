@@ -31,10 +31,6 @@ public class WoodDefinition {
 		return registry.getResourceDomain();
 	}
 	
-	public String getName() {
-		return registry.getResourcePath();
-	}
-	
 	public ResourceLocation getRegistry() {
 		return registry;
 	}

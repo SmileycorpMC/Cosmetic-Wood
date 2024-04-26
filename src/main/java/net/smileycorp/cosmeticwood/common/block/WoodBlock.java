@@ -22,7 +22,7 @@ import net.smileycorp.atlas.api.block.PropertyOpenString;
 import net.smileycorp.cosmeticwood.common.CosmeticWood;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.item.ItemBlockSimpleWood;
-import net.smileycorp.cosmeticwood.common.item.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.item.WoodItem;
 import net.smileycorp.cosmeticwood.common.tile.TileSimpleWood;
 import net.smileycorp.cosmeticwood.common.tile.TileWood;
 
@@ -95,7 +95,7 @@ public interface WoodBlock {
 		return "normal";
 	}
 
-	default <T extends Item & ItemBlockWood> T getItem() {
+	default <T extends Item & WoodItem> T getItem() {
 		return (T) new ItemBlockSimpleWood((Block) this);
 	}
 

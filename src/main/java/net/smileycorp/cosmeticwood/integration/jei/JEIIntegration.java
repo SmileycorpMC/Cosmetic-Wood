@@ -19,8 +19,8 @@ public class JEIIntegration implements IModPlugin {
 	public void register(@Nonnull IModRegistry registry) {
 		helpers = registry.getJeiHelpers();
 		craftingHelper = helpers.getGuiHelper().createCraftingGridHelper(1, 0);
-		registry.handleRecipes(ShapedWoodRecipe.class, new WoodRecipeHandler<>(), VanillaRecipeCategoryUid.CRAFTING);
-		registry.handleRecipes(ShapelessWoodRecipe.class, new WoodRecipeHandler<>(), VanillaRecipeCategoryUid.CRAFTING);
+		registry.handleRecipes(ShapedWoodRecipe.class, WoodRecipeWrapper::new, VanillaRecipeCategoryUid.CRAFTING);
+		registry.handleRecipes(ShapelessWoodRecipe.class, WoodRecipeWrapper::new, VanillaRecipeCategoryUid.CRAFTING);
 	}
 	
 	@Override

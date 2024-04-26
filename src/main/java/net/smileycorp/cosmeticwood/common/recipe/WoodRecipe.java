@@ -2,12 +2,13 @@ package net.smileycorp.cosmeticwood.common.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.WoodHandler;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
-public interface WoodRecipe {
+public interface WoodRecipe extends IRecipe {
 	
 	default ItemStack getCraftingResult(InventoryCrafting matrix, ItemStack result) {
 		ResourceLocation name = null;

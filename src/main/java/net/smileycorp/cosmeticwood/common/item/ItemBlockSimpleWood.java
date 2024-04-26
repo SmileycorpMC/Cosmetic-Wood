@@ -16,7 +16,7 @@ import net.smileycorp.cosmeticwood.common.WoodHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemBlockSimpleWood extends ItemBlock implements ItemBlockWood {
+public class ItemBlockSimpleWood extends ItemBlock implements WoodItem {
 
 	public ItemBlockSimpleWood(Block block) {
 		super(block);

@@ -34,7 +34,7 @@ import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.item.ItemBlockWood;
+import net.smileycorp.cosmeticwood.common.item.WoodItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +96,7 @@ public class ClientProxy extends CommonProxy {
 			Item item = Item.getItemFromBlock(block);
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Constants.loc(block), ((WoodBlock)block).getItemVariant()));
 			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(Constants.MODID, block.getRegistryName().getResourcePath()));
-			if (((ItemBlockWood)item).getITESR() != null) item.setTileEntityItemStackRenderer(((ItemBlockWood)item).getITESR());
+			if (((WoodItem)item).getITESR() != null) item.setTileEntityItemStackRenderer(((WoodItem)item).getITESR());
 		}
 	}
 
