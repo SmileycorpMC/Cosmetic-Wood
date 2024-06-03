@@ -32,17 +32,15 @@ public class CommonProxy {
 	public void playerJoin(PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
 		World world = player.world;
-		if (player != null && world != null) {
-			if (!world.isRemote) {
-				InventoryPlayer inventory = player.inventory;
-				if (inventory != null) {
-					for (ItemStack stack : inventory.mainInventory) WoodHandler.fixData(stack);
-					for (ItemStack stack : inventory.offHandInventory) WoodHandler.fixData(stack);
-				}
-			}
-			InventoryEnderChest inv = player.getInventoryEnderChest();
-			if (inv != null) for (int i = 0; i < inv.getSizeInventory(); i++) WoodHandler.fixData(inv.getStackInSlot(i));
+		if (player == null || world == null) return;
+		if (world.isRemote) return;
+		InventoryPlayer inventory = player.inventory;
+		if (inventory != null) {
+			for (ItemStack stack : inventory.mainInventory) WoodHandler.fixData(stack);
+			for (ItemStack stack : inventory.offHandInventory) WoodHandler.fixData(stack);
 		}
+		InventoryEnderChest inv = player.getInventoryEnderChest();
+		if (inv != null) for (int i = 0; i < inv.getSizeInventory(); i++) WoodHandler.fixData(inv.getStackInSlot(i));
 	}
 
 }

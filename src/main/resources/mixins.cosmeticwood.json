@@ -1,0 +1,15 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "package": "net.smileycorp.cosmeticwood.mixin",
+  "refmap": "mixins.cosmeticwood.refmap.json",
+  "mixins": [
+    "MixinBlock",
+    "MixinBlockStateBase",
+    "MixinExtendedBlockState",
+    "MixinIBlockState",
+    "MixinItem",
+    "MixinItemStack"
+  ],
+  "client": [],
+  "server": []
+}

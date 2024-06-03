@@ -19,7 +19,7 @@ import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.item.ItemBlockSimpleWood;
 import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
-import net.smileycorp.cosmeticwood.common.tile.TileWood;
+import net.smileycorp.cosmeticwood.common.tile.WoodTile;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,6 +31,8 @@ import java.util.Set;
 public class ContentRegistry {
 	
 	public static List<Class> PLUGINS = new ArrayList<Class>();
+	
+	public static List<Block> W = new ArrayList<Block>();
 	public static List<Block> BLOCKS = new ArrayList<Block>();
 	public static List<Item> ITEMS = new ArrayList<Item>();
 	public static List<Class<? extends TileEntity>> TILE_ENTITIES = new ArrayList<Class<? extends TileEntity>>();
@@ -65,7 +67,7 @@ public class ContentRegistry {
 			Class tile = ((WoodBlock)block).getTile();
 			if (!TILE_ENTITIES.contains(tile)) {
 				try {
-					GameRegistry.registerTileEntity(tile, ((TileWood) tile.newInstance()).getRegistryName());
+					GameRegistry.registerTileEntity(tile, ((WoodTile) tile.newInstance()).getRegistryName());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

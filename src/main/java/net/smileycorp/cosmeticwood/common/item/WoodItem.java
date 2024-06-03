@@ -1,43 +1,33 @@
 package net.smileycorp.cosmeticwood.common.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.smileycorp.cosmeticwood.common.CosmeticWood;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 
 public interface WoodItem {
     
-    @SideOnly(Side.CLIENT)
-    default TileEntityItemStackRenderer getITESR() {
-        return null;
-    }
+    boolean isWoodItem();
     
-    default boolean isSubtypeTab(CreativeTabs tab) {
-        return (tab == CosmeticWood.CREATIVE_TAB);
-    }
+    ResourceLocation getDefaultType();
     
-    default <T extends Block & WoodBlock> T block() {
-        return (T) ((ItemBlock)this).getBlock();
-    }
+    ResourceLocation getType(ItemStack stack);
     
-    default ItemStack getStack(ResourceLocation loc) {
-        ItemStack stack = new ItemStack((Item)this);
+    static ItemStack getStack(Item item, ResourceLocation loc) {
+        ItemStack stack = new ItemStack(item);
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setString("type", (loc == null ? getDefaultType() : loc).toString());
+        nbt.setString("type", (loc == null ? ((WoodItem)item).getDefaultType() : loc).toString());
         stack.setTagCompound(nbt);
         return stack;
     }
     
-    default ResourceLocation getDefaultType() {
-        return block().getDefaultType();
+    static ItemStack getStack(ItemStack stack, ResourceLocation loc) {
+        NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+        nbt.setString("type", (loc == null ? ((WoodStack)stack).getDefaultType() : loc).toString());
+        stack.setTagCompound(nbt);
+        return stack;
     }
+    
+    String[] getModIds();
     
 }

@@ -50,7 +50,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 	public void getIngredients(IIngredients ingredients) {
 		List<List<ItemStack>> inputs = Lists.newArrayList();
 		List<ItemStack> outputs = Lists.newArrayList();
-		List<WoodDefinition> definitions = WoodHandler.getDefinitions(((WoodItem)recipe.getRecipeOutput().getItem()).block().getModids());
+		List<WoodDefinition> definitions = WoodHandler.getDefinitions(((WoodItem)recipe.getRecipeOutput().getItem()).getModIds());
 		List<ItemStack> planks = Lists.newArrayList();
 		List<ItemStack> logs = Lists.newArrayList();
 		for (WoodDefinition def : definitions) {

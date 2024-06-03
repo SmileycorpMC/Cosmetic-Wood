@@ -1,11 +1,14 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+		maven { url "https://repo.spongepowered.org/repository/maven-public/" }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+		classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
     }
 }
 
@@ -19,9 +22,12 @@ repositories {
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'maven-publish'
+apply plugin: 'java'
 
-version = '1.12.2-1.1.2'
+version = '1.12.2-1.2.0'
 group = 'next.smileycorp.cosmeticwood' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Cosmetic-Wood'
 
@@ -64,8 +70,17 @@ minecraft {
     }
 }
 
+mixin {
+    add sourceSets.main, "mixins.cosmeticwood.refmap.json"
+}
+
+repositories {
+    maven { url = 'https://repo.spongepowered.org/maven' }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+	implementation "org.spongepowered:mixin:0.8"
 	implementation "curse.maven:atlas-463826:3816069"
 	implementation "curse.maven:jei-238222:4393461"
 	implementation "curse.maven:tconstruct-74072:2902483"
@@ -91,16 +106,30 @@ jar {
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"smileycorp",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"ForceLoadAsMod": true,
             "FMLAT": "cosmeticwood_at.cfg",
+			"FMLCorePluginContainsFMLMod": true,
+			"TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+			"MixinConfigs": "mixins.cosmeticwood.json"
         ])
     }
 }
 
-// Example configuration to allow publishing using the maven-publish task
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
+shadowJar {
+	classifier = ''
+	exclude 'LICENSE.txt'
+	dependencies {
+		include(dependency("org.spongepowered:mixin:0.8"))
+	}
+}
+
+build.dependsOn(shadowJar)
+
+reobf {
+    shadowJar {}
+}
+
+build.dependsOn(reobf)
 
 publishing {
     publications {
