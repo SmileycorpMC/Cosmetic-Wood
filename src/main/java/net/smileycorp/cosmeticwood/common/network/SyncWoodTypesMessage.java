@@ -33,8 +33,8 @@ public class SyncWoodTypesMessage implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeByte(x);
-		buf.writeByte(z);
+		buf.writeInt(x);
+		buf.writeInt(z);
 		ByteBufUtils.writeTag(buf, nbt);
 	}
 	
