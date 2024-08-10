@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common;
+package net.smileycorp.cosmeticwood.common.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -11,8 +11,11 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.item.WoodItem;
+import net.smileycorp.cosmeticwood.common.Constants;
+import net.smileycorp.cosmeticwood.common.CosmeticWood;
+import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
+import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -22,14 +25,25 @@ import java.util.Map.Entry;
 
 public class WoodHandler {
 	
-	private static Map<ResourceLocation, WoodDefinition> WOOD_MAP = Maps.newLinkedHashMap();
-	private static boolean clientInitialized;
+	private static WoodHandler INSTANCE;
 	
-	static {
+	private Map<ResourceLocation, WoodDefinition> WOOD_MAP = Maps.newLinkedHashMap();
+	private boolean clientInitialized;
+	
+	private WoodHandler() {
 		WOOD_MAP.put(getDefault(), new WoodDefinition(getDefault(), new ItemStack(Blocks.PLANKS), new ItemStack(Blocks.LOG)));
 	}
 	
-	public static void buildProperties() {
+	public static WoodHandler getInstance() {
+		if (INSTANCE == null) INSTANCE = new WoodHandler();
+		return INSTANCE;
+	}
+	
+	public static ResourceLocation getDefault() {
+		return new ResourceLocation("oak");
+	}
+	
+	public void buildProperties() {
 		Map<ResourceLocation, ItemStack> planks = new HashMap<>();
 		Map<ResourceLocation, ItemStack> logs = new HashMap<>();
 		for (String ore : OreDictionary.getOreNames()) {
@@ -67,15 +81,15 @@ public class WoodHandler {
 		CosmeticWood.logInfo("Detected wood types " + WOOD_MAP.keySet());
 	}
 	
-	public static boolean contains(String key) {
+	public boolean contains(String key) {
 		return contains(fixData(key));
 	}
 	
-	public static boolean contains(ResourceLocation key) {
+	public boolean contains(ResourceLocation key) {
 		return WOOD_MAP.containsKey(key);
 	}
 	
-	public static List<ResourceLocation> getTypes(String... modids) {
+	public List<ResourceLocation> getTypes(String... modids) {
 		List<ResourceLocation> result = Lists.newArrayList();
 		WOOD_MAP.values().forEach(entry -> {
 			if (entry == null) return;
@@ -85,7 +99,7 @@ public class WoodHandler {
 		return result;
 	}
 	
-	public static List<WoodDefinition> getDefinitions(String... modids) {
+	public List<WoodDefinition> getDefinitions(String... modids) {
 		List<WoodDefinition> result = Lists.newArrayList();
 		WOOD_MAP.values().forEach(entry -> {
 			if (entry == null) return;
@@ -94,12 +108,12 @@ public class WoodHandler {
 		return result;
 	}
 	
-	public static ItemStack getPlankStack(ResourceLocation name) {
+	public ItemStack getPlankStack(ResourceLocation name) {
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getPlankStack()
 				: new ItemStack(Blocks.PLANKS);
 	}
 	
-	public static ItemStack getLogStack(ResourceLocation name) {
+	public ItemStack getLogStack(ResourceLocation name) {
 		if (WOOD_MAP.containsKey(name)){
 			ItemStack stack = WOOD_MAP.get(name).getLogStack();
 			if (stack != null ) return stack ;
@@ -107,29 +121,25 @@ public class WoodHandler {
 		return new ItemStack(Blocks.LOG, 1, OreDictionary.WILDCARD_VALUE);
 	}
 	
-	public static ResourceLocation getDefault() {
-		return new ResourceLocation("oak");
-	}
-	
-	public static ResourceLocation getDefault(ItemStack result) {
+	public ResourceLocation getDefault(ItemStack result) {
 		return ((WoodBlock)((ItemBlock)result.getItem()).getBlock()).getDefaultType();
 	}
 	
-	public static boolean isValidType(ResourceLocation type) {
+	public boolean isValidType(ResourceLocation type) {
 		if (type == null) return false;
 		return WOOD_MAP.containsKey(type);
 	}
 	
-	public static ResourceLocation getRegistry(ItemStack stack) {
+	public ResourceLocation getRegistry(ItemStack stack) {
 		if (stack.getItem() instanceof WoodItem) {
 			NBTTagCompound nbt = stack.getTagCompound();
-			return (nbt != null && nbt.hasKey("type")) ? WoodHandler.fixData(nbt.getString("type")) : WoodHandler.getDefault();
+			return (nbt != null && nbt.hasKey("type")) ? fixData(nbt.getString("type")) : WoodHandler.getDefault();
 		}
 		for (WoodDefinition wood : WOOD_MAP.values()) if (isStack(stack, wood.getLogStack()) || isStack(stack, wood.getPlankStack())) return wood.getRegistry();
 		return null;
 	}
 	
-	private static boolean isStack(ItemStack stack1, ItemStack stack2) {
+	private boolean isStack(ItemStack stack1, ItemStack stack2) {
 		if (stack1 == null || stack2 == null) return false;
 		if (stack1.isEmpty() || stack2.isEmpty()) return false;
 		if (stack1.getItem() != stack2.getItem()) return false;
@@ -138,7 +148,7 @@ public class WoodHandler {
 		return (NBTUtil.areNBTEquals(stack1.getTagCompound(), stack2.getTagCompound(), true));
 	}
 	
-	public static ResourceLocation fixData(String name) {
+	public ResourceLocation fixData(String name) {
 		if (name == null) return getDefault();
 		if (name.contains(":")) return new ResourceLocation(name);
 		for (ResourceLocation registry : getTypes())
@@ -146,7 +156,7 @@ public class WoodHandler {
 		return new ResourceLocation(name);
 	}
 
-	public static void fixData(ItemStack stack) {
+	public void fixData(ItemStack stack) {
 		if (ContentRegistry.ITEMS.contains(stack.getItem())) {
 			NBTTagCompound nbt = stack.getTagCompound();
 			if (nbt != null && nbt.hasKey("type")) {
@@ -156,17 +166,17 @@ public class WoodHandler {
 		}
 	}
 	
-	public static ImmutableMap<String, String> getTextures(ResourceLocation name) {
+	public ImmutableMap<String, String> getTextures(ResourceLocation name) {
 		if (!clientInitialized) initClient();
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getTextures() : WOOD_MAP.get(getDefault()).getTextures()  ;
 	}
 	
-	public static Color getColour(ResourceLocation name) {
+	public Color getColour(ResourceLocation name) {
 		if (!clientInitialized) initClient();
 		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getColour() : WOOD_MAP.get(getDefault()).getColour();
 	}
 	
-	private static void initClient() {
+	private void initClient() {
 		WOOD_MAP.values().forEach(WoodDefinition::initClient);
 		clientInitialized = true;
 	}

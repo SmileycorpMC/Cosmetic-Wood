@@ -1,12 +1,12 @@
-package net.smileycorp.cosmeticwood.common.recipe;
+package net.smileycorp.cosmeticwood.common.registry.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
+import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
 
 public interface WoodRecipe extends IRecipe {
 	
@@ -14,12 +14,12 @@ public interface WoodRecipe extends IRecipe {
 		ResourceLocation name = null;
 		for (int i = 0; i < matrix.getSizeInventory(); i++) {
 			ItemStack stack = matrix.getStackInSlot(i);
-			ResourceLocation wood = WoodHandler.getRegistry(stack);
+			ResourceLocation wood = WoodHandler.getInstance().getRegistry(stack);
 			if (wood != null) {
 				if (name == null) name = wood;
 				else if (!(name.equals(wood) || stack.getItem() instanceof WoodBlock)) {
 					NBTTagCompound tag = result.hasTagCompound() ? result.getTagCompound() : new NBTTagCompound();
-					tag.setString("type", WoodHandler.getDefault(result).toString());
+					tag.setString("type", WoodHandler.getInstance().getDefault(result).toString());
 					result.setTagCompound(tag);
 					return result;
 				}

@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.smileycorp.cosmeticwood.common.WoodHandler;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 
 @SideOnly(Side.CLIENT)
 public class CWItemColour implements IItemColor {
@@ -16,8 +16,8 @@ public class CWItemColour implements IItemColor {
 		if (tintIndex == 0) {
 			ResourceLocation variant = WoodHandler.getDefault();
 			NBTTagCompound nbt = stack.getTagCompound();
-			if (nbt!=null) if (nbt.hasKey("type")) variant = WoodHandler.fixData(nbt.getString("type"));
-			return WoodHandler.getColour(variant).getRGB();
+			if (nbt!=null) if (nbt.hasKey("type")) variant = WoodHandler.getInstance().fixData(nbt.getString("type"));
+			return WoodHandler.getInstance().getColour(variant).getRGB();
 		}
 		return 0xFFFFFF;
 	}

@@ -18,8 +18,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
-import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
+import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -48,7 +48,7 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 					variant = ((IExtendedBlockState)state).getValue(WoodBlock.VARIANT);
 			    }
 			}
-			IModel newModel = base.retexture(WoodHandler.getTextures(WoodHandler.fixData(variant)));
+			IModel newModel = base.retexture(WoodHandler.getInstance().getTextures(WoodHandler.getInstance().fixData(variant)));
 			return newModel.bake(newModel.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter).getQuads(state, side, rand);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,7 +76,7 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 			try {
 				NBTTagCompound tag = stack.getTagCompound();
 				String variant = tag.getString("type");
-				IModel newModel = this.base.retexture(WoodHandler.getTextures(WoodHandler.fixData(variant)));
+				IModel newModel = this.base.retexture(WoodHandler.getInstance().getTextures(WoodHandler.getInstance().fixData(variant)));
 				return newModel.bake(newModel.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter);
 			} catch (Exception e) {
 				return base;

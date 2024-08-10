@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common;
+package net.smileycorp.cosmeticwood.common.data;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

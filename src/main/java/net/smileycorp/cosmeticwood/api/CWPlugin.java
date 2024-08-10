@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common;
+package net.smileycorp.cosmeticwood.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

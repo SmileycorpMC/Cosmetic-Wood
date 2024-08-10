@@ -14,8 +14,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.smileycorp.cosmeticwood.network.PacketHandler;
-import net.smileycorp.cosmeticwood.network.SyncWoodTypesMessage;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
+import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
+import net.smileycorp.cosmeticwood.common.network.PacketHandler;
+import net.smileycorp.cosmeticwood.common.network.SyncWoodTypesMessage;
+import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 
 @EventBusSubscriber(modid = Constants.MODID)
 public class CommonProxy {
@@ -26,10 +29,12 @@ public class CommonProxy {
 		ContentRegistry.preInit(event.getAsmData());
 	}
 
-	public void init(FMLInitializationEvent event) {}
+	public void init(FMLInitializationEvent event) {
+		ContentRegistry.init();
+	}
 
 	public void postInit(FMLPostInitializationEvent event) {
-		WoodHandler.buildProperties();
+		WoodHandler.getInstance().buildProperties();
 		ContentRegistry.replaceRecipes();
 	}
 	
@@ -50,11 +55,11 @@ public class CommonProxy {
 		if (world.isRemote) return;
 		InventoryPlayer inventory = player.inventory;
 		if (inventory != null) {
-			for (ItemStack stack : inventory.mainInventory) WoodHandler.fixData(stack);
-			for (ItemStack stack : inventory.offHandInventory) WoodHandler.fixData(stack);
+			for (ItemStack stack : inventory.mainInventory) WoodHandler.getInstance().fixData(stack);
+			for (ItemStack stack : inventory.offHandInventory) WoodHandler.getInstance().fixData(stack);
 		}
 		InventoryEnderChest inv = player.getInventoryEnderChest();
-		if (inv != null) for (int i = 0; i < inv.getSizeInventory(); i++) WoodHandler.fixData(inv.getStackInSlot(i));
+		if (inv != null) for (int i = 0; i < inv.getSizeInventory(); i++) WoodHandler.getInstance().fixData(inv.getStackInSlot(i));
 	}
 	
 	@SubscribeEvent

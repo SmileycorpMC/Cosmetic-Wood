@@ -34,8 +34,8 @@ import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
-import net.smileycorp.cosmeticwood.common.ContentRegistry;
-import net.smileycorp.cosmeticwood.common.WoodTypeStorage;
+import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
+import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

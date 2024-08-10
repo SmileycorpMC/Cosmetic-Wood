@@ -9,10 +9,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.smileycorp.cosmeticwood.common.WoodHandler;
-import net.smileycorp.cosmeticwood.common.WoodTypeStorage;
-import net.smileycorp.cosmeticwood.common.block.ModifiableWoodBlock;
-import net.smileycorp.cosmeticwood.common.item.WoodStack;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
+import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
+import net.smileycorp.cosmeticwood.common.registry.block.ModifiableWoodBlock;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,8 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Block.class)
 public abstract class MixinBlock implements ModifiableWoodBlock {
-    
-    @Shadow public abstract void setBedOccupied(IBlockAccess world, BlockPos pos, EntityPlayer player, boolean occupied);
     
     private boolean isWood;
     private ResourceLocation defaultType = WoodHandler.getDefault();

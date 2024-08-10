@@ -1,10 +1,10 @@
-package net.smileycorp.cosmeticwood.common.block;
+package net.smileycorp.cosmeticwood.common.registry.item;
 
 import net.minecraft.util.ResourceLocation;
 
-public interface ModifiableWoodBlock extends WoodBlock {
+public interface ModifiableWoodItem extends WoodItem {
     
-    void setWoodBlock();
+    void setWoodItem();
     
     void setDefault(ResourceLocation loc);
     

@@ -3,7 +3,7 @@ package net.smileycorp.cosmeticwood.mixin;
 import com.google.common.collect.ImmutableMap;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.network;
+package net.smileycorp.cosmeticwood.common.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.smileycorp.cosmeticwood.client.ClientProxy;
-import net.smileycorp.cosmeticwood.common.WoodTypeStorage;
+import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 
 public class SyncWoodTypesMessage implements IMessage {
 	

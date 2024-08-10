@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common.recipe;
+package net.smileycorp.cosmeticwood.common.registry.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;

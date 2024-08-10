@@ -3,9 +3,9 @@ package net.smileycorp.cosmeticwood.integration.jei;
 import mezz.jei.api.*;
 import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-import net.smileycorp.cosmeticwood.common.ContentRegistry;
-import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
-import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
+import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
+import net.smileycorp.cosmeticwood.common.registry.recipe.ShapedWoodRecipe;
+import net.smileycorp.cosmeticwood.common.registry.recipe.ShapelessWoodRecipe;
 
 import javax.annotation.Nonnull;
 

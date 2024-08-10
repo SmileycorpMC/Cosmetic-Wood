@@ -1,23 +1,24 @@
-package net.smileycorp.cosmeticwood.common;
+package net.smileycorp.cosmeticwood.common.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.item.WoodItem;
-import net.smileycorp.cosmeticwood.common.recipe.ShapedWoodRecipe;
-import net.smileycorp.cosmeticwood.common.recipe.ShapelessWoodRecipe;
+import net.smileycorp.cosmeticwood.api.CWPlugin;
+import net.smileycorp.cosmeticwood.api.WoodRegistryEntry;
+import net.smileycorp.cosmeticwood.common.Constants;
+import net.smileycorp.cosmeticwood.common.CosmeticWood;
+import net.smileycorp.cosmeticwood.common.registry.block.ModifiableWoodBlock;
+import net.smileycorp.cosmeticwood.common.registry.item.ModifiableWoodItem;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
+import net.smileycorp.cosmeticwood.common.registry.recipe.ShapedWoodRecipe;
+import net.smileycorp.cosmeticwood.common.registry.recipe.ShapelessWoodRecipe;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -30,10 +31,8 @@ public class ContentRegistry {
 	
 	public static List<Class> PLUGINS = new ArrayList<Class>();
 	
-	public static List<Block> W = new ArrayList<Block>();
 	public static List<Block> BLOCKS = new ArrayList<Block>();
 	public static List<Item> ITEMS = new ArrayList<Item>();
-	public static List<Class<? extends TileEntity>> TILE_ENTITIES = new ArrayList<Class<? extends TileEntity>>();
 	
 	public static void preInit(ASMDataTable asmtable) {
 		String annotation = CWPlugin.class.getCanonicalName();
@@ -41,37 +40,41 @@ public class ContentRegistry {
 		for (ASMData data : dataset) {
 			String modid = (String) data.getAnnotationInfo().get("modid");
 			if (Loader.isModLoaded(modid)) {
-				List<Block> blocks = new ArrayList<Block>();
 				try {
 					Class plugin = Class.forName(data.getClassName());
 					CosmeticWood.logInfo("Loading plugin " + modid);
-					Field[] fields = plugin.getFields();
-					for (Field field : fields) {
-						Object o = field.get(new Object());
-						if (o!=null && o instanceof Block && o instanceof WoodBlock) {
-							blocks.add((Block) o);
-						}
-					}
 					PLUGINS.add(plugin);
-					BLOCKS.addAll(blocks);
 				} catch (Exception e) {
 					CosmeticWood.logError("Error loading plugin " + modid, e);
 				}
 			} else CosmeticWood.logInfo("Mod " + modid + " not detected. Skipping plugin.");
 		}
-		for (Block block : BLOCKS) if (block instanceof WoodBlock) {
-		
+	}
+	
+	public static void init() {
+		for (Class<?> plugin : PLUGINS) {
+			Field[] fields = plugin.getFields();
+			for (Field field : fields) try {
+				Object o = field.get(new Object());
+				if (o != null && o instanceof WoodRegistryEntry) {
+					WoodRegistryEntry entry = (WoodRegistryEntry) o;
+					if (entry.getBlock() != null) {
+						ModifiableWoodBlock block = (ModifiableWoodBlock) ForgeRegistries.BLOCKS.getValue(entry.getBlock());
+						block.setWoodBlock();
+						block.setDefault(entry.getDefaultType());
+						block.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+					}
+					if (entry.getItem() != null) {
+						ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getBlock());
+						item.setWoodItem();
+						item.setDefault(entry.getDefaultType());
+						item.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+					}
+				}
+			} catch (Exception e) {
+				CosmeticWood.logError("Failed loading entry " + field.getName(), e);
+			}
 		}
-	}
-	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void registerBlocks(RegistryEvent.Register<Block> event){
-		ForgeRegistries.BLOCKS.registerAll(BLOCKS.toArray(new Block[] {}));
-	}
-	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void registerItems(RegistryEvent.Register<Item> event){
-		ForgeRegistries.ITEMS.registerAll(ITEMS.toArray(new Item[] {}));
 	}
 	
 	public static void replaceRecipes(){

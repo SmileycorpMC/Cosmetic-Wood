@@ -1,9 +1,10 @@
-package net.smileycorp.cosmeticwood.common;
+package net.smileycorp.cosmeticwood.common.data;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.client.ClientWoodDefinition;
+import net.smileycorp.cosmeticwood.common.ConfigHandler;
 
 import java.awt.*;
 
