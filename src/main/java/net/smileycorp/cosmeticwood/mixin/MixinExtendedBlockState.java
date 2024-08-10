@@ -1,11 +1,8 @@
 package net.smileycorp.cosmeticwood.mixin;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.block.state.BlockStateBase;
-import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.smileycorp.cosmeticwood.common.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.block.WoodBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

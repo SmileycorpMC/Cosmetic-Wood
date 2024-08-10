@@ -2,6 +2,7 @@ package net.smileycorp.cosmeticwood.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -24,6 +25,7 @@ public class CosmeticWood {
 		logger = event.getModLog();
 		proxy.preInit(event);
 		MinecraftForge.EVENT_BUS.register(proxy);
+		CapabilityManager.INSTANCE.register(WoodTypeStorage.class, new WoodTypeStorage.Storage(), WoodTypeStorage.Impl::new);
 	}
 
 	@EventHandler

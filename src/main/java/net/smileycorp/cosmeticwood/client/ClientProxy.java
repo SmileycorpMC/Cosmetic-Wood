@@ -33,8 +33,6 @@ import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.ContentRegistry;
-import net.smileycorp.cosmeticwood.common.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.item.WoodItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +52,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		for (Block block : ContentRegistry.BLOCKS) ((WoodBlock) block).initClient();
 	}
 
 	@Override
@@ -94,9 +91,9 @@ public class ClientProxy extends CommonProxy {
 	public static void registerModels(ModelRegistryEvent event) {
 		for (Block block : ContentRegistry.BLOCKS) {
 			Item item = Item.getItemFromBlock(block);
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Constants.loc(block), ((WoodBlock)block).getItemVariant()));
+			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Constants.loc(block), "inventory"));
 			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(Constants.MODID, block.getRegistryName().getResourcePath()));
-			if (((WoodItem)item).getITESR() != null) item.setTileEntityItemStackRenderer(((WoodItem)item).getITESR());
+			//if (((WoodItem)item).getITESR() != null) item.setTileEntityItemStackRenderer(((WoodItem)item).getITESR());
 		}
 	}
 
@@ -119,7 +116,7 @@ public class ClientProxy extends CommonProxy {
 			property += "=";
 			property += entry.getValue().toString();
 		}
-		if (property.isEmpty()) property = ((WoodBlock) state.getBlock()).getItemVariant();
+		if (property.isEmpty()) property = "inventory";
 		return new ModelResourceLocation(Constants.loc(state.getBlock().getRegistryName().getResourcePath()), property);
 	}
 

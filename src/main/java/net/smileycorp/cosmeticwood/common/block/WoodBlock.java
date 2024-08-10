@@ -1,6 +1,5 @@
 package net.smileycorp.cosmeticwood.common.block;
 
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -14,8 +13,6 @@ public interface WoodBlock {
 	boolean isWood();
 	
 	ResourceLocation getDefaultType();
-	
-	TileEntity createNewTileEntity();
 	
 	String[] getModIds();
 	

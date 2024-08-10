@@ -57,7 +57,7 @@ public class MixinItem implements ModifiableWoodItem {
     }
     
     @Inject(method = "getCreatorModId", at = @At("HEAD"), remap = false, cancellable = true)
-    public void getCreatorModId(ItemStack itemStack, CallbackInfoReturnable<String> callback) {
+    public void CW$getCreatorModId(ItemStack itemStack, CallbackInfoReturnable<String> callback) {
         if (isWoodItem()) callback.setReturnValue(Constants.MODID);
     }
     

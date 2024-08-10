@@ -23,7 +23,7 @@ public interface WoodItem {
     
     static ItemStack getStack(ItemStack stack, ResourceLocation loc) {
         NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-        nbt.setString("type", (loc == null ? ((WoodStack)stack).getDefaultType() : loc).toString());
+        nbt.setString("type", (loc == null ? ((WoodStack)(Object)stack).getDefaultType() : loc).toString());
         stack.setTagCompound(nbt);
         return stack;
     }

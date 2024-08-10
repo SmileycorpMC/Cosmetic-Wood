@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class ConfigHandler {
     
-    
     private static Map<ResourceLocation, ResourceLocation> duplicatedTypes;
     private static String[] duplicatedTypesStr = {
             "forestry:oak_(fireproof)-minecraft:oak", "forestry:spruce_(fireproof)-minecraft:spruce", "forestry:birch_(fireproof)-minecraft:birch",

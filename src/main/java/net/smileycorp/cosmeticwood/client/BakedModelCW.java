@@ -48,7 +48,7 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 					variant = ((IExtendedBlockState)state).getValue(WoodBlock.VARIANT);
 			    }
 			}
-			IModel newModel = this.base.retexture(WoodHandler.getTextures(WoodHandler.fixData(variant)));
+			IModel newModel = base.retexture(WoodHandler.getTextures(WoodHandler.fixData(variant)));
 			return newModel.bake(newModel.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter).getQuads(state, side, rand);
 		} catch (Exception e) {
 			e.printStackTrace();

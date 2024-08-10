@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class Constants {
 	public static final String MODID = "cosmeticwood";
 	public static final String NAME = "Cosmetic Wood";
-	public static final String VERSION = "1.1.2";
+	public static final String VERSION = "2.0.0";
 	public static final String DEPENDENCIES = "required-after:atlaslib";
 	private static final String PACKAGE = "net.smileycorp.cosmeticwood";
 	public static final String CLIENT_PROXY = PACKAGE + ".client.ClientProxy";
@@ -28,7 +28,7 @@ public class Constants {
 	
 	public static ResourceLocation getRegistry(String name) {
 		String[] strs = name.split("[.]");
-		if (strs.length>1) return new ResourceLocation(strs[0], strs[1]);
+		if (strs.length > 1) return new ResourceLocation(strs[0], strs[1]);
 		else return new ResourceLocation(name.toLowerCase());
 	}
 

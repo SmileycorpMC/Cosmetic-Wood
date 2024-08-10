@@ -5,6 +5,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -26,6 +29,11 @@ public class CommonProxy {
 		WoodHandler.buildProperties();
 		ContentRegistry.replaceRecipes();
 	}
+	
+	@SubscribeEvent
+	public void startTracking(ChunkWatchEvent.Watch event) {
+	
+	}
 
 	//fix data from old versions
 	@SubscribeEvent
@@ -41,6 +49,11 @@ public class CommonProxy {
 		}
 		InventoryEnderChest inv = player.getInventoryEnderChest();
 		if (inv != null) for (int i = 0; i < inv.getSizeInventory(); i++) WoodHandler.fixData(inv.getStackInSlot(i));
+	}
+	
+	@SubscribeEvent
+	public void attachCapabilities(AttachCapabilitiesEvent<Chunk> event) {
+		event.addCapability(Constants.loc("wood_types"), new WoodTypeStorage.Provider());
 	}
 
 }
