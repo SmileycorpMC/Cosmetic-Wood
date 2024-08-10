@@ -6,7 +6,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
-import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
 public interface WoodRecipe extends IRecipe {
 	
@@ -17,12 +18,7 @@ public interface WoodRecipe extends IRecipe {
 			ResourceLocation wood = WoodHandler.getInstance().getRegistry(stack);
 			if (wood != null) {
 				if (name == null) name = wood;
-				else if (!(name.equals(wood) || stack.getItem() instanceof WoodBlock)) {
-					NBTTagCompound tag = result.hasTagCompound() ? result.getTagCompound() : new NBTTagCompound();
-					tag.setString("type", WoodHandler.getInstance().getDefault(result).toString());
-					result.setTagCompound(tag);
-					return result;
-				}
+				else if (!(name.equals(wood))) return WoodItem.getStack(result, ((WoodStack)(Object)result).getDefaultType());
 			}
 		}
 		if (name != null) {
@@ -30,7 +26,7 @@ public interface WoodRecipe extends IRecipe {
 			tag.setString("type", name.toString());
 			result.setTagCompound(tag);
 		}
-		return result;
+		return name == null ? result : WoodItem.getStack(result, name);
 	}
 }
 
