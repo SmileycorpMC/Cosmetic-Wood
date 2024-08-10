@@ -1,5 +1,6 @@
 package net.smileycorp.cosmeticwood.common.registry;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
@@ -21,7 +22,6 @@ import net.smileycorp.cosmeticwood.common.registry.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapelessWoodRecipe;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,10 +29,9 @@ import java.util.Set;
 @EventBusSubscriber(modid= Constants.MODID)
 public class ContentRegistry {
 	
-	public static List<Class> PLUGINS = new ArrayList<Class>();
-	
-	public static List<Block> BLOCKS = new ArrayList<Block>();
-	public static List<Item> ITEMS = new ArrayList<Item>();
+	public static List<Class> PLUGINS = Lists.newArrayList();
+	public static List<Block> BLOCKS = Lists.newArrayList();
+	public static List<Item> ITEMS = Lists.newArrayList();
 	
 	public static void preInit(ASMDataTable asmtable) {
 		String annotation = CWPlugin.class.getCanonicalName();
@@ -63,12 +62,14 @@ public class ContentRegistry {
 						block.setWoodBlock();
 						block.setDefault(entry.getDefaultType());
 						block.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+						BLOCKS.add((Block) block);
 					}
 					if (entry.getItem() != null) {
 						ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getBlock());
 						item.setWoodItem();
 						item.setDefault(entry.getDefaultType());
 						item.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+						ITEMS.add((Item) item);
 					}
 				}
 			} catch (Exception e) {

@@ -5,12 +5,11 @@
   "mixins": [
     "MixinBlock",
     "MixinBlockStateBase",
-    "MixinExtendedBlockState",
     "MixinItem",
     "MixinItemStack"
   ],
   "client": [
-    "MixinBlockRendererDispatcher"
+    "MixinBlockModelRenderer"
   ],
   "server": []
 }

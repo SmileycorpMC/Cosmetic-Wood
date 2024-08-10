@@ -15,7 +15,7 @@ import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -131,7 +131,7 @@ public class WoodHandler {
 	}
 	
 	public ResourceLocation getRegistry(ItemStack stack) {
-		if (stack.getItem() instanceof WoodItem) {
+		if (((WoodStack)(Object)stack).isWoodItem()) {
 			NBTTagCompound nbt = stack.getTagCompound();
 			return (nbt != null && nbt.hasKey("type")) ? fixData(nbt.getString("type")) : WoodHandler.getDefault();
 		}

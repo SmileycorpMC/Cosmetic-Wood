@@ -11,15 +11,17 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
-import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
+import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -28,6 +30,8 @@ import java.util.List;
 public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 
 	private final IModel base;
+	private BlockPos pos;
+	private IBlockAccess world;
 	
 	public BakedModelCW(IBakedModel baked, IModel base) {
 		super(baked);
@@ -42,33 +46,34 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 	@Override
     public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 		try {
-			String variant = "minecraft:oak";
-			if(state instanceof IExtendedBlockState) {
-				if(((IExtendedBlockState) state).getUnlistedNames().contains(WoodBlock.VARIANT)) {
-					variant = ((IExtendedBlockState)state).getValue(WoodBlock.VARIANT);
-			    }
-			}
-			IModel newModel = base.retexture(WoodHandler.getInstance().getTextures(WoodHandler.getInstance().fixData(variant)));
+			ResourceLocation type = WoodHandler.getDefault();
+			if (pos != null && world != null) type = WoodTypeStorage.getWoodType(world, pos);
+			IModel newModel = base.retexture(WoodHandler.getInstance().getTextures(type));
 			return newModel.bake(newModel.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter).getQuads(state, side, rand);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return originalModel.getQuads(state, side, rand);
 		}
        
-    }	
+    }
+	
+	public void setContext(BlockPos pos, IBlockAccess world) {
+		this.pos = pos;
+		this.world = world;
+	}
 	
 	@Override
     public ItemOverrideList getOverrides() {
-        return new CWItemOverrides(this, base);
+        return new CWItemOverrides(base);
     }
 	
 	public static class CWItemOverrides extends ItemOverrideList {
 		
 		public final IModel base;
 		
-		public CWItemOverrides(BakedModelCW baked, IModel base) {
+		public CWItemOverrides(IModel base) {
 			super(ImmutableList.of());
-			this.base=base;
+			this.base = base;
 		}
 		
 		@Override
