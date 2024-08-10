@@ -14,11 +14,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.smileycorp.cosmeticwood.network.PacketHandler;
+import net.smileycorp.cosmeticwood.network.SyncWoodTypesMessage;
 
 @EventBusSubscriber(modid = Constants.MODID)
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
+		PacketHandler.initPackets();
 		ConfigHandler.syncConfig(event);
 		ContentRegistry.preInit(event.getAsmData());
 	}
@@ -31,8 +34,11 @@ public class CommonProxy {
 	}
 	
 	@SubscribeEvent
-	public void startTracking(ChunkWatchEvent.Watch event) {
-	
+	public void startTrackingChunk(ChunkWatchEvent.Watch event) {
+		Chunk chunk = event.getChunkInstance();
+		if (chunk == null) return;
+		if (!chunk.hasCapability(WoodTypeStorage.CAPABILITY, null)) return;
+		PacketHandler.CHANNEL.sendTo(new SyncWoodTypesMessage(chunk), event.getPlayer());
 	}
 
 	//fix data from old versions

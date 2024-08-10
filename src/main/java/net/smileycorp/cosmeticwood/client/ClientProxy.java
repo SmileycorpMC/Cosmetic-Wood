@@ -11,8 +11,10 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -33,6 +35,7 @@ import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.ContentRegistry;
+import net.smileycorp.cosmeticwood.common.WoodTypeStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +46,8 @@ import java.util.Map.Entry;
 public class ClientProxy extends CommonProxy {
 
 	private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = new HashMap<String, TextureAtlasSprite>();
-
-	@Override
+    
+    @Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 	}
@@ -123,4 +126,11 @@ public class ClientProxy extends CommonProxy {
 	public static TextureAtlasSprite getGreyscaleSprite(String key) {
 		return GREYSCALE_SPRITES.get(key);
 	}
+	
+	public static void syncChunk(int x, int z, NBTTagCompound nbt) {
+		Chunk chunk = Minecraft.getMinecraft().world.getChunkFromChunkCoords(x, z);
+		if (chunk == null) return;
+		if (!chunk.hasCapability(WoodTypeStorage.CAPABILITY, null)) return;
+	}
+	
 }
