@@ -12,8 +12,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.smileycorp.cosmeticwood.api.CWPlugin;
 import net.smileycorp.cosmeticwood.api.WoodRegistryEntry;
+import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
-import net.smileycorp.cosmeticwood.common.CosmeticWood;
 import net.smileycorp.cosmeticwood.common.registry.block.ModifiableWoodBlock;
 import net.smileycorp.cosmeticwood.common.registry.item.ModifiableWoodItem;
 import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
@@ -42,12 +42,12 @@ public class ContentRegistry {
 			if (Loader.isModLoaded(modid)) {
 				try {
 					Class plugin = Class.forName(data.getClassName());
-					CosmeticWood.logInfo("Loading plugin " + modid);
+					CWLogger.logInfo("Loading plugin " + modid);
 					PLUGINS.add(plugin);
 				} catch (Exception e) {
-					CosmeticWood.logError("Error loading plugin " + modid, e);
+					CWLogger.logError("Error loading plugin " + modid, e);
 				}
-			} else CosmeticWood.logInfo("Mod " + modid + " not detected. Skipping plugin.");
+			} else CWLogger.logInfo("Mod " + modid + " not detected. Skipping plugin.");
 		}
 	}
 	
@@ -72,17 +72,17 @@ public class ContentRegistry {
 					}
 				}
 			} catch (Exception e) {
-				CosmeticWood.logError("Failed loading entry " + field.getName(), e);
+				CWLogger.logError("Failed loading entry " + field.getName(), e);
 			}
 		}
 	}
 	
 	public static void replaceRecipes(){
 		IForgeRegistry<IRecipe> recipes = ForgeRegistries.RECIPES;
-		CosmeticWood.logInfo("Replacing recipes");
+		CWLogger.logInfo("Replacing recipes");
 		recipes.forEach(recipe -> {
 			if (!(((WoodItem)recipe.getRecipeOutput().getItem()).isWoodItem())) return;
-			CosmeticWood.logInfo("Replacing recipe " + recipe.getRegistryName());
+			CWLogger.logInfo("Replacing recipe " + recipe.getRegistryName());
 			recipes.register(recipe instanceof IShapedRecipe ? new ShapedWoodRecipe((IShapedRecipe) recipe) : new ShapelessWoodRecipe(recipe));
 		});
 	}

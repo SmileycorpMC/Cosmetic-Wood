@@ -11,8 +11,8 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
+import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
-import net.smileycorp.cosmeticwood.common.CosmeticWood;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
 import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
@@ -78,7 +78,7 @@ public class WoodHandler {
 			if (logs.containsKey(key)) log = logs.get(key);
 			WOOD_MAP.put(entry.getKey(), new WoodDefinition(key, entry.getValue(), log));
 		}
-		CosmeticWood.logInfo("Detected wood types " + WOOD_MAP.keySet());
+		CWLogger.logInfo("Detected wood types " + WOOD_MAP.keySet());
 	}
 	
 	public boolean contains(String key) {

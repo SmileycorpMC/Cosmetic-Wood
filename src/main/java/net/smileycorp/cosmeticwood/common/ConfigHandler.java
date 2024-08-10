@@ -58,7 +58,7 @@ public class ConfigHandler {
                     ResourceLocation loc2 = new ResourceLocation(names[1]);
                     duplicatedTypes.put(loc1, loc2);
                 } catch (Exception e) {
-                    CosmeticWood.logError("Error parsing duplicated wood type " + str, e);
+                    CWLogger.logError("Error parsing duplicated wood type " + str, e);
                 }
             }
         }

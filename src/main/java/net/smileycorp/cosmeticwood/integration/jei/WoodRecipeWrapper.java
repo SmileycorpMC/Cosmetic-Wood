@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.smileycorp.cosmeticwood.common.CosmeticWood;
+import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.data.WoodDefinition;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
@@ -62,7 +62,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 			stack.setTagCompound(tag);
 			outputs.add(stack);
 		}
-		CosmeticWood.logInfo(outputs.stream().map(ItemStack::getTagCompound).collect(Collectors.toList()));
+		CWLogger.logInfo(outputs.stream().map(ItemStack::getTagCompound).collect(Collectors.toList()));
 		ingredients.setOutputLists(VanillaTypes.ITEM, Collections.singletonList(outputs));
 		for (Ingredient ingredient : recipe.getIngredients()) {
 			if (ingredient.apply(new ItemStack(Blocks.PLANKS))) {
@@ -111,7 +111,7 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 				}
 			}
 		}
-		CosmeticWood.logInfo(outputs.stream().map(ItemStack::getTagCompound).collect(Collectors.toList()));
+		CWLogger.logInfo(outputs.stream().map(ItemStack::getTagCompound).collect(Collectors.toList()));
 		JEIIntegration.craftingHelper.setInputs(displayStacks, inputs, width, height);
 		JEIIntegration.craftingHelper.setOutput(displayStacks, outputs);
 	}
