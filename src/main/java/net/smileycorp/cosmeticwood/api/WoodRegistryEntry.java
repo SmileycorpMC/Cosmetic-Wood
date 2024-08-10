@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class WoodRegistryEntry {
     
@@ -58,6 +59,11 @@ public class WoodRegistryEntry {
         
         public Builder exclude(String... modids) {
             for (String modid : modids) excludedModids.add(modid);
+            return this;
+        }
+        
+        public Builder conditionalExclude(Supplier<Boolean> condition, String... modids) {
+            if (!condition.get()) exclude(modids);
             return this;
         }
         
