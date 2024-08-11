@@ -16,6 +16,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.smileycorp.cosmeticwood.common.CWLogger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,7 +44,9 @@ public interface WoodTypeStorage {
     }
     
     static void setWoodType(IBlockAccess world, BlockPos pos, ResourceLocation type) {
+        CWLogger.logInfo(world + ", " + ", " + pos + ", " + type);
         Chunk chunk = getChunk(world, pos);
+        CWLogger.logInfo(chunk);
         if (chunk == null) return;
         if (!chunk.hasCapability(CAPABILITY, null)) return;
         chunk.getCapability(CAPABILITY, null).setWoodType(pos, type);

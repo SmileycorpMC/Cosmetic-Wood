@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.smileycorp.atlas.api.util.TextUtils;
 
 public class Constants {
 	public static final String MODID = "cosmeticwood";
@@ -40,5 +41,11 @@ public class Constants {
 		name = name.replace(" ", "_");
 		return new ResourceLocation(item.getRegistryName().getResourceDomain(), name);
 	}
+	
+	//makes TextUtils accessible for mixins
+	public static String toProperCase(String text) {
+		return TextUtils.toProperCase(text);
+	}
+	
 }
 

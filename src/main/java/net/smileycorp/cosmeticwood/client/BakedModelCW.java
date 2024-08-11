@@ -20,8 +20,10 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
+import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
+import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -48,6 +50,9 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 		try {
 			ResourceLocation type = WoodHandler.getDefault();
 			if (pos != null && world != null) type = WoodTypeStorage.getWoodType(world, pos);
+			CWLogger.logInfo(state + ", " + world + ", " + pos);
+			CWLogger.logInfo(type);
+			if (type.equals(((WoodBlock)state).getDefaultType())) return originalModel.getQuads(state, side, rand);
 			IModel newModel = base.retexture(WoodHandler.getInstance().getTextures(type));
 			return newModel.bake(newModel.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter).getQuads(state, side, rand);
 		} catch (Exception e) {

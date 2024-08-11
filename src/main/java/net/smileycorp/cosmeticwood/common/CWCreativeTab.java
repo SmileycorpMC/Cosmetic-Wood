@@ -5,9 +5,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
 
 import java.util.Random;
 
@@ -26,7 +29,9 @@ public class CWCreativeTab extends CreativeTabs {
     @Override
     @SideOnly(Side.CLIENT)
     public void displayAllRelevantItems(NonNullList<ItemStack> stacks) {
-        for (Item item : ContentRegistry.ITEMS) item.getSubItems(this, stacks);
+        for (Item item : ContentRegistry.ITEMS) for (ResourceLocation type :
+                WoodHandler.getInstance().getTypes(((WoodItem)item).getModIds()))
+            stacks.add(WoodItem.getStack(item, type));
     }
     
     @Override

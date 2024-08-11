@@ -4,22 +4,24 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.BlockModelShapes;
+import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.IRegistry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,15 +31,17 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.smileycorp.atlas.api.client.CustomStateMapper;
-import net.smileycorp.atlas.api.client.RenderingUtils;
 import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
+import net.smileycorp.atlas.api.util.TextUtils;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
+import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -50,6 +54,7 @@ public class ClientProxy extends CommonProxy {
     @Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
+		ModelLoaderRegistry.registerLoader(new CWModelLoader());
 	}
 
 	@Override
@@ -60,6 +65,22 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
+		Minecraft mc = Minecraft.getMinecraft();
+		ItemModelMesher mesher = mc.getRenderItem().getItemModelMesher();
+		BlockModelShapes blockModels = mc.getBlockRendererDispatcher().getBlockModelShapes();
+		ItemColors itemColours = mc.getItemColors();
+		BlockColors blockColors = mc.getBlockColors();
+		for (Block block : ContentRegistry.BLOCKS) {
+			Item item = Item.getItemFromBlock(block);
+			ModelResourceLocation loc = new ModelResourceLocation(block.getRegistryName() + ".wooditem", "inventory");
+			ModelLoader.setCustomModelResourceLocation(item, 0, loc);
+			StateMap mapper = new StateMap.Builder().withSuffix(".woodblock").build();
+			ModelLoader.setCustomStateMapper(block, mapper);
+			blockModels.registerBlockWithStateMapper(block, mapper);
+			mesher.register(item, 0, loc);
+			itemColours.registerItemColorHandler(new CWItemColour(), block);
+			blockColors.registerBlockColorHandler(new CWBlockColour(), block);
+		}
 		FMLClientHandler.instance().refreshResources();
 	}
 
@@ -88,27 +109,19 @@ public class ClientProxy extends CommonProxy {
 		ItemColors registry = event.getItemColors();
 		registry.registerItemColorHandler(new CWItemColour(), ContentRegistry.ITEMS.toArray(new Item[]{}));
 	}
-
+	
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public static void registerModels(ModelRegistryEvent event) {
-		for (Block block : ContentRegistry.BLOCKS) {
-			Item item = Item.getItemFromBlock(block);
-			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Constants.loc(block), "inventory"));
-			ModelLoader.setCustomStateMapper(block, new CustomStateMapper(Constants.MODID, block.getRegistryName().getResourcePath()));
-			//if (((WoodItem)item).getITESR() != null) item.setTileEntityItemStackRenderer(((WoodItem)item).getITESR());
+	public static void addTooltip(ItemTooltipEvent event) {
+		ItemStack stack = event.getItemStack();
+		if (stack == null) return;
+		if (!((WoodStack)(Object)stack).isWoodItem()) return;
+		NBTTagCompound nbt = stack.getTagCompound();
+		List<String> tooltip = event.getToolTip();
+		if (nbt != null && nbt.hasKey("type")) {
+			String type = WoodHandler.getInstance().fixData(nbt.getString("type")).getResourcePath();
+			tooltip.add(TextUtils.toProperCase(type));
 		}
-	}
-
-	@SubscribeEvent
-	public static void onModelBake(ModelBakeEvent event) {
-		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-		RenderingUtils.replaceRegisteredModel(new ModelResourceLocation(Constants.loc("wooden_button"), "inventory"), registry, BakedModelCW.class);
-		for (Block block : ContentRegistry.BLOCKS) {
-			for (IBlockState state : block.getBlockState().getValidStates()) {
-				RenderingUtils.replaceRegisteredModel(getModelLocation(state), registry, BakedModelCW.class);
-			}
-		}
+		else tooltip.add(TextUtils.toProperCase(WoodHandler.getDefault().getResourcePath()));
 	}
 
 	public static ModelResourceLocation getModelLocation(IBlockState state) {
@@ -131,6 +144,7 @@ public class ClientProxy extends CommonProxy {
 		Chunk chunk = Minecraft.getMinecraft().world.getChunkFromChunkCoords(x, z);
 		if (chunk == null) return;
 		if (!chunk.hasCapability(WoodTypeStorage.CAPABILITY, null)) return;
+		chunk.getCapability(WoodTypeStorage.CAPABILITY, null).load(nbt);
 	}
 	
 }

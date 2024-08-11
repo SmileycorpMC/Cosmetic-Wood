@@ -31,6 +31,7 @@ public class CWLogger {
     
     public static void logError(Object message, Exception e) {
         writeToFile(message + " " + e);
+        writeToFile(e.getCause());
         for (StackTraceElement traceElement : e.getStackTrace()) writeToFile(traceElement);
     }
     

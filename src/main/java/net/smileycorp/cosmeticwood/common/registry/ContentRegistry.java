@@ -17,7 +17,7 @@ import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.registry.block.ModifiableWoodBlock;
 import net.smileycorp.cosmeticwood.common.registry.item.ModifiableWoodItem;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapelessWoodRecipe;
 
@@ -82,7 +82,7 @@ public class ContentRegistry {
 		IForgeRegistry<IRecipe> recipes = ForgeRegistries.RECIPES;
 		CWLogger.logInfo("Replacing recipes");
 		recipes.forEach(recipe -> {
-			if (!(((WoodItem)recipe.getRecipeOutput().getItem()).isWoodItem())) return;
+			if (!(((WoodStack)(Object)recipe.getRecipeOutput()).isWoodItem())) return;
 			CWLogger.logInfo("Replacing recipe " + recipe.getRegistryName());
 			recipes.register(recipe instanceof IShapedRecipe ? new ShapedWoodRecipe((IShapedRecipe) recipe) : new ShapelessWoodRecipe(recipe));
 		});

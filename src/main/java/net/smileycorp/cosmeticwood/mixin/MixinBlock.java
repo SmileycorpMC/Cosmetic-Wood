@@ -1,9 +1,11 @@
 package net.smileycorp.cosmeticwood.mixin;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -13,12 +15,16 @@ import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 import net.smileycorp.cosmeticwood.common.registry.block.ModifiableWoodBlock;
 import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Block.class)
 public abstract class MixinBlock implements ModifiableWoodBlock {
+    
+    @Shadow protected abstract BlockStateContainer createBlockState();
     
     private boolean isWood;
     private ResourceLocation defaultType = WoodHandler.getDefault();
@@ -63,6 +69,11 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
     public void CW$onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack, CallbackInfo callback) {
         if (!isWood()) return;
         WoodTypeStorage.setWoodType(world, pos, ((WoodStack)(Object)stack).getType());
+    }
+    
+    @Inject(at = @At("HEAD"), method = "getBlockLayer", cancellable = true)
+    public void CW$getBlockLayer(CallbackInfoReturnable<BlockRenderLayer> callback) {
+        if (isWood() && callback.getReturnValue() == BlockRenderLayer.SOLID) callback.setReturnValue(BlockRenderLayer.CUTOUT_MIPPED);
     }
     
 }

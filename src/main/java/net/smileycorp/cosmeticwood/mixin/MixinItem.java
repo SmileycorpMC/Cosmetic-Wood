@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.registry.item.ModifiableWoodItem;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -57,8 +58,8 @@ public class MixinItem implements ModifiableWoodItem {
     }
     
     @Inject(method = "getCreatorModId", at = @At("HEAD"), remap = false, cancellable = true)
-    public void CW$getCreatorModId(ItemStack itemStack, CallbackInfoReturnable<String> callback) {
-        if (isWoodItem()) callback.setReturnValue(Constants.MODID);
+    public void CW$getCreatorModId(ItemStack stack, CallbackInfoReturnable<String> callback) {
+        if (((WoodStack)(Object)stack).isWoodItem()) callback.setReturnValue(Constants.MODID);
     }
     
 }
