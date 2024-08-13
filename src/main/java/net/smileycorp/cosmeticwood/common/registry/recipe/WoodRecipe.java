@@ -21,11 +21,6 @@ public interface WoodRecipe extends IRecipe {
 				else if (!(name.equals(wood))) return WoodItem.getStack(result, ((WoodStack)(Object)result).getDefaultType());
 			}
 		}
-		if (name != null) {
-			NBTTagCompound tag = result.hasTagCompound() ? result.getTagCompound() : new NBTTagCompound();
-			tag.setString("type", name.toString());
-			result.setTagCompound(tag);
-		}
 		return name == null ? result : WoodItem.getStack(result, name);
 	}
 }
