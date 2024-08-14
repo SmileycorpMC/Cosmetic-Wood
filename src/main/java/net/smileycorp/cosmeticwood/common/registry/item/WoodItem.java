@@ -14,14 +14,11 @@ public interface WoodItem {
     ResourceLocation getType(ItemStack stack);
     
     static ItemStack getStack(Item item, ResourceLocation loc) {
-        ItemStack stack = new ItemStack(item);
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setString("type", (loc == null ? ((WoodItem)item).getDefaultType() : loc).toString());
-        stack.setTagCompound(nbt);
-        return stack;
+        return getStack(new ItemStack(item), loc);
     }
     
     static ItemStack getStack(ItemStack stack, ResourceLocation loc) {
+        if (loc == null || ((WoodStack)(Object)stack).getDefaultType().equals(loc)) return stack;
         NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
         nbt.setString("type", (loc == null ? ((WoodStack)(Object)stack).getDefaultType() : loc).toString());
         stack.setTagCompound(nbt);
