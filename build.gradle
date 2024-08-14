@@ -29,7 +29,7 @@ apply plugin: 'java'
 
 version = '1.12.2-2.0.0'
 group = 'next.smileycorp.cosmeticwood' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'Cosmetic-Wood'
+archivesBaseName = 'Cosmetic-Wood-2'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 

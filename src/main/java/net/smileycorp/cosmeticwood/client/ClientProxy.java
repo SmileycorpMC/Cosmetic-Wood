@@ -55,11 +55,6 @@ public class ClientProxy extends CommonProxy {
 		super.preInit(event);
 		ModelLoaderRegistry.registerLoader(new CWModelLoader());
 	}
-
-	@Override
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-	}
 	
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
@@ -72,13 +67,7 @@ public class ClientProxy extends CommonProxy {
 			} catch (Exception e) {}
 		}
 	}
-
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		super.postInit(event);
-		FMLClientHandler.instance().refreshResources();
-	}
-
+	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void stitchTextureEvent(TextureStitchEvent.Pre event) {
 		registerFallbackSprite("plank", new ResourceLocation("minecraft", "blocks/planks_oak"));
@@ -117,18 +106,6 @@ public class ClientProxy extends CommonProxy {
 			tooltip.add(TextUtils.toProperCase(type));
 		}
 		else tooltip.add(TextUtils.toProperCase(WoodHandler.getDefault().getResourcePath()));
-	}
-
-	public static ModelResourceLocation getModelLocation(IBlockState state) {
-		String property = "";
-		for (Entry<IProperty<?>, Comparable<?>> entry : state.getProperties().entrySet()){
-			if (property.length() > 0) property += ",";
-			property += entry.getKey().getName();
-			property += "=";
-			property += entry.getValue().toString();
-		}
-		if (property.isEmpty()) property = "inventory";
-		return new ModelResourceLocation(Constants.loc(state.getBlock().getRegistryName().getResourcePath()), property);
 	}
 
 	public static TextureAtlasSprite getGreyscaleSprite(String key) {
