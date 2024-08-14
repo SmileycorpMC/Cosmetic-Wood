@@ -4,8 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockModelShapes;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -18,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -61,26 +60,22 @@ public class ClientProxy extends CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 	}
+	
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		for (Block block : ContentRegistry.BLOCKS) ModelLoader.setCustomStateMapper(block, new StateMap.Builder().withSuffix(".woodblock").build());
+		for (Item item : ContentRegistry.ITEMS) {
+			ModelLoader.setCustomModelResourceLocation(item, 0,
+					new ModelResourceLocation(item.getRegistryName() + ".wooditem", "inventory"));
+			try {
+				ModelLoaderRegistry.getModel(new ModelResourceLocation(Constants.loc(item.getRegistryName().getResourcePath()), "inventory"));
+			} catch (Exception e) {}
+		}
+	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
-		Minecraft mc = Minecraft.getMinecraft();
-		ItemModelMesher mesher = mc.getRenderItem().getItemModelMesher();
-		BlockModelShapes blockModels = mc.getBlockRendererDispatcher().getBlockModelShapes();
-		ItemColors itemColours = mc.getItemColors();
-		BlockColors blockColors = mc.getBlockColors();
-		for (Block block : ContentRegistry.BLOCKS) {
-			Item item = Item.getItemFromBlock(block);
-			ModelResourceLocation loc = new ModelResourceLocation(block.getRegistryName() + ".wooditem", "inventory");
-			ModelLoader.setCustomModelResourceLocation(item, 0, loc);
-			StateMap mapper = new StateMap.Builder().withSuffix(".woodblock").build();
-			ModelLoader.setCustomStateMapper(block, mapper);
-			blockModels.registerBlockWithStateMapper(block, mapper);
-			mesher.register(item, 0, loc);
-			itemColours.registerItemColorHandler(new CWItemColour(), block);
-			blockColors.registerBlockColorHandler(new CWBlockColour(), block);
-		}
 		FMLClientHandler.instance().refreshResources();
 	}
 

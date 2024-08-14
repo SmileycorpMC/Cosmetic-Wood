@@ -30,7 +30,7 @@ public class CWCreativeTab extends CreativeTabs {
     @SideOnly(Side.CLIENT)
     public void displayAllRelevantItems(NonNullList<ItemStack> stacks) {
         for (Item item : ContentRegistry.ITEMS) for (ResourceLocation type :
-                WoodHandler.getInstance().getTypes(((WoodItem)item).getModIds()))
+                WoodHandler.getInstance().getTypes(((WoodItem)item).getDefaultType(), ((WoodItem)item).getModIds()))
             stacks.add(WoodItem.getStack(item, type));
     }
     

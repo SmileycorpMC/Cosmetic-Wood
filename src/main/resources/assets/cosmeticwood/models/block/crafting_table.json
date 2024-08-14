@@ -1,4 +1,15 @@
-{   "parent": "block/block",
+{
+    "parent": "block/block",
+    "textures": {
+        "plank": "blocks/planks_oak",
+        "log_top": "blocks/log_oak_top",
+        "top": "cosmeticwood:blocks/crafting_table_top",
+        "front": "cosmeticwood:blocks/crafting_table_front",
+        "side": "cosmeticwood:blocks/crafting_table_side",
+        "front_tools": "cosmeticwood:blocks/crafting_table_front_tools",
+        "side_tools": "cosmeticwood:blocks/crafting_table_side_tools",
+        "particle": "#plank"
+    },
 	"elements": [
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 16, 16 ],

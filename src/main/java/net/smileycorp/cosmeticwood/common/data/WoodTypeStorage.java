@@ -12,11 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.smileycorp.cosmeticwood.common.CWLogger;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.smileycorp.cosmeticwood.common.network.PacketHandler;
+import net.smileycorp.cosmeticwood.common.network.SyncWoodTypesMessage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,12 +47,14 @@ public interface WoodTypeStorage {
     }
     
     static void setWoodType(IBlockAccess world, BlockPos pos, ResourceLocation type) {
-        CWLogger.logInfo(world + ", " + ", " + pos + ", " + type);
         Chunk chunk = getChunk(world, pos);
-        CWLogger.logInfo(chunk);
         if (chunk == null) return;
         if (!chunk.hasCapability(CAPABILITY, null)) return;
         chunk.getCapability(CAPABILITY, null).setWoodType(pos, type);
+        if (world instanceof WorldServer) {
+            PacketHandler.CHANNEL.sendToAllTracking(new SyncWoodTypesMessage(chunk),
+                    new NetworkRegistry.TargetPoint(((WorldServer) world).provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 200));
+        }
     }
     
     

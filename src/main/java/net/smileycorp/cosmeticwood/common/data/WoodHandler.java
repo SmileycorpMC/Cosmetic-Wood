@@ -89,21 +89,21 @@ public class WoodHandler {
 		return WOOD_MAP.containsKey(key);
 	}
 	
-	public List<ResourceLocation> getTypes(String... modids) {
+	public List<ResourceLocation> getTypes(ResourceLocation defaultType, String... modids) {
 		List<ResourceLocation> result = Lists.newArrayList();
 		WOOD_MAP.values().forEach(entry -> {
 			if (entry == null) return;
 			if (!entry.isBaseType()) return;
-			for (String modid : modids) if (modid.equals(entry.getModid())) return;
+			if (!entry.getRegistry().equals(defaultType)) for (String modid : modids) if (modid.equals(entry.getModid())) return;
 			result.add(entry.getRegistry());});
 		return result;
 	}
 	
-	public List<WoodDefinition> getDefinitions(String... modids) {
+	public List<WoodDefinition> getDefinitions(ResourceLocation defaultType, String... modids) {
 		List<WoodDefinition> result = Lists.newArrayList();
 		WOOD_MAP.values().forEach(entry -> {
 			if (entry == null) return;
-			for (String modid : modids) if (modid.equals(entry.getModid())) return;
+			if (!entry.getRegistry().equals(defaultType)) for (String modid : modids) if (modid.equals(entry.getModid())) return;
 			result.add(entry);});
 		return result;
 	}
@@ -148,7 +148,7 @@ public class WoodHandler {
 	public ResourceLocation fixData(String name) {
 		if (name == null) return getDefault();
 		if (name.contains(":")) return new ResourceLocation(name);
-		for (ResourceLocation registry : getTypes())
+		for (ResourceLocation registry : getTypes(null))
 			if (registry.getResourcePath().equals(name)) return registry;
 		return new ResourceLocation(name);
 	}

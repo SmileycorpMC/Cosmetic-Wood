@@ -73,7 +73,7 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
     
     @Inject(at = @At("HEAD"), method = "getBlockLayer", cancellable = true)
     public void CW$getBlockLayer(CallbackInfoReturnable<BlockRenderLayer> callback) {
-        if (isWood() && callback.getReturnValue() == BlockRenderLayer.SOLID) callback.setReturnValue(BlockRenderLayer.CUTOUT_MIPPED);
+        if (isWood()) callback.setReturnValue(BlockRenderLayer.CUTOUT_MIPPED);
     }
     
 }

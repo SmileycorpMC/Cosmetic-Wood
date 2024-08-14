@@ -1,18 +1,14 @@
 {
-	"forge_marker": 1,
-	"variants": {
-		"normal": {
-			"model": "cosmeticwood:crafting_table",
-			"textures": {
-				"plank": "blocks/planks_oak",
-				"log_top": "blocks/log_oak_top",
-				"top": "cosmeticwood:blocks/crafting_table_top",
-				"front": "cosmeticwood:blocks/crafting_table_front",
-				"side": "cosmeticwood:blocks/crafting_table_side",
-				"front_tools": "cosmeticwood:blocks/crafting_table_front_tools",
-				"side_tools": "cosmeticwood:blocks/crafting_table_side_tools",
-				"particle": "#plank"
-			}
-		}
-	}
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cosmeticwood:crafting_table"
+    },
+    "variants": {
+        "normal": [
+            {}
+        ],
+        "inventory": [
+            {}
+        ]
+    }
 }

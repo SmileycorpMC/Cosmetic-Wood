@@ -3,15 +3,18 @@ package net.smileycorp.cosmeticwood.common;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.InventoryEnderChest;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.ChunkWatchEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
@@ -30,12 +33,17 @@ public class CommonProxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
-		ContentRegistry.init();
+	
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
 		WoodHandler.getInstance().buildProperties();
 		ContentRegistry.replaceRecipes();
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void itemRegistry(RegistryEvent<Item> event) {
+		ContentRegistry.init();
 	}
 	
 	@SubscribeEvent

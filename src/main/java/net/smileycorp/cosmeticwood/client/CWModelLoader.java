@@ -15,9 +15,10 @@ public class CWModelLoader implements ICustomModelLoader {
     
     @Override
     public IModel loadModel(ResourceLocation location) throws Exception {
-        return new ModelCW(new ModelResourceLocation(new ResourceLocation(location.getResourceDomain(),
-                (location.getResourcePath().contains(".woodblock") ? "block/" : "item/")
-                        + location.getResourcePath().split("\\.")[0]), ((ModelResourceLocation)location).getVariant()));
+        return new ModelCW(location.getResourcePath().contains("item") ? new ResourceLocation(location.getResourceDomain(),
+                "item/" + location.getResourcePath().split("\\.")[0])
+            : new ModelResourceLocation(new ResourceLocation(location.getResourceDomain(),
+                location.getResourcePath().split("\\.")[0]), ((ModelResourceLocation)location).getVariant()));
     }
     
     @Override
