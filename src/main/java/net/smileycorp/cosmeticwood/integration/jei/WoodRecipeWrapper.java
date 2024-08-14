@@ -17,17 +17,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.data.WoodDefinition;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
+import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.registry.recipe.WoodRecipe;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeWrapper {
 	
@@ -50,7 +48,8 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 	public void getIngredients(IIngredients ingredients) {
 		List<List<ItemStack>> inputs = Lists.newArrayList();
 		List<ItemStack> outputs = Lists.newArrayList();
-		List<WoodDefinition> definitions = WoodHandler.getInstance().getDefinitions(((WoodItem)recipe.getRecipeOutput().getItem()).getModIds());
+		WoodStack wood = (WoodStack)(Object)recipe.getRecipeOutput();
+		List<WoodDefinition> definitions = WoodHandler.getInstance().getDefinitions(wood.getDefaultType(), wood.getModIds());
 		List<ItemStack> planks = Lists.newArrayList();
 		List<ItemStack> logs = Lists.newArrayList();
 		for (WoodDefinition def : definitions) {
@@ -62,7 +61,6 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 			stack.setTagCompound(tag);
 			outputs.add(stack);
 		}
-		CWLogger.logInfo(outputs.stream().map(ItemStack::getTagCompound).collect(Collectors.toList()));
 		ingredients.setOutputLists(VanillaTypes.ITEM, Collections.singletonList(outputs));
 		for (Ingredient ingredient : recipe.getIngredients()) {
 			if (ingredient.apply(new ItemStack(Blocks.PLANKS))) {
@@ -111,7 +109,6 @@ public class WoodRecipeWrapper implements IRecipeWrapper, ICustomCraftingRecipeW
 				}
 			}
 		}
-		CWLogger.logInfo(outputs.stream().map(ItemStack::getTagCompound).collect(Collectors.toList()));
 		JEIIntegration.craftingHelper.setInputs(displayStacks, inputs, width, height);
 		JEIIntegration.craftingHelper.setOutput(displayStacks, outputs);
 	}

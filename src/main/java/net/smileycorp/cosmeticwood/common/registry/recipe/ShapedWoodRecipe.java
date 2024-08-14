@@ -56,8 +56,8 @@ public class ShapedWoodRecipe extends ShapedOreRecipe implements WoodRecipe {
 		NonNullList<Ingredient> ingredients = NonNullList.withSize(recipe.getIngredients().size(), Ingredient.EMPTY);
 		for (int i = 0; i < ingredients.size(); i++) {
 			Ingredient ingredient = recipe.getIngredients().get(i);
-			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new OreIngredient("plankWood") : ingredient);
-			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.LOG)) ? new OreIngredient("logWood") : ingredient);
+			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new OreIngredient("plankWood") :
+					ingredient.apply(new ItemStack(Blocks.LOG)) ? new OreIngredient("logWood") : ingredient);
 		}
 		primer.input = ingredients;
 		primer.height = recipe.getRecipeHeight();
