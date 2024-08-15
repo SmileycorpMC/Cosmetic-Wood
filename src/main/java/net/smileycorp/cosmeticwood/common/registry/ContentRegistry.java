@@ -82,7 +82,7 @@ public class ContentRegistry {
 		IForgeRegistry<IRecipe> recipes = ForgeRegistries.RECIPES;
 		CWLogger.logInfo("Replacing recipes");
 		recipes.forEach(recipe -> {
-			if (!(((WoodStack)(Object)recipe.getRecipeOutput()).isWoodItem())) return;
+			if (!(((WoodStack)(Object)recipe.getRecipeOutput()).isWood())) return;
 			CWLogger.logInfo("Replacing recipe " + recipe.getRegistryName());
 			recipes.register(recipe instanceof IShapedRecipe ? new ShapedWoodRecipe((IShapedRecipe) recipe) : new ShapelessWoodRecipe(recipe));
 		});

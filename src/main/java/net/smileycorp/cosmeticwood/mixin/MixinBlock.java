@@ -81,7 +81,7 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
         if (!((WoodBlock)state).isWood()) return;
         for (int i = 0; i < drops.size(); i++) {
             ItemStack stack = drops.get(i);
-            if (!((WoodStack)(Object)stack).isWoodItem()) continue;
+            if (!((WoodStack)(Object)stack).isWood()) continue;
             if (ItemBlock.getItemFromBlock(state.getBlock()) != stack.getItem()) continue;
             drops.set(i, WoodItem.getStack(stack, WoodTypeStorage.getWoodType(world, pos)));
         }

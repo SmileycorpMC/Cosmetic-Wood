@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "powered=false": { "model": "cosmeticwood:minecraft/wooden_pressure_plate_up" },
+        "powered=true": { "model": "cosmeticwood:minecraft/wooden_pressure_plate_down" }
+    }
+}

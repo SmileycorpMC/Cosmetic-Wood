@@ -92,7 +92,7 @@ public class ClientProxy extends CommonProxy {
 	public static void addTooltip(ItemTooltipEvent event) {
 		ItemStack stack = event.getItemStack();
 		if (stack == null) return;
-		if (!((WoodStack)(Object)stack).isWoodItem()) return;
+		if (!((WoodStack)(Object)stack).isWood()) return;
 		NBTTagCompound nbt = stack.getTagCompound();
 		List<String> tooltip = event.getToolTip();
 		if (nbt != null && nbt.hasKey("type")) {

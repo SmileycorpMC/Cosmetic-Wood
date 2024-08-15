@@ -131,7 +131,7 @@ public class WoodHandler {
 	}
 	
 	public ResourceLocation getRegistry(ItemStack stack) {
-		if (((WoodStack)(Object)stack).isWoodItem()) return ((WoodStack)(Object)stack).getType(stack);
+		if (((WoodStack)(Object)stack).isWood()) return ((WoodStack)(Object)stack).getType(stack);
 		for (WoodDefinition wood : WOOD_MAP.values()) if (isStack(stack, wood.getLogStack()) || isStack(stack, wood.getPlankStack())) return wood.getRegistry();
 		return null;
 	}

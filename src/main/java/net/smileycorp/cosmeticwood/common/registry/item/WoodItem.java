@@ -4,12 +4,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.smileycorp.cosmeticwood.common.WoodObject;
 
-public interface WoodItem {
-    
-    boolean isWoodItem();
-    
-    ResourceLocation getDefaultType();
+public interface WoodItem extends WoodObject {
     
     ResourceLocation getType(ItemStack stack);
     
@@ -24,7 +21,5 @@ public interface WoodItem {
         stack.setTagCompound(nbt);
         return stack;
     }
-    
-    String[] getModIds();
     
 }

@@ -20,7 +20,7 @@ public class MixinItem implements ModifiableWoodItem {
     private String[] modIds = new String[0];
     
     @Override
-    public boolean isWoodItem() {
+    public boolean isWood() {
         return isWood;
     }
     
@@ -59,7 +59,7 @@ public class MixinItem implements ModifiableWoodItem {
     
     @Inject(method = "getCreatorModId", at = @At("HEAD"), remap = false, cancellable = true)
     public void CW$getCreatorModId(ItemStack stack, CallbackInfoReturnable<String> callback) {
-        if (((WoodStack)(Object)stack).isWoodItem()) callback.setReturnValue(Constants.MODID);
+        if (((WoodStack)(Object)stack).isWood()) callback.setReturnValue(Constants.MODID);
     }
     
 }

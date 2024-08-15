@@ -23,9 +23,9 @@ public abstract class MixinItemStack implements WoodStack {
     @Shadow public abstract int getMetadata();
     
     @Override
-    public boolean isWoodItem() {
+    public boolean isWood() {
         if (item == null || getMetadata() > 0) return false;
-        return ((WoodItem)item).isWoodItem();
+        return ((WoodItem)item).isWood();
     }
     
     @Override
@@ -50,7 +50,7 @@ public abstract class MixinItemStack implements WoodStack {
     
     @Inject(at = @At("TAIL"), method = "getDisplayName", cancellable = true)
     public void CW$getDisplayName(CallbackInfoReturnable<String> callback) {
-        if (!isWoodItem() || hasDisplayName()) return;
+        if (!isWood() || hasDisplayName()) return;
         callback.setReturnValue(callback.getReturnValue().replace(Constants.toProperCase(getDefaultType().getResourcePath()), "").trim());
     }
     

@@ -1,6 +1,7 @@
 package net.smileycorp.cosmeticwood.client;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -26,17 +27,20 @@ import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 
 	private final IModel base, original;
+	private final Map<ResourceLocation, IModel> submodels;
 	private BlockPos pos;
 	
-	public BakedModelCW(IBakedModel baked, IModel base, IModel original) {
+	public BakedModelCW(IBakedModel baked, IModel base, IModel original, Map<ResourceLocation, IModel> submodels) {
 		super(baked);
 		this.base = base;
 		this.original = original;
+		this.submodels = submodels;
 	}
 	
 	@Override
@@ -52,7 +56,8 @@ public class BakedModelCW extends BakedModelWrapper<IBakedModel> {
 			if (pos != null && world != null) type = WoodTypeStorage.getWoodType(world, pos);
 			if (type.equals(((WoodBlock)state).getDefaultType()))
 				return original.bake(original.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter).getQuads(state, side, rand);
-			IModel newModel = base.retexture(WoodHandler.getInstance().getTextures(type));
+			IModel newModel = submodels.containsKey(type) ? submodels.get(type) :
+					base.retexture(WoodHandler.getInstance().getTextures(type));
 			return newModel.bake(newModel.getDefaultState(), DefaultVertexFormats.BLOCK, RenderingUtils.defaultTextureGetter).getQuads(state, side, rand);
 		} catch (Exception e) {
 			e.printStackTrace();
