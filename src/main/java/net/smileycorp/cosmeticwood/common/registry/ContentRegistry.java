@@ -13,11 +13,11 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.smileycorp.cosmeticwood.api.CWPlugin;
 import net.smileycorp.cosmeticwood.api.WoodRegistryEntry;
+import net.smileycorp.cosmeticwood.api.registry.block.ModifiableWoodBlock;
+import net.smileycorp.cosmeticwood.api.registry.item.ModifiableWoodItem;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
-import net.smileycorp.cosmeticwood.common.registry.block.ModifiableWoodBlock;
-import net.smileycorp.cosmeticwood.common.registry.item.ModifiableWoodItem;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapelessWoodRecipe;
 

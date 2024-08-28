@@ -1,16 +1,17 @@
 {
+	"forge_marker": 1,
 	"variants": {
 		"inventory": { "model": "cosmeticwood:rustic/table_oak_inventory" }
 	},
 	"multipart": [
-		{ "apply": {"model": "cosmeticwood:rustic/table_oak_top"} },
+		{ "apply": {"model": "cosmeticwood:rustic:table_oak_top"} },
 		{ "when": {"nw": "true"},
-		  "apply": {"model": "cosmeticwood:rustic/table_oak_leg_nw"} },
+		  "apply": {"model": "cosmeticwood:rustic:table_oak_leg_nw"} },
 		{ "when": {"ne": "true"},
-		  "apply": {"model": "cosmeticwood:rustic/table_oak_leg_nw", "y": 90} },
+		  "apply": {"model": "cosmeticwood:rustic:table_oak_leg_nw", "y": 90} },
 		{ "when": {"se": "true"},
-		  "apply": {"model": "cosmeticwood:rustic/table_oak_leg_nw", "y": 180} },
+		  "apply": {"model": "cosmeticwood:rustic:table_oak_leg_nw", "y": 180} },
 		{ "when": {"sw": "true"},
-		  "apply": {"model": "cosmeticwood:rustic/table_oak_leg_nw", "y": 270} }
+		  "apply": {"model": "cosmeticwood:rustic:table_oak_leg_nw", "y": 270} }
 	]
 }

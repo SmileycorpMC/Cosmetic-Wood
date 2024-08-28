@@ -1,10 +1,10 @@
-package net.smileycorp.cosmeticwood.common.registry.item;
+package net.smileycorp.cosmeticwood.api.registry.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.smileycorp.cosmeticwood.common.WoodObject;
+import net.smileycorp.cosmeticwood.api.registry.WoodObject;
 
 public interface WoodItem extends WoodObject {
     

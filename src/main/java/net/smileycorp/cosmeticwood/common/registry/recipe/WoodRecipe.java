@@ -4,9 +4,9 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodItem;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
 public interface WoodRecipe extends IRecipe {
 	

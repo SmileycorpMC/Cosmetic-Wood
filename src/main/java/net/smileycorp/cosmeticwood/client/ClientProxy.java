@@ -22,12 +22,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.util.TextUtils;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
 import java.util.List;
 

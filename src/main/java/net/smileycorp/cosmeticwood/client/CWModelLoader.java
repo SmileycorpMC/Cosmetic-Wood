@@ -1,7 +1,6 @@
 package net.smileycorp.cosmeticwood.client;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -18,12 +17,11 @@ import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class CWModelLoader {
     
-    private static final Set<ModelResourceLocation> MODELS = Sets.newHashSet();
-    private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = new HashMap<String, TextureAtlasSprite>();
+    private static final Map<ModelResourceLocation, ModelResourceLocation> MODELS = Maps.newHashMap();
+    private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = Maps.newHashMap();
     
     public static void registerModels(Collection<? extends ResourceLocation> locs) {
         for (ResourceLocation loc : locs) registerModel(loc);
@@ -35,31 +33,30 @@ public class CWModelLoader {
     
     public static void registerModel(ResourceLocation loc) {
         if (!(loc instanceof ModelResourceLocation)) return;
-        MODELS.add((ModelResourceLocation) loc);
+        ModelResourceLocation base = (ModelResourceLocation) loc;
+        MODELS.put(base, new ModelResourceLocation(Constants.loc(base.getResourceDomain() + "/" + base.getResourcePath()), base.getVariant()));
         CWLogger.logInfo("Registered wood model " + loc);
     }
     
     public static void bakeModels(IRegistry<ModelResourceLocation, IBakedModel> registry) {
-        for (ModelResourceLocation loc : MODELS) registry.putObject(loc, getModel(registry.getObject(loc), loc));
+        for (Map.Entry<ModelResourceLocation, ModelResourceLocation> entry : MODELS.entrySet())
+            registry.putObject(entry.getKey(), getModel(registry.getObject(entry.getKey()), entry.getValue()));
     }
     
     public static IBakedModel getModel(IBakedModel original, ModelResourceLocation base) {
         HashMap<ResourceLocation, IModel> submodels = Maps.newHashMap();
         for (ResourceLocation type : WoodHandler.getInstance().getTypes(null)) {
             try {
-                ResourceLocation loc =  new ResourceLocation(base.getResourceDomain(), base.getResourcePath() + "_"
-                        + type.getResourceDomain() + "_" + type.getResourcePath());
-                if (base instanceof ModelResourceLocation) loc = new ModelResourceLocation(loc, base.getVariant());
-                IModel model = ModelLoaderRegistry.getModelOrMissing(loc);
+                IModel model = ModelLoaderRegistry.getModelOrMissing(new ModelResourceLocation(Constants.loc(base.getResourcePath() + "_"
+                        + type.getResourceDomain() + "_" + type.getResourcePath()), base.getVariant()));
                 if (model == ModelLoaderRegistry.getMissingModel()) continue;
                 submodels.put(type, model);
             } catch (Exception e) {}
         }
         try {
-            return new BakedModelCW(original, ModelLoaderRegistry.getModel(new ModelResourceLocation(Constants.loc(base.getResourceDomain() + "/" + base.getResourcePath()),
-                    base.getVariant())), submodels);
+            return new BakedModelCW(original, ModelLoaderRegistry.getModel(base), submodels);
         } catch (Exception e) {
-            CWLogger.logError("Failed loading model " + base, e);
+            CWLogger.logError("Failed loading model " + , e);
             return original;
         }
     }
@@ -68,7 +65,7 @@ public class CWModelLoader {
         stitchGreyscale(map, "plank", new ResourceLocation("minecraft", "blocks/planks_oak"));
         stitchGreyscale(map, "log_top", new ResourceLocation("minecraft", "blocks/log_oak_top"));
         stitchGreyscale(map, "log_side", new ResourceLocation("minecraft", "blocks/log_oak"));
-        for (ModelResourceLocation base : MODELS) {
+        for (ModelResourceLocation base : MODELS.values()) {
             for (ResourceLocation type : WoodHandler.getInstance().getTypes(null)) {
                 try {
                     ResourceLocation loc = new ResourceLocation(base.getResourceDomain(), base.getResourcePath() + "_"

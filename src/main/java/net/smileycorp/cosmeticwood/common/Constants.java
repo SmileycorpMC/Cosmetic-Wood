@@ -7,7 +7,7 @@ import net.smileycorp.atlas.api.util.TextUtils;
 
 public class Constants {
 	public static final String MODID = "cosmeticwood";
-	public static final String NAME = "Cosmetic Wood";
+	public static final String NAME = "Cosmetic Wood 2";
 	public static final String VERSION = "2.0.0";
 	public static final String DEPENDENCIES = "required-after:atlaslib";
 	private static final String PACKAGE = "net.smileycorp.cosmeticwood";

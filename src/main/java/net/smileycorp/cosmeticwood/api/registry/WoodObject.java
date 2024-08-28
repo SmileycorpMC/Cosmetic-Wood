@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.common;
+package net.smileycorp.cosmeticwood.api.registry;
 
 import net.minecraft.util.ResourceLocation;
 

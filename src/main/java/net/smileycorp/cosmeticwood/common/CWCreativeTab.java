@@ -8,9 +8,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodItem;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodItem;
 
 import java.util.Random;
 

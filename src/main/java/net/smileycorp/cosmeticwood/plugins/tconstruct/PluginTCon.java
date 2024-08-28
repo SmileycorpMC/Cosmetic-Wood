@@ -1,4 +1,4 @@
-package net.smileycorp.cosmeticwood.plugins.minecraft;
+package net.smileycorp.cosmeticwood.plugins.tconstruct;
 
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.api.CWPlugin;

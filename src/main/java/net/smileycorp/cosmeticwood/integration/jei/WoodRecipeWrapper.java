@@ -17,10 +17,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.smileycorp.cosmeticwood.api.registry.block.WoodBlock;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.data.WoodDefinition;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
-import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.registry.recipe.WoodRecipe;
 
 import java.util.ArrayList;

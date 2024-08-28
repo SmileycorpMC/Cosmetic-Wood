@@ -20,10 +20,10 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.smileycorp.atlas.api.client.RenderingUtils;
+import net.smileycorp.cosmeticwood.api.registry.block.WoodBlock;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
-import net.smileycorp.cosmeticwood.common.registry.block.WoodBlock;
-import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
 import javax.annotation.Nullable;
 import java.util.List;

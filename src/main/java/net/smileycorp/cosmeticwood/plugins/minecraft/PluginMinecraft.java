@@ -5,7 +5,7 @@ import net.smileycorp.cosmeticwood.api.CWPlugin;
 import net.smileycorp.cosmeticwood.api.WoodRegistryEntry;
 
 @CWPlugin(modid = "minecraft")
-public class PluginVanilla {
+public class PluginMinecraft {
     
     public static final WoodRegistryEntry CRAFTING_TABLE = new WoodRegistryEntry.Builder(new ResourceLocation("crafting_table")).build();
     
