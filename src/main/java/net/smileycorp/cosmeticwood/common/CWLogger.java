@@ -21,10 +21,6 @@ public class CWLogger {
         }
     }
     
-    public static void logSilently(Object message) {
-        writeToFile(message);
-    }
-    
     public static void logInfo(Object message) {
         writeToFile(message);
     }
@@ -34,7 +30,6 @@ public class CWLogger {
         writeToFile(e.getCause());
         for (StackTraceElement traceElement : e.getStackTrace()) writeToFile(traceElement);
     }
-    
     
     private static boolean writeToFile(Object message) {
         return writeToFile(Lists.newArrayList(String.valueOf(message)));

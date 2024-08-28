@@ -57,7 +57,6 @@ public interface WoodTypeStorage {
         }
     }
     
-    
     static Chunk getChunk(IBlockAccess world, BlockPos pos) {
         if (world instanceof World) return ((World) world).getChunkFromBlockCoords(pos);
         if (world instanceof ChunkCache) {

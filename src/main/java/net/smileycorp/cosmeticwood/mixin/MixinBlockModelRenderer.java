@@ -20,5 +20,4 @@ public class MixinBlockModelRenderer {
         if (model instanceof BakedModelCW) ((BakedModelCW) model).setContext(pos);
     }
     
-    
 }

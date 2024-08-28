@@ -1,6 +1,5 @@
 package net.smileycorp.cosmeticwood.common;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -19,18 +18,8 @@ public class Constants {
 		return MODID + "." + name.replace("_", "");
 	}
 	
-	public static ResourceLocation loc(Block block) {
-		return loc(block.getRegistryName().getResourcePath());
-	}
-	
 	public static ResourceLocation loc(String name) {
 		return new ResourceLocation(MODID, name.toLowerCase());
-	}
-	
-	public static ResourceLocation getRegistry(String name) {
-		String[] strs = name.split("[.]");
-		if (strs.length > 1) return new ResourceLocation(strs[0], strs[1]);
-		else return new ResourceLocation(name.toLowerCase());
 	}
 
 	public static ResourceLocation format(ItemStack stack) {

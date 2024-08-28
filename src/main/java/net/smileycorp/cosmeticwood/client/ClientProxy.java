@@ -2,22 +2,18 @@ package net.smileycorp.cosmeticwood.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.IRegistry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,7 +21,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
 import net.smileycorp.atlas.api.util.TextUtils;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
@@ -34,23 +29,19 @@ import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 import net.smileycorp.cosmeticwood.common.registry.item.WoodStack;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(value=Side.CLIENT, modid = Constants.MODID)
 public class ClientProxy extends CommonProxy {
-
-	private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = new HashMap<String, TextureAtlasSprite>();
-    
-    @Override
+	
+	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
-		ModelLoaderRegistry.registerLoader(new CWModelLoader());
+		//ModelLoaderRegistry.registerLoader(new CWModelLoader());
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		for (Block block : ContentRegistry.BLOCKS) ModelLoader.setCustomStateMapper(block, new StateMap.Builder().withSuffix(".woodblock").build());
 		for (Item item : ContentRegistry.ITEMS) {
@@ -60,20 +51,17 @@ public class ClientProxy extends CommonProxy {
 				ModelLoaderRegistry.getModel(new ModelResourceLocation(Constants.loc(item.getRegistryName().getResourcePath()), "inventory"));
 			} catch (Exception e) {}
 		}
+	}*/
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void bakeModels(ModelBakeEvent event) {
+		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
+		CWModelLoader.bakeModels(registry);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void stitchTextureEvent(TextureStitchEvent.Pre event) {
-		registerFallbackSprite("plank", new ResourceLocation("minecraft", "blocks/planks_oak"));
-		registerFallbackSprite("log_top", new ResourceLocation("minecraft", "blocks/log_oak_top"));
-		registerFallbackSprite("log_side", new ResourceLocation("minecraft", "blocks/log_oak"));
-	}
-
-	public void registerFallbackSprite(String key, ResourceLocation registry) {
-		TextureMap map = Minecraft.getMinecraft().getTextureMapBlocks();
-		TextureAtlasSprite sprite = new TextureAtlasGreyscale(registry);
-		map.setTextureEntry(sprite);
-		GREYSCALE_SPRITES.put(key, sprite);
+		CWModelLoader.stitchTextures(event.getMap());
 	}
 
 	@SubscribeEvent
@@ -100,10 +88,6 @@ public class ClientProxy extends CommonProxy {
 			tooltip.add(TextUtils.toProperCase(type));
 		}
 		else tooltip.add(TextUtils.toProperCase(WoodHandler.getDefault().getResourcePath()));
-	}
-
-	public static TextureAtlasSprite getGreyscaleSprite(String key) {
-		return GREYSCALE_SPRITES.get(key);
 	}
 	
 	public static void syncChunk(int x, int z, NBTTagCompound nbt) {

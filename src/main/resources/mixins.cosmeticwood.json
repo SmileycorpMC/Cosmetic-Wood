@@ -9,7 +9,8 @@
     "MixinItemStack"
   ],
   "client": [
-    "MixinBlockModelRenderer"
+    "MixinBlockModelRenderer",
+    "MixinModelBakery"
   ],
   "server": []
 }

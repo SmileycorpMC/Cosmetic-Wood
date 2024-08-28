@@ -32,9 +32,7 @@ public class CommonProxy {
 		ContentRegistry.preInit(event.getAsmData());
 	}
 
-	public void init(FMLInitializationEvent event) {
-	
-	}
+	public void init(FMLInitializationEvent event) {}
 
 	public void postInit(FMLPostInitializationEvent event) {
 		WoodHandler.getInstance().buildProperties();

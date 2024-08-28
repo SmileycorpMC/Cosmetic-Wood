@@ -1,0 +1,7 @@
+{
+    "parent": "rustic:block/table_oak_top",
+    "textures": {
+        "0": "#plank",
+		"plank": "blocks/planks_oak"
+    }
+}
