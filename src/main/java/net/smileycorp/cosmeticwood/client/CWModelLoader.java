@@ -56,7 +56,7 @@ public class CWModelLoader {
         try {
             return new BakedModelCW(original, ModelLoaderRegistry.getModel(base), submodels);
         } catch (Exception e) {
-            CWLogger.logError("Failed loading model " + , e);
+            CWLogger.logError("Failed loading model " + base, e);
             return original;
         }
     }
@@ -77,8 +77,7 @@ public class CWModelLoader {
                 } catch (Exception e) {}
             }
             try {
-                stitchTextures(map, ModelLoaderRegistry.getModel(new ModelResourceLocation(Constants.loc(base.getResourceDomain() + "/" + base.getResourcePath()),
-                        base.getVariant())));
+                stitchTextures(map, ModelLoaderRegistry.getModel(base));
             } catch (Exception e) {}
         }
     }
