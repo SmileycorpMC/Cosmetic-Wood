@@ -2,6 +2,7 @@ package net.smileycorp.cosmeticwood.common;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -41,6 +42,7 @@ public class CWCreativeTab extends CreativeTabs {
             items = NonNullList.create();
             displayAllRelevantItems(items);
         }
+        if (items.isEmpty()) return new ItemStack(Blocks.CRAFTING_TABLE);
         if (!needsRefresh && Minecraft.getMinecraft().world.getTotalWorldTime() % 80 == 1) needsRefresh = true;
         if (stack == null || (needsRefresh && Minecraft.getMinecraft().world.getTotalWorldTime() % 80 == 0)) {
             stack = items.get(rand.nextInt(items.size()));
