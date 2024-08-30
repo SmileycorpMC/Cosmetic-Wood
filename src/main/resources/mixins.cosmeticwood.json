@@ -5,6 +5,7 @@
   "mixins": [
     "MixinBlock",
     "MixinBlockStateBase",
+    "MixinForgeHooks",
     "MixinItem",
     "MixinItemStack"
   ],
