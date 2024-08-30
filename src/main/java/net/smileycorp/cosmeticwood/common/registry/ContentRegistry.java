@@ -1,17 +1,17 @@
 package net.smileycorp.cosmeticwood.common.registry;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.discovery.ASMDataTable;
-import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.smileycorp.cosmeticwood.api.CWPlugin;
 import net.smileycorp.cosmeticwood.api.WoodRegistryEntry;
 import net.smileycorp.cosmeticwood.api.registry.block.ModifiableWoodBlock;
 import net.smileycorp.cosmeticwood.api.registry.item.ModifiableWoodItem;
@@ -20,61 +20,87 @@ import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapedWoodRecipe;
 import net.smileycorp.cosmeticwood.common.registry.recipe.ShapelessWoodRecipe;
+import org.apache.commons.io.FileUtils;
 
-import java.lang.reflect.Field;
+import java.io.File;
+import java.io.FileReader;
+import java.nio.file.*;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 @EventBusSubscriber(modid= Constants.MODID)
 public class ContentRegistry {
 	
-	public static List<Class> PLUGINS = Lists.newArrayList();
+	public static Path CONFIG_FOLDER;
+	public static List<JsonArray> PLUGINS = Lists.newArrayList();
 	public static List<Block> BLOCKS = Lists.newArrayList();
 	public static List<Item> ITEMS = Lists.newArrayList();
 	
-	public static void preInit(ASMDataTable asmtable) {
-		String annotation = CWPlugin.class.getCanonicalName();
-		Set<ASMData> dataset = asmtable.getAll(annotation);
-		for (ASMData data : dataset) {
-			String modid = (String) data.getAnnotationInfo().get("modid");
-			if (Loader.isModLoaded(modid)) {
-				try {
-					Class plugin = Class.forName(data.getClassName());
-					CWLogger.logInfo("Loading plugin " + modid);
-					PLUGINS.add(plugin);
-				} catch (Exception e) {
-					CWLogger.logError("Error loading plugin " + modid, e);
-				}
-			} else CWLogger.logInfo("Mod " + modid + " not detected. Skipping plugin.");
+	public static void generateData() {
+		CONFIG_FOLDER = Paths.get(new File("config/cosmeticwood").getAbsolutePath());
+		CWLogger.logInfo(CONFIG_FOLDER);
+		if (!CONFIG_FOLDER.toFile().exists()) {
+			CONFIG_FOLDER.toFile().mkdirs();
+			try (FileSystem mod = FileSystems.newFileSystem(ContentRegistry.class.getProtectionDomain().getCodeSource().getLocation().toURI(),
+					Collections.emptyMap())) {
+				Files.find(mod.getPath("config_defaults"), Integer.MAX_VALUE, (matcher, options) -> options.isRegularFile())
+						.forEach(ContentRegistry::copyFileFromMod);
+				CWLogger.logInfo("Generated config files");
+			} catch (Exception e) {
+				CWLogger.logInfo("Failed to generate config files");
+			}
 		}
 	}
 	
 	public static void init() {
-		for (Class<?> plugin : PLUGINS) {
-			Field[] fields = plugin.getFields();
-			for (Field field : fields) try {
-				Object o = field.get(new Object());
-				if (o != null && o instanceof WoodRegistryEntry) {
-					WoodRegistryEntry entry = (WoodRegistryEntry) o;
-					if (entry.getBlock() != null) {
-						ModifiableWoodBlock block = (ModifiableWoodBlock) ForgeRegistries.BLOCKS.getValue(entry.getBlock());
-						block.setWoodBlock();
-						block.setDefault(entry.getDefaultType());
-						block.setModIds(entry.getExcludedModids().toArray(new String[]{}));
-						BLOCKS.add((Block) block);
-					}
-					if (entry.getItem() != null) {
-						ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getBlock());
-						item.setWoodItem();
-						item.setDefault(entry.getDefaultType());
-						item.setModIds(entry.getExcludedModids().toArray(new String[]{}));
-						ITEMS.add((Item) item);
-					}
+		JsonParser parser = new JsonParser();
+		try {
+			File plugins = CONFIG_FOLDER.resolve("plugins").toFile();
+			for (File file : plugins.listFiles((f, s) -> s.endsWith(".json"))) {
+				String name = file.getName().replace(".json", "");
+				if (!Loader.isModLoaded(name)) {
+					CWLogger.logInfo("Mod " + name + " is not loaded, skipping plugin");
+					continue;
 				}
-			} catch (Exception e) {
-				CWLogger.logError("Failed loading entry " + field.getName(), e);
+				try {
+					for (JsonElement element : parser.parse(new FileReader(file)).getAsJsonArray()) try {
+						WoodRegistryEntry entry = WoodRegistryEntry.fromJson(element);
+						if (entry == null) continue;
+						if (entry.getBlock() != null) {
+							ModifiableWoodBlock block = (ModifiableWoodBlock) ForgeRegistries.BLOCKS.getValue(entry.getBlock());
+							block.setWoodBlock();
+							block.setDefault(entry.getDefaultType());
+							block.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+							BLOCKS.add((Block) block);
+						}
+						if (entry.getItem() != null) {
+							ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getBlock());
+							item.setWoodItem();
+							item.setDefault(entry.getDefaultType());
+							item.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+							ITEMS.add((Item) item);
+						}
+					} catch (Exception e) {
+						CWLogger.logError("Failed loading entry " + element.toString(), e);
+					}
+					CWLogger.logInfo("Loaded plugin " + name);
+				} catch (Exception e) {
+					CWLogger.logError("Failed loading plugin " + name, e);
+				}
 			}
+		} catch (Exception e) {
+			CWLogger.logError("Failed loading plugins", e);
+		}
+	}
+	
+	private static void copyFileFromMod(Path path) {
+		try {
+			FileUtils.copyInputStreamToFile(Files.newInputStream(path),
+					new File(CONFIG_FOLDER.toFile(), path.toString().replace( "config_defaults/", "")));
+			CWLogger.logInfo("Copied file " + path);
+		} catch (Exception e) {
+			CWLogger.logError("Failed to copy file " + path, e);
 		}
 	}
 	

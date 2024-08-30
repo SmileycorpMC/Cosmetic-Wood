@@ -20,8 +20,7 @@ public class CosmeticWood {
 	public static CommonProxy proxy;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event){
-		CWLogger.clearLog();
+	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit(event);
 		MinecraftForge.EVENT_BUS.register(proxy);
 		CapabilityManager.INSTANCE.register(WoodTypeStorage.class, new WoodTypeStorage.Storage(), WoodTypeStorage.Impl::new);

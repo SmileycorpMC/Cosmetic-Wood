@@ -13,6 +13,10 @@ public class CWLogger {
     
     private static Path log_file = Paths.get("logs/cosmetic-wood.log");
     
+    static  {
+        clearLog();
+    }
+    
     public static void clearLog() {
         try {
             Files.write(log_file, Lists.newArrayList(), StandardCharsets.UTF_8);

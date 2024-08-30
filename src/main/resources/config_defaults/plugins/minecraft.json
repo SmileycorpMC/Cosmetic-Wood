@@ -1,0 +1,14 @@
+[
+	{
+		"block": "minecraft:crafting_table"
+	},
+	{
+		"block": "minecraft:bookshelf"
+	},
+	{
+		"block": "minecraft:wooden_button"
+	},
+	{
+		"block": "minecraft:wooden_pressure_plate"
+	}
+]

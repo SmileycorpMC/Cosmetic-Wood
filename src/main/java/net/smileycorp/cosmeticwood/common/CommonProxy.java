@@ -29,7 +29,6 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		PacketHandler.initPackets();
 		ConfigHandler.syncConfig(event);
-		ContentRegistry.preInit(event.getAsmData());
 	}
 
 	public void init(FMLInitializationEvent event) {}

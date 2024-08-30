@@ -1,6 +1,8 @@
 package net.smileycorp.cosmeticwood.api;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.util.ResourceLocation;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 
@@ -17,6 +19,16 @@ public class WoodRegistryEntry {
         this.item = builder.item;
         this.defaultType = builder.defaultType;
         this.excludedModids = builder.excludedModids;
+    }
+    
+    public static WoodRegistryEntry fromJson(JsonElement element) {
+        if (!(element instanceof JsonObject)) return null;
+        JsonObject obj = (JsonObject) element;
+        Builder builder = new Builder(new ResourceLocation(obj.get("block").getAsString()));
+        if (obj.has("item")) builder.item(new ResourceLocation(obj.get("item").getAsString()));
+        if (obj.has("default_type")) builder.defaultType(new ResourceLocation(obj.get("default_type").getAsString()));
+        if (obj.has("exclude_modids")) obj.getAsJsonArray("exclude_modids").forEach(e -> builder.exclude(e.getAsString()));
+        return builder.build();
     }
     
     public ResourceLocation getBlock() {
