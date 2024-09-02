@@ -89,6 +89,10 @@ public class WoodHandler {
 		return WOOD_MAP.containsKey(key);
 	}
 	
+	public WoodDefinition get(ResourceLocation name) {
+		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name) : WOOD_MAP.get(getDefault());
+	}
+	
 	public List<ResourceLocation> getTypes(ResourceLocation defaultType, String... modids) {
 		List<ResourceLocation> result = Lists.newArrayList();
 		WOOD_MAP.values().forEach(entry -> {
@@ -165,12 +169,12 @@ public class WoodHandler {
 	
 	public ImmutableMap<String, String> getTextures(ResourceLocation name) {
 		if (!clientInitialized) initClient();
-		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getTextures() : WOOD_MAP.get(getDefault()).getTextures()  ;
+		return get(name).getTextures()  ;
 	}
 	
 	public Color getColour(ResourceLocation name) {
 		if (!clientInitialized) initClient();
-		return WOOD_MAP.containsKey(name) ? WOOD_MAP.get(name).getColour() : WOOD_MAP.get(getDefault()).getColour();
+		return get(name).getColour();
 	}
 	
 	private void initClient() {
