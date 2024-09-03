@@ -39,7 +39,6 @@ public class ContentRegistry {
 	
 	public static void generateData() {
 		CONFIG_FOLDER = Paths.get(new File("config/cosmeticwood").getAbsolutePath());
-		CWLogger.logInfo(CONFIG_FOLDER);
 		if (!CONFIG_FOLDER.toFile().exists()) {
 			CONFIG_FOLDER.toFile().mkdirs();
 			try (FileSystem mod = FileSystems.newFileSystem(ContentRegistry.class.getProtectionDomain().getCodeSource().getLocation().toURI(),
