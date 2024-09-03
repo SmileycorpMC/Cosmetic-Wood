@@ -17,7 +17,6 @@ import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CWModelLoader {
     
