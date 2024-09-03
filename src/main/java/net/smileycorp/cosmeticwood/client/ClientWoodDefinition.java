@@ -37,8 +37,8 @@ public class ClientWoodDefinition {
 			IBakedModel logModel = dispatcher.getModelForState(logState);
 			List<BakedQuad> log_top_quads = logModel.getQuads(logState, EnumFacing.UP, 0);
 			log_top_sprite = log_top_quads.isEmpty() ? plank_sprite : log_top_quads.get(0).getSprite();
-			List<BakedQuad> log_side_quads = logModel.getQuads(logState, EnumFacing.UP, 0);
-			log_side_sprite = log_side_quads.isEmpty() ? plank_sprite : log_top_quads.get(0).getSprite();
+			List<BakedQuad> log_side_quads = logModel.getQuads(logState, EnumFacing.NORTH, 0);
+			log_side_sprite = log_side_quads.isEmpty() ? plank_sprite : log_side_quads.get(0).getSprite();
 		} else {
 			log_top_sprite = plank_sprite;
 			log_side_sprite = plank_sprite;
