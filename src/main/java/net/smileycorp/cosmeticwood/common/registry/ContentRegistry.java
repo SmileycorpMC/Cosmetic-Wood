@@ -33,7 +33,6 @@ import java.util.List;
 public class ContentRegistry {
 	
 	public static Path CONFIG_FOLDER;
-	public static List<JsonArray> PLUGINS = Lists.newArrayList();
 	public static List<Block> BLOCKS = Lists.newArrayList();
 	public static List<Item> ITEMS = Lists.newArrayList();
 	
@@ -63,6 +62,7 @@ public class ContentRegistry {
 					continue;
 				}
 				try {
+					CWLogger.logInfo("Loading plugin " + name);
 					for (JsonElement element : parser.parse(new FileReader(file)).getAsJsonArray()) try {
 						WoodRegistryEntry entry = WoodRegistryEntry.fromJson(element);
 						if (entry == null) continue;
@@ -80,6 +80,7 @@ public class ContentRegistry {
 							item.setModIds(entry.getExcludedModids().toArray(new String[]{}));
 							ITEMS.add((Item) item);
 						}
+						CWLogger.logInfo("Loaded wood block " + entry.getBlock());
 					} catch (Exception e) {
 						CWLogger.logError("Failed loading entry " + element.toString(), e);
 					}
