@@ -81,6 +81,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 	implementation "org.spongepowered:mixin:0.8"
+    implementation "io.github.llamalad7:mixinextras-common:0.4.1"
 	implementation "curse.maven:atlas-463826:3816069"
 	implementation "curse.maven:jei-238222:4393461"
 	implementation "curse.maven:tconstruct-74072:2902483"
@@ -120,6 +121,7 @@ shadowJar {
 	exclude 'LICENSE.txt'
 	dependencies {
 		include(dependency("org.spongepowered:mixin:0.8"))
+        include(dependency("io.github.llamalad7:mixinextras-common:0.4.1"))
 	}
 }
 
