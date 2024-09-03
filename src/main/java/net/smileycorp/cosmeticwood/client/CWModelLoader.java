@@ -24,21 +24,20 @@ public class CWModelLoader {
     private static final Map<ModelResourceLocation, ModelResourceLocation> MODELS = Maps.newHashMap();
     private static Map<String, TextureAtlasSprite> GREYSCALE_SPRITES = Maps.newHashMap();
     
-    public static Collection<? extends ResourceLocation> registerModels(Collection<? extends ResourceLocation> locs) {
-        return locs.stream().map(CWModelLoader::registerModel).filter(loc -> loc != null).collect(Collectors.toList());
+    public static void registerModels(Collection<? extends ResourceLocation> locs) {
+        locs.forEach(CWModelLoader::registerModel);
     }
     
     public static void registerModels(ResourceLocation... locs) {
         for (ResourceLocation loc : locs) registerModel(loc);
     }
     
-    public static ModelResourceLocation registerModel(ResourceLocation loc) {
-        if (!(loc instanceof ModelResourceLocation)) return null;
+    public static void registerModel(ResourceLocation loc) {
+        if (!(loc instanceof ModelResourceLocation)) return;
         ModelResourceLocation original = (ModelResourceLocation) loc;
         ModelResourceLocation base = new ModelResourceLocation(Constants.loc(original.getResourceDomain() + "/" + original.getResourcePath()), original.getVariant());
         MODELS.put(original, base);
         CWLogger.logInfo("Registered wood model " + loc);
-        return base;
     }
     
     public static void bakeModels(IRegistry<ModelResourceLocation, IBakedModel> registry) {
@@ -48,16 +47,16 @@ public class CWModelLoader {
     
     public static IBakedModel getModel(IBakedModel original, ModelResourceLocation base) {
         HashMap<ResourceLocation, IModel> submodels = Maps.newHashMap();
-        /*for (ResourceLocation type : WoodHandler.getInstance().getTypes(null)) {
+        for (ResourceLocation type : WoodHandler.getInstance().getTypes(null)) {
             try {
                 IModel model = ModelLoaderRegistry.getModelOrMissing(new ModelResourceLocation(Constants.loc(base.getResourcePath() + "_"
                         + type.getResourceDomain() + "_" + type.getResourcePath()), base.getVariant()));
                 if (model == ModelLoaderRegistry.getMissingModel()) continue;
                 submodels.put(type, model);
             } catch (Exception e) {}
-        }*/
+        }
         try {
-            return new BakedModelCW(original, base, submodels);
+            return new BakedModelCW(original, ModelLoaderRegistry.getModel(base), submodels);
         } catch (Exception e) {
             CWLogger.logError("Failed loading model " + base, e);
             return original;
