@@ -8,8 +8,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 
 public class ShapedWoodRecipe extends ShapedOreRecipe implements WoodRecipe {
 	
@@ -53,11 +53,12 @@ public class ShapedWoodRecipe extends ShapedOreRecipe implements WoodRecipe {
 	
 	private static CraftingHelper.ShapedPrimer buildRecipe(IShapedRecipe recipe) {
 		CraftingHelper.ShapedPrimer primer = new CraftingHelper.ShapedPrimer();
+		WoodStack output = (WoodStack) (Object) recipe.getRecipeOutput();
 		NonNullList<Ingredient> ingredients = NonNullList.withSize(recipe.getIngredients().size(), Ingredient.EMPTY);
 		for (int i = 0; i < ingredients.size(); i++) {
 			Ingredient ingredient = recipe.getIngredients().get(i);
-			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new OreIngredient("plankWood") :
-					ingredient.apply(new ItemStack(Blocks.LOG)) ? new OreIngredient("logWood") : ingredient);
+			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new WoodOreIngredient("plankWood", output) :
+					ingredient.apply(new ItemStack(Blocks.LOG)) ? new WoodOreIngredient("logWood", output) : ingredient);
 		}
 		primer.input = ingredients;
 		primer.height = recipe.getRecipeHeight();

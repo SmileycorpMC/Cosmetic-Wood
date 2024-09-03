@@ -1,5 +1,6 @@
 package net.smileycorp.cosmeticwood.common.registry.recipe;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -8,6 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 
 import javax.annotation.Nonnull;
 
@@ -16,7 +18,7 @@ public class ShapelessWoodRecipe extends ShapelessOreRecipe implements WoodRecip
 	private final IRecipe original;
 	
 	public ShapelessWoodRecipe(IRecipe recipe) {
-		super(new ResourceLocation(recipe.getGroup()), recipe.getRecipeOutput(), recipe.getIngredients().toArray());
+		super(new ResourceLocation(recipe.getGroup()), recipe.getRecipeOutput(), getIngredients(recipe));
 		setRegistryName(recipe.getRegistryName());
 		original = recipe;
 	}
@@ -44,6 +46,17 @@ public class ShapelessWoodRecipe extends ShapelessOreRecipe implements WoodRecip
 	@Override
 	public boolean canFit(int width, int height) {
 		return original.canFit(width, height);
+	}
+	
+	private static Ingredient[] getIngredients(IRecipe recipe) {
+		WoodStack output = (WoodStack) (Object) recipe.getRecipeOutput();
+		NonNullList<Ingredient> ingredients = NonNullList.withSize(recipe.getIngredients().size(), Ingredient.EMPTY);
+		for (int i = 0; i < ingredients.size(); i++) {
+			Ingredient ingredient = recipe.getIngredients().get(i);
+			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new WoodOreIngredient("plankWood", output) :
+					ingredient.apply(new ItemStack(Blocks.LOG)) ? new WoodOreIngredient("logWood", output) : ingredient);
+		}
+		return ingredients.toArray(new Ingredient[ingredients.size()]);
 	}
 
 }
