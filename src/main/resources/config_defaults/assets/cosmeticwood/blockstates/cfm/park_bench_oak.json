@@ -1,0 +1,28 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cosmeticwood:cfm/oak_park_bench_single"
+	},
+	"variants": {
+		"facing": {
+			"north": { "y": 0   },
+			"east":  { "y": 90  },
+			"south": { "y": 180 },
+			"west":  { "y": 270 }
+		},
+		"type": {
+			"both": {
+				"model": "cosmeticwood:cfm/oak_park_bench_single"
+			},
+			"left": {
+				"model": "cosmeticwood:cfm/oak_park_bench_left"
+			},
+			"right": {
+				"model": "cosmeticwood:cfm/oak_park_bench_right"
+			},
+			"none": {
+				"model": "cosmeticwood:cfm/oak_park_bench_middle"
+			}
+		}
+	}
+}

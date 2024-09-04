@@ -1,0 +1,26 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cosmeticwood:cfm/bedside_cabinet"
+	},
+	"variants": {
+		"inventory": [{
+			"model": "cosmeticwood:cfm/bedside_cabinet"
+		}],
+		"facing=north": {
+			"model": "cosmeticwood:cfm/bedside_cabinet",
+			"y": 270
+		},
+		"facing=south": {
+			"model": "cosmeticwood:cfm/bedside_cabinet",
+			"y": 90
+		},
+		"facing=east": {
+			"model": "cosmeticwood:cfm/bedside_cabinet"
+		},
+		"facing=west": {
+			"model": "cosmeticwood:cfm/bedside_cabinet",
+			"y": 180
+		}
+	}
+}

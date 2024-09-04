@@ -1,0 +1,26 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cosmeticwood:cfm/chair"
+	},
+	"variants": {
+		"inventory": [{
+			"model": "cosmeticwood:cfm/chair"
+		}],
+		"facing=north": {
+			"model": "cosmeticwood:cfm/chair",
+			"y": 270
+		},
+		"facing=south": {
+			"model": "cosmeticwood:cfm/chair",
+			"y": 90
+		},
+		"facing=east": {
+			"model": "cosmeticwood:cfm/chair"
+		},
+		"facing=west": {
+			"model": "cosmeticwood:cfm/chair",
+			"y": 180
+		}
+	}
+}

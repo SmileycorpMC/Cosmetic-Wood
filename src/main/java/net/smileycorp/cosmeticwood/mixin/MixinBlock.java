@@ -29,6 +29,7 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
     private boolean isWood;
     private ResourceLocation defaultType = WoodHandler.getDefault();
     private String[] modIds = new String[0];
+    private String inventoryVariant;
     
     @Override
     public boolean isWood() {
@@ -51,6 +52,11 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
     }
     
     @Override
+    public String getInventoryVariant() {
+        return inventoryVariant;
+    }
+    
+    @Override
     public void setWoodBlock() {
         isWood = true;
     }
@@ -63,6 +69,11 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
     @Override
     public void setModIds(String... modids) {
         this.modIds = modids;
+    }
+    
+    @Override
+    public void setInventoryVariant(String variant) {
+        this.inventoryVariant = variant;
     }
     
     @Inject(at = @At("HEAD"), method = "onBlockPlacedBy")

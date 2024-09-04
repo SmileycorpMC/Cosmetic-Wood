@@ -10,4 +10,6 @@ public interface ModifiableWoodBlock extends WoodBlock {
     
     void setModIds(String... modids);
     
+    void setInventoryVariant(String variant);
+    
 }

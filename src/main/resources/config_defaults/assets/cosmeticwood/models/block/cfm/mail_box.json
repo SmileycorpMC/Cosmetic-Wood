@@ -1,0 +1,10 @@
+{
+    "parent": "cfm:block/mail_box",
+    "textures": {
+        "plank": "blocks/planks_oak",
+		"log_side": "blocks/log_oak",
+		"particle": "#plank",
+		"primary": "#plank",
+		"secondary": "#log_side"
+    }
+}

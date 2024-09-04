@@ -1,0 +1,147 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (https://mrcrayfish.com/tools?id=mc)",
+    "textures": {
+		"top": "blocks/hardened_clay_stained_white",
+        "particle": "#top",
+        "drawer": "#top",
+        "handle": "#log_side"
+    },
+    "display": {
+        "gui": {
+            "rotation": [ 30, 225, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.625, 0.625, 0.625 ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 3, 0 ],
+            "scale": [ 0.25, 0.25, 0.25 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        },
+        "thirdperson_righthand": {
+            "rotation": [ 75, 45, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ 75, 255, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, 45, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.4, 0.4, 0.4 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 0, 225, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.4, 0.4, 0.4 ]
+        }
+    },
+    "elements": [
+        {
+            "name": "top",
+            "from": [ 0.00, 14.50, 0.00 ], 
+            "to": [ 16.00, 16.00, 16.00 ], 
+            "faces": {
+                "north": { "texture": "#top", "tintindex": 0, "uv": [ 0.00, 0.00, 16.00, 1.50 ], "cullface": "north"},
+                "east": { "texture": "#top", "tintindex": 0, "uv": [ 0.00, 0.00, 16.00, 1.50 ], "cullface": "east"},
+                "south": { "texture": "#top", "tintindex": 0, "uv": [ 0.00, 0.00, 16.00, 1.50 ], "cullface": "south"},
+                "up": { "texture": "#top", "tintindex": 0, "uv": [ 0.00, 0.00, 16.00, 16.00 ], "cullface": "up"},
+                "down": { "texture": "#top", "tintindex": 0, "uv": [ 0.00, 0.00, 16.00, 16.00 ]}
+            }
+        },
+        {
+            "name": "right_side",
+            "from": [ 14.00, 0.00, 1.00 ], 
+            "to": [ 15.50, 14.50, 15.00 ], 
+            "faces": {
+                "north": { "texture": "#log_side", "uv": [ 10.00, 1.00, 11.00, 15.00 ] },
+                "east": { "texture": "#log_side", "uv": [ 1.00, 1.00, 15.00, 15.00 ] },
+                "south": { "texture": "#log_side", "uv": [ 10.00, 1.00, 11.00, 15.00 ] },
+                "west": { "texture": "#log_side", "uv": [ 1.00, 1.00, 15.00, 15.00 ] },
+                "down": { "texture": "#log_side", "uv": [ 0.00, 0.00, 1.50, 14.00 ] }
+            }
+        },
+        {
+            "name": "base",
+            "from": [ 2.00, 2.00, 1.50 ],
+            "to": [ 14.00, 14.50, 14.50 ],
+            "faces": {
+                "north": { "texture": "#plank", "uv": [ 2.00, 0.00, 14.00, 12.00 ] },
+                "east": { "texture": "#plank", "uv": [ 1.00, 0.00, 14.00, 12.00 ] },
+                "south": { "texture": "#plank", "uv": [ 2.00, 0.00, 14.00, 12.00 ] },
+                "west": { "texture": "#plank", "uv": [ 1.00, 0.00, 14.00, 12.00 ] },
+                "down": { "texture": "#plank", "uv": [ 0.00, 0.00, 12.00, 13.00 ] }
+            }
+        },
+        {
+            "name": "drawer_1",
+            "from": [ 3.00, 4.00, 14.50 ],
+            "to": [ 13.00, 8.00, 15.50 ],
+            "faces": {
+                "north": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 4.00 ] },
+                "east": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 1.00, 4.00 ] },
+                "south": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 4.00 ] },
+                "west": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 1.00, 4.00 ] },
+                "up": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 1.00 ] },
+                "down": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 1.00 ] }
+            }
+        },
+        {
+            "name": "drawer_2",
+            "from": [ 3.00, 9.50, 14.50 ],
+            "to": [ 13.00, 13.50, 15.50 ],
+            "faces": {
+                "north": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 4.00 ] },
+                "east": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 1.00, 4.00 ] },
+                "south": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 4.00 ] },
+                "west": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 1.00, 4.00 ] },
+                "up": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 1.00 ] },
+                "down": { "texture": "#drawer", "tintindex": 0, "uv": [ 0.00, 0.00, 10.00, 1.00 ] }
+            }
+        },
+        {
+            "name": "handle_1",
+            "from": [ 6.50, 5.50, 15.00 ],
+            "to": [ 9.50, 6.50, 16.00 ],
+            "faces": {
+                "north": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] },
+                "east": { "texture": "#handle", "uv": [ 0.00, 0.00, 1.00, 1.00 ] },
+                "south": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] },
+                "west": { "texture": "#handle", "uv": [ 0.00, 0.00, 1.00, 1.00 ] },
+                "up": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] },
+                "down": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] }
+            }
+        },
+        {
+            "name": "handle_2",
+            "from": [ 6.50, 11.00, 15.00 ],
+            "to": [ 9.50, 12.00, 16.00 ],
+            "faces": {
+                "north": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] },
+                "east": { "texture": "#handle", "uv": [ 0.00, 0.00, 1.00, 1.00 ] },
+                "south": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] },
+                "west": { "texture": "#handle", "uv": [ 0.00, 0.00, 1.00, 1.00 ] },
+                "up": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] },
+                "down": { "texture": "#handle", "uv": [ 0.00, 0.00, 3.00, 1.00 ] }
+            }
+        },
+        {
+            "name": "back_cover",
+            "from": [ 0.00, 2.00, 1.50 ], 
+            "to": [ 2.00, 14.50, 2.50 ], 
+            "faces": {
+                "north": { "texture": "#plank", "uv": [ 7.00, 0.00, 9.00, 12.00 ] },
+                "east": { "texture": "#plank", "uv": [ 0.00, 0.00, 1.00, 12.50 ] },
+                "south": { "texture": "#plank", "uv": [ 7.00, 0.00, 9.00, 12.00 ] },
+                "down": { "texture": "#plank", "uv": [ 0.00, 0.00, 2.00, 1.00 ] }
+            }
+        }
+    ]
+}

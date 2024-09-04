@@ -1,0 +1,10 @@
+{
+    "parent": "cfm:block/crate",
+    "textures": {
+        "plank": "blocks/planks_oak",
+		"log_side": "blocks/log_oak",
+		"particle": "#plank",
+		"primary": "#log_side",
+		"secondary": "#plank"
+    }
+}

@@ -1,0 +1,81 @@
+[
+	{
+		"block": "cfm:coffee_table_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:table_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:chair_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:cabinet_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:bedside_cabinet_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:desk_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:desk_cabinet_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:mail_box",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:park_bench_oak",
+		"exclude_modids": [
+			"minecraft"
+		],
+		"inventory_variant": "facing=north,type=none"
+	},
+	{
+		"block": "cfm:table_outdoor",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:upgraded_fence_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:upgraded_gate_oak",
+		"exclude_modids": [
+			"minecraft"
+		]
+	},
+	{
+		"block": "cfm:crate",
+		"exclude_modids": [
+			"minecraft"
+		]
+	}
+]

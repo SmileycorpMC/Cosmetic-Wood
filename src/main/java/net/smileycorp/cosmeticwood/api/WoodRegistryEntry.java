@@ -13,12 +13,14 @@ public class WoodRegistryEntry {
     
     private final ResourceLocation block, item, defaultType;
     private final List<String> excludedModids;
+    private String inventoryVariant;
     
     private WoodRegistryEntry(Builder builder) {
-        this.block = builder.block;
-        this.item = builder.item;
-        this.defaultType = builder.defaultType;
-        this.excludedModids = builder.excludedModids;
+        block = builder.block;
+        item = builder.item;
+        defaultType = builder.defaultType;
+        excludedModids = builder.excludedModids;
+        inventoryVariant = builder.inventoryVariant;
     }
     
     public static WoodRegistryEntry fromJson(JsonElement element) {
@@ -28,6 +30,7 @@ public class WoodRegistryEntry {
         if (obj.has("item")) builder.item(new ResourceLocation(obj.get("item").getAsString()));
         if (obj.has("default_type")) builder.defaultType(new ResourceLocation(obj.get("default_type").getAsString()));
         if (obj.has("exclude_modids")) obj.getAsJsonArray("exclude_modids").forEach(e -> builder.exclude(e.getAsString()));
+        if (obj.has("inventory_variant")) builder.inventoryVariant = obj.get("inventory_variant").getAsString();
         return builder.build();
     }
     
@@ -47,12 +50,17 @@ public class WoodRegistryEntry {
         return excludedModids;
     }
     
+    public String getInventoryVariant() {
+        return inventoryVariant;
+    }
+    
     public static class Builder {
         
         private final ResourceLocation block;
         private ResourceLocation item;
         private ResourceLocation defaultType = WoodHandler.getDefault();
         private final List<String> excludedModids = Lists.newArrayList();
+        private String inventoryVariant = "inventory";
         
         public Builder(ResourceLocation block) {
             this.block = block;
@@ -71,6 +79,11 @@ public class WoodRegistryEntry {
         
         public Builder exclude(String... modids) {
             for (String modid : modids) excludedModids.add(modid);
+            return this;
+        }
+        
+        public Builder inventory(String inventoryVariant) {
+            this.inventoryVariant = inventoryVariant;
             return this;
         }
         

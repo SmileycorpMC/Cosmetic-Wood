@@ -4,6 +4,8 @@ import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.smileycorp.cosmeticwood.api.registry.block.WoodBlock;
 import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +31,16 @@ public abstract class MixinBlockStateBase implements WoodBlock, WoodStack, IBloc
     @Override
     public ResourceLocation getType() {
         return getType((ItemStack)(Object)this);
+    }
+    
+    @Override
+    public ResourceLocation getType(IBlockAccess world, BlockPos pos) {
+        return ((WoodBlock)getBlock()).getType(world, pos);
+    }
+    
+    @Override
+    public String getInventoryVariant() {
+        return ((WoodBlock)getBlock()).getInventoryVariant();
     }
     
 }

@@ -70,10 +70,12 @@ public class ContentRegistry {
 							block.setWoodBlock();
 							block.setDefault(entry.getDefaultType());
 							block.setModIds(entry.getExcludedModids().toArray(new String[]{}));
+							block.setInventoryVariant(entry.getInventoryVariant());
 							BLOCKS.add((Block) block);
 						}
 						if (entry.getItem() != null) {
 							ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getBlock());
+							if (item == null) continue;
 							item.setWoodItem();
 							item.setDefault(entry.getDefaultType());
 							item.setModIds(entry.getExcludedModids().toArray(new String[]{}));

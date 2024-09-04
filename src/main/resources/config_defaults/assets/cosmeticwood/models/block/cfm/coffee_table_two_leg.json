@@ -1,0 +1,10 @@
+{
+    "parent": "cfm:block/coffee_table_two_leg",
+    "textures": {
+        "plank": "blocks/planks_oak",
+		"log_side": "blocks/log_oak",
+		"particle": "#plank",
+		"1": "#log_side",
+		"2": "#plank"
+    }
+}

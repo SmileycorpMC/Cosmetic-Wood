@@ -1,0 +1,11 @@
+{
+    "parent": "cfm:block/cabinet",
+    "textures": {
+        "plank": "blocks/planks_oak",
+		"log_side": "blocks/log_oak",
+		"particle": "#plank",
+		"1": "#log_side",
+		"2": "blocks/iron_block",
+		"3": "#plank"
+    }
+}
