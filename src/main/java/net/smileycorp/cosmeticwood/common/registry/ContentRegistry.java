@@ -54,6 +54,7 @@ public class ContentRegistry {
 		JsonParser parser = new JsonParser();
 		try {
 			File plugins = CONFIG_FOLDER.resolve("plugins").toFile();
+			if (!plugins.exists()) return;
 			for (File file : plugins.listFiles((f, s) -> s.endsWith(".json"))) {
 				String name = file.getName().replace(".json", "");
 				if (!Loader.isModLoaded(name)) {
