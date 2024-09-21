@@ -2,7 +2,6 @@ package net.smileycorp.cosmeticwood.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
@@ -10,7 +9,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.smileycorp.cosmeticwood.api.registry.block.ModifiableWoodBlock;
 import net.smileycorp.cosmeticwood.api.registry.block.WoodBlock;
 import net.smileycorp.cosmeticwood.api.registry.item.WoodItem;
@@ -64,13 +62,7 @@ public abstract class MixinBlock implements ModifiableWoodBlock {
     public void setModIds(String... modids) {
         this.modIds = modids;
     }
-    
-    @Inject(at = @At("HEAD"), method = "onBlockPlacedBy")
-    public void CW$onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack, CallbackInfo callback) {
-        if (!isWood()) return;
-        WoodTypeStorage.setWoodType(world, pos, ((WoodStack)(Object)stack).getType());
-    }
-    
+
     @Inject(at = @At("HEAD"), method = "getBlockLayer", cancellable = true)
     public void CW$getBlockLayer(CallbackInfoReturnable<BlockRenderLayer> callback) {
         if (isWood()) callback.setReturnValue(BlockRenderLayer.CUTOUT_MIPPED);
