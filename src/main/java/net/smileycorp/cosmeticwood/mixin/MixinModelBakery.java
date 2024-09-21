@@ -32,7 +32,7 @@ public abstract class MixinModelBakery {
         if (!((WoodBlock)block).isWood()) return;
         if (state.getResourceDomain().equals(Constants.MODID)) return;
         CWModelLoader.registerModels(mapper.getVariants(block).values());
-        CWModelLoader.registerModels(new ModelResourceLocation(state, ((WoodBlock) block).getInventoryVariant()));
+        CWModelLoader.registerModels(new ModelResourceLocation(state, "inventory"));
         loadBlock(new CWStateMapperWrapper(mapper), block, Constants.loc(state.getResourceDomain() + "/" + state.getResourcePath()));
     }
     

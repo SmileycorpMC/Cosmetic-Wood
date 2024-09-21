@@ -9,6 +9,4 @@ public interface WoodBlock extends WoodObject {
 	
 	ResourceLocation getType(IBlockAccess world, BlockPos pos);
 	
-	String getInventoryVariant();
-	
 }

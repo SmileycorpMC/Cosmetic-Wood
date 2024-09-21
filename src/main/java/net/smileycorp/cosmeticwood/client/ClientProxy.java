@@ -22,7 +22,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,24 +40,6 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(value=Side.CLIENT, modid = Constants.MODID)
 public class ClientProxy extends CommonProxy {
-	
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		super.preInit(event);
-		//ModelLoaderRegistry.registerLoader(new CWModelLoader());
-	}
-	
-	/*@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event) {
-		for (Block block : ContentRegistry.BLOCKS) ModelLoader.setCustomStateMapper(block, new StateMap.Builder().withSuffix(".woodblock").build());
-		for (Item item : ContentRegistry.ITEMS) {
-			ModelLoader.setCustomModelResourceLocation(item, 0,
-					new ModelResourceLocation(item.getRegistryName() + ".wooditem", "inventory"));
-			try {
-				ModelLoaderRegistry.getModel(new ModelResourceLocation(Constants.loc(item.getRegistryName().getResourcePath()), "inventory"));
-			} catch (Exception e) {}
-		}
-	}*/
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void bakeModels(ModelBakeEvent event) {

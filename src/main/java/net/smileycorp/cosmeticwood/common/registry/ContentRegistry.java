@@ -71,7 +71,6 @@ public class ContentRegistry {
 							block.setWoodBlock();
 							block.setDefault(entry.getDefaultType());
 							block.setModIds(entry.getExcludedModids().toArray(new String[]{}));
-							block.setInventoryVariant(entry.getInventoryVariant());
 							BLOCKS.add((Block) block);
 						}
 						if (entry.getItem() != null) {

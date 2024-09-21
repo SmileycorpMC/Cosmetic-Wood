@@ -38,9 +38,4 @@ public abstract class MixinBlockStateBase implements WoodBlock, WoodStack, IBloc
         return ((WoodBlock)getBlock()).getType(world, pos);
     }
     
-    @Override
-    public String getInventoryVariant() {
-        return ((WoodBlock)getBlock()).getInventoryVariant();
-    }
-    
 }
