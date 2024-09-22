@@ -11,7 +11,6 @@
         "facing=east,powered=true":   { "model": "cosmeticwood:minecraft/wooden_button_pressed", "uvlock": true, "x": 90, "y": 90  },
         "facing=west,powered=true":   { "model": "cosmeticwood:minecraft/wooden_button_pressed", "uvlock": true, "x": 90, "y": 270  },
         "facing=south,powered=true":  { "model": "cosmeticwood:minecraft/wooden_button_pressed", "uvlock": true, "x": 90, "y": 180  },
-        "facing=north,powered=true":  { "model": "cosmeticwood:minecraft/wooden_button_pressed", "uvlock": true, "x": 90  },
-		"inventory":  { "model": "cosmeticwood:minecraft/wooden_button_inventory", "uvlock": true  }
+        "facing=north,powered=true":  { "model": "cosmeticwood:minecraft/wooden_button_pressed", "uvlock": true, "x": 90  }
     }
 }

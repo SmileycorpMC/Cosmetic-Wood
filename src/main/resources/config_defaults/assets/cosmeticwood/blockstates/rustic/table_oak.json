@@ -1,7 +1,4 @@
 {
-	"variants": {
-		"inventory": { "model": "cosmeticwood:rustic/table_oak_inventory" }
-	},
 	"multipart": [
 		{ "apply": {"model": "cosmeticwood:rustic/table_oak_top"} },
 		{ "when": {"nw": "true"},

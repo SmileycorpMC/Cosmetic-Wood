@@ -3,7 +3,6 @@
 		"facing=north":	{ "model": "cosmeticwood:rustic/chair_oak" },
 		"facing=east":	{ "model": "cosmeticwood:rustic/chair_oak", "y": 90},
 		"facing=south":	{ "model": "cosmeticwood:rustic/chair_oak", "y": 180 },
-		"facing=west":	{ "model": "cosmeticwood:rustic/chair_oak", "y": 270 },
-		"inventory": { "model": "cosmeticwood:rustic/chair_oak" }
+		"facing=west":	{ "model": "cosmeticwood:rustic/chair_oak", "y": 270 }
 	}
 }

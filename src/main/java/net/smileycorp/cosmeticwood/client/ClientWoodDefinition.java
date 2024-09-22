@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ClientWoodDefinition {
 		
-	private TextureAtlasSprite plank_sprite, log_top_sprite, log_side_sprite = null;
+	private final TextureAtlasSprite plank_sprite, log_top_sprite, log_side_sprite;
 	
 	private Color colour;
 	

@@ -1,12 +1,6 @@
 {
 	"forge_marker": 1,
-	"defaults": {
-		"model": "cosmeticwood:cfm/crate"
-	},
 	"variants": {
-		"inventory": {
-			"model": "cosmeticwood:cfm/crate"
-		},
 		"normal": {
 			"model": "cosmeticwood:cfm/crate"
 		}

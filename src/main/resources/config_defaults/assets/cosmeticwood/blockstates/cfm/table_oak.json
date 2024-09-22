@@ -5,9 +5,6 @@
 		"uvlock": true
 	},
 	"variants": {
-		"inventory": [{
-			"model": "cosmeticwood:cfm/table_leg_center"
-		}],
 		"back=false,forward=true,left=false,right=true": {
 			"model": "cosmeticwood:cfm/table_leg_corner",
 			"y": 270

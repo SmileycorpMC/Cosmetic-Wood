@@ -4,9 +4,6 @@
 		"model": "cosmeticwood:cfm/chair"
 	},
 	"variants": {
-		"inventory": [{
-			"model": "cosmeticwood:cfm/chair"
-		}],
 		"facing=north": {
 			"model": "cosmeticwood:cfm/chair",
 			"y": 270

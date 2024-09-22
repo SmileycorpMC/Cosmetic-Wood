@@ -5,9 +5,6 @@
 		"uvlock": true
 	},
 	"variants": {
-		"inventory": [{
-			"model": "cosmeticwood:cfm/coffee_table_all"
-		}],
 		"east=false,north=false,south=false,west=false": {
 			"model": "cosmeticwood:cfm/coffee_table_all"
 		},

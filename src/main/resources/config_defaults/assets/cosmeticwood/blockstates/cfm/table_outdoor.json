@@ -5,9 +5,6 @@
 		"uvlock": true
 	},
 	"variants": {
-		"inventory": [{
-			"model": "cosmeticwood:cfm/table_outdoor_single"
-		}],
 		"back=false,forward=true,left=false,right=true": {
 			"model": "cosmeticwood:cfm/table_outdoor_corner"
 		},

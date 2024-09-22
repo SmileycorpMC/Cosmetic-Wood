@@ -6,9 +6,6 @@
     "variants": {
         "normal": [
             {}
-        ],
-        "inventory": [
-            {}
         ]
     }
 }
