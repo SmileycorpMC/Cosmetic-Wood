@@ -10,6 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.cosmeticwood.api.registry.block.WoodBlock;
 import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
@@ -26,6 +28,8 @@ import java.util.Map.Entry;
 public class WoodHandler {
 	
 	private static WoodHandler INSTANCE;
+	
+	public static Tuple<BlockPos, ResourceLocation> TYPE_CACHE = null;
 	
 	private Map<ResourceLocation, WoodDefinition> WOOD_MAP = Maps.newLinkedHashMap();
 	private boolean clientInitialized;

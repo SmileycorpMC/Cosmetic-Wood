@@ -51,8 +51,7 @@
 		"block": "cfm:park_bench_oak",
 		"exclude_modids": [
 			"minecraft"
-		],
-		"inventory_variant": "facing=north,type=none"
+		]
 	},
 	{
 		"block": "cfm:table_outdoor",

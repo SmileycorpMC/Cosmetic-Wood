@@ -5,11 +5,12 @@
   "mixins": [
     "MixinBlock",
     "MixinBlockStateBase",
+    "MixinEntityPlayer",
     "MixinForgeHooks",
     "MixinItem",
-    "MixinItemBlock",
     "MixinItemStack",
-    "MixinMinecraftServer"
+    "MixinMinecraftServer",
+    "MixinWorld"
   ],
   "client": [
     "MixinBlockModelRenderer",

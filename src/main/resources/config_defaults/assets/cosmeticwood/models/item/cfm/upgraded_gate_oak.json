@@ -1,0 +1,6 @@
+{
+    "parent": "cfm:item/upgraded_gate_oak",
+	"textures": {
+        "log": "blocks/log_oak"
+    }
+}

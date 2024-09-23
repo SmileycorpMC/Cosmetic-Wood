@@ -1,0 +1,7 @@
+{
+    "parent": "cfm:block/oak_fence_upgraded_post_top",
+    "textures": {
+		"log_side": "blocks/log_oak",
+		"log": "#log_side"
+    }
+}

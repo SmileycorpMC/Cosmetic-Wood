@@ -1,0 +1,7 @@
+{
+    "parent": "cfm:block/oak_upgraded_gate_left_closed",
+    "textures": {
+		"log_side": "blocks/log_oak",
+		"log": "#log_side"
+    }
+}
