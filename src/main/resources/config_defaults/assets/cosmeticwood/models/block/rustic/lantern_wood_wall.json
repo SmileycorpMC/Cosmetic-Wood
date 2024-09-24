@@ -1,0 +1,8 @@
+{
+    "parent": "rustic:block/lantern_wood_wall",
+    "textures": {
+        "0": "#plank",
+		"particle": "#plank",
+		"plank": "blocks/planks_oak"
+    }
+}

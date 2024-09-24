@@ -12,5 +12,8 @@
 			"minecraft",
 			"rustic"
 		]
+	},
+	{
+		"block": "rustic:lantern_wood"
 	}
 ]
