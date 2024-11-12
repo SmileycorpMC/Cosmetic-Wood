@@ -105,7 +105,7 @@ public class ContentRegistry {
 		}
 	}
 	
-	public static void replaceRecipes(){
+	public static void replaceRecipes() {
 		IForgeRegistry<IRecipe> recipes = ForgeRegistries.RECIPES;
 		CWLogger.logInfo("Replacing recipes");
 		recipes.forEach(recipe -> {
