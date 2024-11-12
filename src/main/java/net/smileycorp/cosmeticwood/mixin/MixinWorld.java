@@ -18,6 +18,7 @@ public abstract class MixinWorld implements IBlockAccess {
     @Inject(at=@At("HEAD"), method = "setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z")
     public void CW$setBlockState(BlockPos pos, IBlockState state, int flags, CallbackInfoReturnable<Boolean> cir) {
         if (WoodHandler.TYPE_CACHE == null) return;
+        if (state == null || pos == null) return;
         if (((WoodObject)state).isWood() && pos.equals(WoodHandler.TYPE_CACHE.getFirst()))
             WoodTypeStorage.setWoodType(this, pos, WoodHandler.TYPE_CACHE.getSecond());
         WoodHandler.TYPE_CACHE = null;
