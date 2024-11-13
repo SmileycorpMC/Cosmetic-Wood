@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.IRegistry;
+import net.minecraftforge.client.model.FancyMissingModel;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.smileycorp.atlas.api.client.TextureAtlasGreyscale;
@@ -54,11 +55,13 @@ public class CWModelLoader {
                         + type.getResourceDomain() + "_" + type.getResourcePath());
                 if (base instanceof ModelResourceLocation) loc = new ModelResourceLocation(loc, ((ModelResourceLocation)base).getVariant());
                 IModel model = ModelLoaderRegistry.getModelOrMissing(loc);
-                if (model == ModelLoaderRegistry.getMissingModel()) continue;
+                if (model == ModelLoaderRegistry.getMissingModel() || model instanceof FancyMissingModel) continue;
+                CWLogger.logInfo(model);
                 submodels.put(type, model);
             } catch (Exception e) {}
         }
         try {
+            for (ResourceLocation submodel : submodels.keySet()) CWLogger.logInfo(submodel);
             return new BakedModelCW(original, ModelLoaderRegistry.getModel(base), submodels);
         } catch (Exception e) {
             CWLogger.logError("Failed loading model " + base, e);
