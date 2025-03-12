@@ -74,7 +74,7 @@ public class ContentRegistry {
 							BLOCKS.add((Block) block);
 						}
 						if (entry.getItem() != null) {
-							ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getBlock());
+							ModifiableWoodItem item = (ModifiableWoodItem) ForgeRegistries.ITEMS.getValue(entry.getItem());
 							if (item == null) continue;
 							item.setWoodItem();
 							item.setDefault(entry.getDefaultType());
