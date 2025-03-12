@@ -69,13 +69,8 @@ public class ClientProxy extends CommonProxy {
 		ItemStack stack = event.getItemStack();
 		if (stack == null) return;
 		if (!((WoodStack)(Object)stack).isWood()) return;
-		NBTTagCompound nbt = stack.getTagCompound();
 		List<String> tooltip = event.getToolTip();
-		if (nbt != null && nbt.hasKey("type")) {
-			String type = WoodHandler.getInstance().fixData(nbt.getString("type")).getResourcePath();
-			tooltip.add(TextUtils.toProperCase(type));
-		}
-		else tooltip.add(TextUtils.toProperCase(WoodHandler.getDefault().getResourcePath()));
+		tooltip.add(TextUtils.toProperCase(((WoodStack)(Object)stack).getType().getResourcePath()));
 	}
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
