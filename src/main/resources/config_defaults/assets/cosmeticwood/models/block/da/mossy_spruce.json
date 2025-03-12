@@ -1,0 +1,7 @@
+{
+    "parent": "da:block/mossy_spruce",
+    "textures": {
+        "cube": "#plank",
+		"plank": "blocks/planks_spruce"
+    }
+}
