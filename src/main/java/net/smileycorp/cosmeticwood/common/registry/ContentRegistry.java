@@ -81,7 +81,8 @@ public class ContentRegistry {
 							item.setModIds(entry.getExcludedModids().toArray(new String[]{}));
 							ITEMS.add((Item) item);
 						}
-						CWLogger.logInfo("Loaded wood block " + entry.getBlock());
+						CWLogger.logInfo("Loaded wood block " + entry.getBlock() + " with item " + entry.getItem() + ", default type "
+								+ entry.getDefaultType() + ", excluding" + entry.getExcludedModids());
 					} catch (Exception e) {
 						CWLogger.logError("Failed loading entry " + element.toString(), e);
 					}
