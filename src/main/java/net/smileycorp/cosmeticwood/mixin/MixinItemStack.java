@@ -51,7 +51,8 @@ public abstract class MixinItemStack implements WoodStack {
     @Inject(at = @At("TAIL"), method = "getDisplayName", cancellable = true)
     public void CW$getDisplayName(CallbackInfoReturnable<String> callback) {
         if (!isWood() || hasDisplayName()) return;
-        callback.setReturnValue(callback.getReturnValue().replace(Constants.toProperCase(getDefaultType().getResourcePath()), "").trim());
+        callback.setReturnValue(callback.getReturnValue().replace(Constants.toProperCase(getDefaultType().getResourcePath()), "")
+                .replace("  ", " ").trim());
     }
     
 }
