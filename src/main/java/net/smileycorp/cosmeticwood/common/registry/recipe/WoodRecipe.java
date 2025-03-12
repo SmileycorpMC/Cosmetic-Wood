@@ -3,9 +3,12 @@ package net.smileycorp.cosmeticwood.common.registry.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 import net.smileycorp.cosmeticwood.api.registry.item.WoodItem;
 import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
+import net.smileycorp.cosmeticwood.common.data.WoodDefinition;
 import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 
 public interface WoodRecipe extends IRecipe {
@@ -22,5 +25,18 @@ public interface WoodRecipe extends IRecipe {
 		}
 		return name == null ? result : WoodItem.getStack(result, name);
 	}
+	
+	static Ingredient fixIngredient(Ingredient ingredient, WoodStack output) {
+		for (ItemStack stack : ingredient.getMatchingStacks()) {
+			for (WoodDefinition entry : WoodHandler.getInstance().getDefinitions()) {
+				if (OreDictionary.itemMatches(stack, entry.getPlankStack(), false))
+					return new WoodOreIngredient("plankWood", output);
+				if (entry.hasLog() && OreDictionary.itemMatches(stack, entry.getLogStack(), false))
+					return new WoodOreIngredient("logWood", output);
+			}
+		}
+		return ingredient;
+	}
+	
 }
 

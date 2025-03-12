@@ -1,6 +1,5 @@
 package net.smileycorp.cosmeticwood.common.registry.recipe;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -51,11 +50,7 @@ public class ShapelessWoodRecipe extends ShapelessOreRecipe implements WoodRecip
 	private static Ingredient[] getIngredients(IRecipe recipe) {
 		WoodStack output = (WoodStack) (Object) recipe.getRecipeOutput();
 		NonNullList<Ingredient> ingredients = NonNullList.withSize(recipe.getIngredients().size(), Ingredient.EMPTY);
-		for (int i = 0; i < ingredients.size(); i++) {
-			Ingredient ingredient = recipe.getIngredients().get(i);
-			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new WoodOreIngredient("plankWood", output) :
-					ingredient.apply(new ItemStack(Blocks.LOG)) ? new WoodOreIngredient("logWood", output) : ingredient);
-		}
+		for (int i = 0; i < ingredients.size(); i++) ingredients.set(i,WoodRecipe.fixIngredient(recipe.getIngredients().get(i), output));
 		return ingredients.toArray(new Ingredient[ingredients.size()]);
 	}
 

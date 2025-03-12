@@ -40,6 +40,10 @@ public class WoodDefinition {
 		return plank;
 	}
 	
+	public boolean hasLog() {
+		return log != null;
+	}
+	
 	public ItemStack getLogStack() {
 		return log;
 	}

@@ -19,6 +19,7 @@ import net.smileycorp.cosmeticwood.common.CWLogger;
 import net.smileycorp.cosmeticwood.common.Constants;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +108,11 @@ public class WoodHandler {
 		return result;
 	}
 	
-	public List<WoodDefinition> getDefinitions(ResourceLocation defaultType, String... modids) {
+	public List<WoodDefinition> getDefinitions() {
+		return getDefinitions(null);
+	}
+	
+	public List<WoodDefinition> getDefinitions(@Nullable ResourceLocation defaultType, String... modids) {
 		List<WoodDefinition> result = Lists.newArrayList();
 		WOOD_MAP.values().forEach(entry -> {
 			if (entry == null) return;

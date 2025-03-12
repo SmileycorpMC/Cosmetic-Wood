@@ -1,6 +1,5 @@
 package net.smileycorp.cosmeticwood.common.registry.recipe;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -55,11 +54,7 @@ public class ShapedWoodRecipe extends ShapedOreRecipe implements WoodRecipe {
 		CraftingHelper.ShapedPrimer primer = new CraftingHelper.ShapedPrimer();
 		WoodStack output = (WoodStack) (Object) recipe.getRecipeOutput();
 		NonNullList<Ingredient> ingredients = NonNullList.withSize(recipe.getIngredients().size(), Ingredient.EMPTY);
-		for (int i = 0; i < ingredients.size(); i++) {
-			Ingredient ingredient = recipe.getIngredients().get(i);
-			ingredients.set(i, ingredient.apply(new ItemStack(Blocks.PLANKS)) ? new WoodOreIngredient("plankWood", output) :
-					ingredient.apply(new ItemStack(Blocks.LOG)) ? new WoodOreIngredient("logWood", output) : ingredient);
-		}
+		for (int i = 0; i < ingredients.size(); i++) ingredients.set(i,WoodRecipe.fixIngredient(recipe.getIngredients().get(i), output));
 		primer.input = ingredients;
 		primer.height = recipe.getRecipeHeight();
 		primer.width = recipe.getRecipeWidth();
