@@ -19,7 +19,7 @@ import java.net.Proxy;
 public class MixinMinecraftServer {
     
     @Inject(at = @At("TAIL"), method = "<init>")
-    public void cw$init(File world, Proxy proxy, DataFixer fixer, YggdrasilAuthenticationService authService, MinecraftSessionService sessionService, GameProfileRepository profileRepository, PlayerProfileCache profileCache, CallbackInfo callback) {
+    public void CW$init(File world, Proxy proxy, DataFixer fixer, YggdrasilAuthenticationService authService, MinecraftSessionService sessionService, GameProfileRepository profileRepository, PlayerProfileCache profileCache, CallbackInfo callback) {
         ContentRegistry.generateData();
     }
     

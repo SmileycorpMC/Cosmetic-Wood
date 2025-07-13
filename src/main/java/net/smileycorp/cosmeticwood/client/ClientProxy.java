@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -31,7 +32,6 @@ import net.smileycorp.cosmeticwood.api.registry.block.WoodBlock;
 import net.smileycorp.cosmeticwood.api.registry.item.WoodStack;
 import net.smileycorp.cosmeticwood.common.CommonProxy;
 import net.smileycorp.cosmeticwood.common.Constants;
-import net.smileycorp.cosmeticwood.common.data.WoodHandler;
 import net.smileycorp.cosmeticwood.common.data.WoodTypeStorage;
 import net.smileycorp.cosmeticwood.common.registry.ContentRegistry;
 
@@ -40,7 +40,10 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(value=Side.CLIENT, modid = Constants.MODID)
 public class ClientProxy extends CommonProxy {
-	
+
+	public static ResourceLocation WOOD_TILE_TYPE = null;
+	public static boolean GL_COLOUR_FROZEN = false;
+
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void bakeModels(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
@@ -94,6 +97,16 @@ public class ClientProxy extends CommonProxy {
 		if (chunk == null) return;
 		if (!chunk.hasCapability(WoodTypeStorage.CAPABILITY, null)) return;
 		chunk.getCapability(WoodTypeStorage.CAPABILITY, null).load(nbt);
+	}
+
+	public static void resetTileData() {
+		WOOD_TILE_TYPE = null;
+		unfreezeGLColour();
+	}
+
+	public static void unfreezeGLColour() {
+		GL_COLOUR_FROZEN = false;
+		GlStateManager.color(1, 1, 1, 1);
 	}
 	
 }

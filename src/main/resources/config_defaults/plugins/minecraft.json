@@ -10,5 +10,18 @@
 	},
 	{
 		"block": "minecraft:wooden_pressure_plate"
+	},
+	{
+		"block": "minecraft:chest"
+	},
+	{
+		"block": "minecraft:trapped_chest"
+	},
+	{
+		"block": "minecraft:standing_sign",
+		"item": "minecraft:sign"
+	},
+	{
+		"block": "minecraft:wall_sign"
 	}
 ]

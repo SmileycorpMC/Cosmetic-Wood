@@ -10,12 +10,17 @@
     "MixinItem",
     "MixinItemStack",
     "MixinMinecraftServer",
+    "MixinTileEntity",
     "MixinWorld"
   ],
   "client": [
     "MixinBlockModelRenderer",
+    "MixinGLStateManager",
     "MixinMinecraft",
-    "MixinModelBakery"
+    "MixinModelBakery",
+    "MixinTileEntityItemStackRenderer",
+    "MixinTileEntityRendererDispatcher",
+    "MixinTileEntitySpecialRenderer"
   ],
   "server": []
 }

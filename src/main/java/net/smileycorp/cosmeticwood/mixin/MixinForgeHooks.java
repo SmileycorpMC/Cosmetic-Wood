@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinForgeHooks {
     
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getPickBlock(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/RayTraceResult;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;"), method = "onPickBlock")
-    private static ItemStack pickBlock(Block block, IBlockState state, RayTraceResult result, World world, BlockPos pos, EntityPlayer player) {
+    private static ItemStack CW$onPickBlock$getPickBlock(Block block, IBlockState state, RayTraceResult result, World world, BlockPos pos, EntityPlayer player) {
         ItemStack stack = block.getPickBlock(state, result, world, pos, player);
         if (((WoodBlock)block).isWood()) {
             ResourceLocation type = ((WoodBlock)block).getType(world, pos);
