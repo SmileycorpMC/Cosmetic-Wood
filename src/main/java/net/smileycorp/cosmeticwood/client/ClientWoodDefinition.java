@@ -18,7 +18,7 @@ import java.awt.*;
 import java.util.List;
 
 public class ClientWoodDefinition {
-		
+
 	private final TextureAtlasSprite plank_sprite, log_top_sprite, log_side_sprite;
 	
 	private Color colour;
@@ -53,6 +53,18 @@ public class ClientWoodDefinition {
 	
 	public Color getColour() {
 		return colour;
+	}
+
+	public TextureAtlasSprite getPlankSprite() {
+		return plank_sprite;
+	}
+
+	public TextureAtlasSprite getLogTopSprite() {
+		return log_top_sprite;
+	}
+
+	public TextureAtlasSprite getLogSideSprite() {
+		return log_side_sprite;
 	}
 
 }

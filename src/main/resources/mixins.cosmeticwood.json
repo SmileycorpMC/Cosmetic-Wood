@@ -15,6 +15,7 @@
   ],
   "client": [
     "MixinBlockModelRenderer",
+    "MixinFontRenderer",
     "MixinGLStateManager",
     "MixinMinecraft",
     "MixinModelBakery",

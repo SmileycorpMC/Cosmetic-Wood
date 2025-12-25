@@ -1,7 +1,7 @@
 package net.smileycorp.cosmeticwood.mixin;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.smileycorp.cosmeticwood.client.ClientProxy;
+import net.smileycorp.cosmeticwood.client.TileContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,12 +12,12 @@ public class MixinGLStateManager {
 
     @Inject(at = @At("HEAD"), method = "color(FFFF)V", cancellable = true)
     private static void CW$color(float r, float g, float b, float a, CallbackInfo callback) {
-        if (ClientProxy.GL_COLOUR_FROZEN) callback.cancel();
+        if (TileContext.isGlColourFrozen()) callback.cancel();
     }
 
     @Inject(at = @At("HEAD"), method = "popMatrix")
     private static void CW$popMatrix(CallbackInfo callback) {
-        if (ClientProxy.GL_COLOUR_FROZEN) ClientProxy.unfreezeGLColour();
+        //if (TileContext.isGlColourFrozen()) TileContext.unfreezeGLColour();
     }
 
 }
